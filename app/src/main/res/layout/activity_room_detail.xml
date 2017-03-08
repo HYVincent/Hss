@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/common_layout_title_1"/>
+
+    <ImageView
+        android:id="@+id/room_datail_img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_200" />
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/size_5"
+        android:id="@+id/rl_lamlight"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50">
+        <include layout="@layout/common_layout_line"/>
+
+
+        <ImageView
+            android:src="@drawable/lamplight_close"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:id="@+id/room_lamplight_img"
+            android:layout_width="@dimen/size_30"
+            android:layout_height="@dimen/size_30" />
+
+
+
+        <TextView
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/room_lamplight_img"
+            android:text="灯光"
+            android:textSize="@dimen/text_size_18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shape_lamplight_background_close"
+            android:text="OFF"
+            android:id="@+id/room_lamplight_status"
+            android:textSize="@dimen/text_size_15sp"
+            android:padding="@dimen/size_5"
+            android:gravity="center"
+            android:layout_width="@dimen/size_50"
+            android:layout_height="@dimen/size_30" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_exhaust_fan"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50">
+
+        <ImageView
+            android:src="@drawable/exhaust_fan_close"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:id="@+id/room_exhaust_fan_img"
+            android:layout_width="@dimen/size_30"
+            android:layout_height="@dimen/size_30" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/room_exhaust_fan_img"
+            android:text="排风扇"
+            android:textSize="@dimen/text_size_18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shape_lamplight_background_close"
+            android:text="OFF"
+            android:id="@+id/room_exhaust_fan_status"
+            android:textSize="@dimen/text_size_15sp"
+            android:padding="@dimen/size_5"
+            android:gravity="center"
+            android:layout_width="@dimen/size_50"
+            android:layout_height="@dimen/size_30" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_air"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50">
+
+        <ImageView
+            android:src="@drawable/air_good"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:id="@+id/room_air_img"
+            android:layout_width="@dimen/size_30"
+            android:layout_height="@dimen/size_30" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/room_air_img"
+            android:text="有毒气体"
+            android:textSize="@dimen/text_size_18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shape_lamplight_background_open"
+            android:text="正常"
+            android:textColor="@color/color_blue"
+            android:id="@+id/room_air_status"
+            android:textSize="@dimen/text_size_15sp"
+            android:padding="@dimen/size_5"
+            android:gravity="center"
+            android:layout_width="@dimen/size_50"
+            android:layout_height="@dimen/size_30" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+</LinearLayout>

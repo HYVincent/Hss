@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/rl_buttom_tab"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/size_50"
+        android:weightSum="4">
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_one"
+            android:layout_width="@dimen/size_0"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_one"
+                android:layout_centerHorizontal="true"
+                android:layout_width="@dimen/size_25"
+                android:layout_height="@dimen/size_25" />
+
+            <TextView
+                android:layout_below="@id/iv_one"
+                android:id="@+id/tv_one"
+                android:textSize="@dimen/text_size_12sp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_two"
+            android:layout_width="@dimen/size_0"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_two"
+                android:layout_centerHorizontal="true"
+                android:layout_width="@dimen/size_25"
+                android:layout_height="@dimen/size_25" />
+
+            <TextView
+                android:layout_below="@id/iv_two"
+                android:id="@+id/tv_two"
+                android:textSize="@dimen/text_size_12sp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_three"
+            android:layout_width="@dimen/size_0"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_three"
+                android:layout_centerHorizontal="true"
+                android:layout_width="@dimen/size_25"
+                android:layout_height="@dimen/size_25" />
+
+            <TextView
+                android:layout_below="@id/iv_three"
+                android:id="@+id/tv_three"
+                android:textSize="@dimen/text_size_12sp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_four"
+            android:layout_width="@dimen/size_0"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_four"
+                android:layout_centerHorizontal="true"
+                android:layout_width="@dimen/size_25"
+                android:layout_height="@dimen/size_25" />
+
+            <TextView
+                android:layout_below="@id/iv_four"
+                android:id="@+id/tv_four"
+                android:textSize="@dimen/text_size_12sp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_above="@id/rl_buttom_tab"
+        android:id="@+id/ll_main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+
+    <View
+        android:layout_below="@id/ll_main_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_1"
+        android:background="@color/color_gray"/>
+
+</RelativeLayout>

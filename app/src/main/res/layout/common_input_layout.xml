@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50">
+
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:text="手机号码"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/common_et_phone"
+            android:layout_toRightOf="@id/tv_1"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <RelativeLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50">
+
+
+        <TextView
+            android:id="@+id/common_tv_get_authcode"
+            android:background="@drawable/register_shape_background_white"
+            android:paddingLeft="@dimen/size_15"
+            android:paddingRight="@dimen/size_15"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/size_15"
+            android:text="获取验证码"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/size_40" />
+
+        <EditText
+            android:id="@+id/common_et_authcode"
+            android:layout_toLeftOf="@id/register_tv_get_authcode"
+            android:layout_marginLeft="@dimen/size_15"
+            android:hint="验证码"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:inputType="number"
+            android:maxLength="6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <RelativeLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50">
+
+
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="密码"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/common_et_password"
+            android:hint="6至20非空格字符"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_marginRight="@dimen/size_15"
+            android:maxLength="16"
+            android:inputType="textPassword"
+            android:layout_toRightOf="@id/tv_2"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/size_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/common_iv_show_password"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:src="@drawable/register_password_gray"
+            android:layout_width="@dimen/size_25"
+            android:layout_height="@dimen/size_25" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>
