@@ -6,10 +6,15 @@
 
     <include layout="@layout/common_layout_title_1"/>
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/room_datail_img"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_200" />
+        android:layout_height="@dimen/size_200" />-->
+
+    <com.youth.banner.Banner
+        android:id="@+id/room_detail_banner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_200"/>
 
     <RelativeLayout
         android:layout_marginTop="@dimen/size_5"

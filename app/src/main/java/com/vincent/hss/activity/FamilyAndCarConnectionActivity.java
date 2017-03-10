@@ -29,8 +29,14 @@ import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
 import com.jaeger.library.StatusBarUtil;
+import com.sinping.iosdialog.animation.BaseAnimatorSet;
+import com.sinping.iosdialog.animation.BounceEnter.BounceTopEnter;
+import com.sinping.iosdialog.animation.SlideExit.SlideBottomExit;
+import com.sinping.iosdialog.dialog.listener.OnBtnClickL;
+import com.sinping.iosdialog.dialog.widget.NormalDialog;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
+import com.vincent.hss.bean.dao.DaoUtils;
 import com.vincent.hss.overlay.DrivingRouteOverlay;
 import com.vincent.hss.utils.AMapUtil;
 import com.vise.log.ViseLog;
@@ -70,6 +76,9 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
     private LatLonPoint mStartPoint =null;
     private LatLonPoint mEndPoint = new LatLonPoint(39.995576,116.481288);//终点，39.995576,116.481288
 
+    private BaseAnimatorSet bas_in;
+    private BaseAnimatorSet bas_out;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +89,8 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
         commonTitleRight.setVisibility(View.VISIBLE);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         initMap();
-
+        bas_in = new BounceTopEnter();
+        bas_out = new SlideBottomExit();
     }
 
     private void initMap() {
@@ -307,24 +317,27 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(FamilyAndCarConnectionActivity.this)
-                .setTitle("退出提示")
-                .setMessage("是否退出导航模块")
-                .setCancelable(false)
-                .setPositiveButton("退出", new DialogInterface.OnClickListener() {
+        final NormalDialog dialog = new NormalDialog(FamilyAndCarConnectionActivity.this);
+        dialog.content("退出吗，不再看看？")//
+                .style(NormalDialog.STYLE_TWO)//
+                .titleTextSize(23)//
+                .showAnim(bas_in)//
+                .dismissAnim(bas_out)//
+                .show();
+
+        dialog.setOnBtnClickL(
+                new OnBtnClickL() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onBtnClick() {
+                        dialog.dismiss();
+                    }
+                },new OnBtnClickL() {
+                    @Override
+                    public void onBtnClick() {
+                        //删除
                         dialog.dismiss();
                         finish();
                     }
-                })
-                .setNegativeButton("让我在玩会儿", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).
-                create()
-                .show();
+                });
     }
 }

@@ -38,4 +38,22 @@
  -keep class com.youth.banner.** {
      *;
   }
+  -dontwarn javax.swing.**
+  -dontwarn java.rmi.**
+  -dontwarn org.apache.**
+  -dontwarn org.zeroturnaround.javarebel.**
+  -dontwarn org.jaxen.**
+  -dontwarn com.sun.**
+  -dontwarn org.jdom.**
+  -dontwarn javax.servlet.**
+  -dontwarn javax.el.**
+  -dontwarn org.python.**
+  -dontwarn net.sqlcipher.**
+  -dontwarn org.greenrobot.**
+  -dontwarn java.beans.**
+  -dontwarn freemarker.**
+  -dontwarn org.codehaus.**
+  -dontwarn java.nio.file.**
+  -dontwarn java.lang.**
+
 

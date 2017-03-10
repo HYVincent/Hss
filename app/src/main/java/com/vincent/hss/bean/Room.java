@@ -1,9 +1,13 @@
 package com.vincent.hss.bean;
 
-import java.io.Serializable;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
+
+import java.util.List;
 
 /**
- * description ：
+ * description ：http://www.jianshu.com/p/853401a7d02b
  * project name：Hss
  * author : Vincent
  * creation date: 2017/3/7 19:25
@@ -11,39 +15,49 @@ import java.io.Serializable;
  * @version 1.0
  */
 
-public class Room implements Serializable {
+@Entity
+public class Room {
 
+    @Id(autoincrement = true)
+    private long id;
     private String roomName;
     private int romImg;//图标
-    private int romBigImg;//大图
-
-    public Room(String roomName, int romImg, int romBigImg) {
+    private String roomBigImg;//大图 实际上是一个List<String>类型，到时候拿出来转换吧，我艹
+    @Generated(hash = 899069452)
+    public Room(long id, String roomName, int romImg, String roomBigImg) {
+        this.id = id;
         this.roomName = roomName;
         this.romImg = romImg;
-        this.romBigImg = romBigImg;
+        this.roomBigImg = roomBigImg;
+    }
+    @Generated(hash = 703125385)
+    public Room() {
     }
 
-    public int getRomBigImg() {
-        return romBigImg;
-    }
 
-    public void setRomBigImg(int romBigImg) {
-        this.romBigImg = romBigImg;
+    public long getId() {
+        return this.id;
     }
-
+    public void setId(long id) {
+        this.id = id;
+    }
     public String getRoomName() {
-        return roomName;
+        return this.roomName;
     }
-
     public void setRoomName(String roomName) {
         this.roomName = roomName;
     }
-
     public int getRomImg() {
-        return romImg;
+        return this.romImg;
     }
-
     public void setRomImg(int romImg) {
         this.romImg = romImg;
     }
+    public String getRoomBigImg() {
+        return this.roomBigImg;
+    }
+    public void setRoomBigImg(String roomBigImg) {
+        this.roomBigImg = roomBigImg;
+    }
+  
 }

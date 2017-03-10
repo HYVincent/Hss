@@ -59,6 +59,11 @@ public class LoginActivity extends BaseActivity implements LoginController.IView
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         presenter = new LoginPresenter(this);
+        Intent intent = getIntent();
+        boolean isFinish = intent.getBooleanExtra("isFinish",false);
+        if(isFinish){
+            finshOther(this);
+        }
     }
 
     @OnClick({R.id.login_btn_action, R.id.login_text_forget_password, R.id.login_text_register})
@@ -76,8 +81,10 @@ public class LoginActivity extends BaseActivity implements LoginController.IView
         }
     }
 
-    public static void actionStart(Context context) {
-        context.startActivity(new Intent(context, LoginActivity.class));
+    public static void actionStart(Context context,boolean isFinish) {
+        Intent intent = new Intent(context,LoginActivity.class);
+        intent.putExtra("isFinish",isFinish);
+        context.startActivity(intent);
     }
 
     @Override

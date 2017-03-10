@@ -17,6 +17,7 @@ import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
 import com.vincent.hss.presenter.HomePresenter;
 import com.vincent.hss.presenter.controller.HomeController;
+import com.vincent.hss.utils.NotificationUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +77,11 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
         presenter = new HomePresenter(this);
         mLoactionClient = new AMapLocationClient(this);
         HomeActivityPermissionsDispatcher.getLocationWithCheck(this);
+        sendNotification();
+    }
+
+    private void sendNotification() {
+        NotificationUtil.sendNotification(this,"com.vincent.hss.activity.HomeActivity",R.drawable.app_logo,"智能家车系统","已连接-智能家车系统");
     }
 
 

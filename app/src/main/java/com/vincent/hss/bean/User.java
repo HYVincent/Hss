@@ -55,6 +55,19 @@ public class User implements Serializable {
      */
     private String live_status;
 
+    /**
+     * 注册时间
+     */
+    private String createTime;
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }

@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Hss.iml" filepath="$PROJECT_DIR$/Hss.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dialogUtils/dialogUtils.iml" filepath="$PROJECT_DIR$/dialogUtils/dialogUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/guideuser/guideuser.iml" filepath="$PROJECT_DIR$/guideuser/guideuser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imagepicker/imagepicker.iml" filepath="$PROJECT_DIR$/imagepicker/imagepicker.iml" />
     </modules>
   </component>
 </project>

@@ -16,9 +16,14 @@ import com.vincent.hss.R;
 import com.vincent.hss.adapter.RoomListAdapter;
 import com.vincent.hss.base.BaseActivity;
 import com.vincent.hss.bean.Room;
+import com.vincent.hss.bean.dao.DaoUtils;
+import com.vincent.hss.bean.dao.RoomDao;
+import com.vincent.hss.presenter.FamilyPresenter;
+import com.vincent.hss.presenter.controller.FamilyController;
 import com.vincent.hss.utils.GlideImageLoader;
 import com.vincent.hss.view.RoomListItemOnClickListener;
 import com.vincent.hss.view.SpaceItemDecoration;
+import com.vise.log.ViseLog;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
@@ -37,7 +42,7 @@ import butterknife.OnClick;
  * @version 1.0
  */
 
-public class FamilyActivity extends BaseActivity {
+public class FamilyActivity extends BaseActivity implements FamilyController.IView{
 
     @BindView(R.id.common_rl_return_2)
     RelativeLayout commonRlReturn2;
@@ -49,9 +54,17 @@ public class FamilyActivity extends BaseActivity {
     RecyclerView rlvRoomList;
     @BindView(R.id.common_title_right)
     TextView commonTitleRight;
+    @BindView(R.id.common_tv_no_content)
+    TextView commonTvNoContent;
+    @BindView(R.id.rl_no_content)
+    RelativeLayout rlNoContent;
+
+    private RoomListAdapter adapter;
 
     private List<Room> data = new ArrayList<>();
-    private RoomListAdapter adapter;
+    private RoomDao roomDao;
+
+    private FamilyPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +75,7 @@ public class FamilyActivity extends BaseActivity {
         commonTvTitle2.setText("房间");
         commonTitleRight.setText("添加");
         commonTitleRight.setVisibility(View.VISIBLE);
+        presenter = new FamilyPresenter(this);
         //资源文件
 //        Integer[] images={R.drawable.family_icon_couples_room,R.drawable.family_icon_couples_room};
         List<Integer> images = new ArrayList<>();
@@ -75,6 +89,16 @@ public class FamilyActivity extends BaseActivity {
         //banner设置方法全部调用完毕时最后调用
 //        banner.start();
         initRecycleView();
+        /////////////////////////////////////////////
+        roomDao = DaoUtils.getmDaoSession().getRoomDao();
+        presenter.queryRoom(roomDao);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        ViseLog.d("onRestart");
+        presenter.queryRoom(roomDao);
     }
 
     private void initRecycleView() {
@@ -84,42 +108,15 @@ public class FamilyActivity extends BaseActivity {
         rlvRoomList.setLayoutManager(layoutManager);
 //        rcvFriendsList.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         rlvRoomList.addItemDecoration(new SpaceItemDecoration(10));
-        if (data != null) {
-            data.clear();
-        }
-        //添加数据
-        Room room1 = new Room("厨房", R.drawable.family_icon_room_kitchen, R.drawable.room_icon_datail_kitchen);
-        Room room2 = new Room("厨房", R.drawable.family_icon_room_kitchen, R.drawable.room_icon_datail_kitchen);
-        Room room3 = new Room("厨房", R.drawable.family_icon_room_kitchen, R.drawable.room_icon_datail_kitchen);
-        Room room4 = new Room("厨房", R.drawable.family_icon_room_kitchen, R.drawable.room_icon_datail_kitchen);
-        Room room5 = new Room("厨房", R.drawable.family_icon_room_kitchen, R.drawable.room_icon_datail_kitchen);
-        data.add(room1);
-        data.add(room2);
-        data.add(room3);
-        data.add(room4);
-        data.add(room5);
-
         adapter.setItemOnClickListener(new RoomListItemOnClickListener() {
             @Override
             public void onClick(View view, int postion) {
+                ViseLog.d("position-->"+postion +"  data.size-->"+data.size());
                 Room room = data.get(postion);
                 RoomDetailActivity.actionStart(FamilyActivity.this, room);
             }
         });
-        refreshdata(data);
-    }
 
-    /**
-     * 刷新数据
-     *
-     * @param data
-     */
-    private void refreshdata(List<Room> data) {
-        if (data != null && data.size() > 0) {
-            rlvRoomList.setAdapter(adapter);
-            adapter.setData(data);
-            adapter.notifyDataSetChanged();
-        }
     }
 
     //如果你需要考虑更好的体验，可以这么操作
@@ -142,7 +139,7 @@ public class FamilyActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.common_title_right,R.id.common_rl_return_2, R.id.familey_top_banner})
+    @OnClick({R.id.common_title_right, R.id.common_rl_return_2, R.id.familey_top_banner})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.common_rl_return_2:
@@ -151,9 +148,28 @@ public class FamilyActivity extends BaseActivity {
             case R.id.familey_top_banner:
                 break;
             case R.id.common_title_right:
-                showMsg(0,"正在开发中...");
+                AddRoomActivity.actionStart(FamilyActivity.this);
                 break;
         }
     }
 
+    @Override
+    public void msg(int code, String msg) {
+        showMsg(code,msg);
+    }
+
+    @Override
+    public void refreshRoom(List<Room> listDatadata) {
+        if (listDatadata != null && listDatadata.size() > 0) {
+            data = listDatadata;
+            rlvRoomList.setAdapter(adapter);
+            adapter.setData(data);
+            adapter.notifyDataSetChanged();
+            rlNoContent.setVisibility(View.GONE);
+        }else {
+            rlNoContent.setVisibility(View.VISIBLE);
+            commonTvNoContent.setText("没有房间，赶快去添加吧");
+            rlvRoomList.setVisibility(View.GONE);
+        }
+    }
 }

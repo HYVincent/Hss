@@ -92,7 +92,7 @@ public class RegisterActivity extends BaseActivity implements RegisterController
 
     @Override
     public void registerSuccess() {
-        LoginActivity.actionStart(RegisterActivity.this);
+        LoginActivity.actionStart(RegisterActivity.this,false);
         overridePendingTransition(R.anim.activity_start_join, R.anim.activity_close_exit);
         finish();
     }

@@ -46,7 +46,14 @@
 
         <activity android:name=".activity.LoginActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="com.vincent.hss.activity.LoginActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
 
         <activity android:name=".activity.MainActivity"
             android:screenOrientation="portrait"/>
@@ -102,6 +109,24 @@
 
         <activity android:name=".activity.DeviceManagerActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.UserInfoActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.EditUserInfoActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.AddRoomActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.AboutUsActivity"
+            android:screenOrientation="portrait"/>
+
+        <!--图片预览-->
+
+        <activity
+            android:name="com.lzy.imagepicker.ui.ImagePreviewDelActivity"
+            android:theme="@style/ImagePickerThemeFullScreen"/>
 
         <!--高德地图相关-->
         <service android:name="com.amap.api.location.APSService"/>

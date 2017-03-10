@@ -40,6 +40,11 @@ public class Config {
     public static final String FEEDBACK_CONTENT = "feedback_content";
 
     /**
+     * 存储用户选择的头像 服务器接口没弄好暂时就这么整
+     */
+    public static final String USER_HEAD_IMG = "user_head_img";
+
+    /**
      * 友盟APPKey
      */
     public static final String UMENG_APP_KEY = "58bccb28f43e48601a002764";
@@ -48,6 +53,11 @@ public class Config {
      * 是否登录成功
      */
     public static final String IS_LOGIN = "is_login";
+
+    /**
+     * 是否是第一次启动
+     */
+    public static final String IS_FIRST_START = "is_first_start";
 
     /**
      * 用户

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.jaeger.library.StatusBarUtil;
+import com.li.vincent.guideuser.GuideActivity;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
 import com.vincent.hss.base.BaseApplication;
@@ -34,16 +35,23 @@ public class WelcomeActivity extends BaseActivity {
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
         StatusBarUtil.setTranslucent(this, 0);
+        final boolean isFistStart = BaseApplication.getShared().getBoolean(Config.IS_FIRST_START);
 //        welcomeLvImg.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.icon_speed_start));
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Thread.sleep(2000);
-                    if(BaseApplication.getShared().getBoolean(Config.IS_LOGIN)){
-                        HomeActivity.actionStart(WelcomeActivity.this);
-                    }else{
-                        LoginActivity.actionStart(WelcomeActivity.this);
+                    if(!isFistStart){
+                        //第一次启动
+                        GuideActivity.actionStart(WelcomeActivity.this);
+                        BaseApplication.getShared().putBoolean(Config.IS_FIRST_START,true);
+                    }else {
+                        if(BaseApplication.getShared().getBoolean(Config.IS_LOGIN)){
+                            HomeActivity.actionStart(WelcomeActivity.this);
+                        }else{
+                            LoginActivity.actionStart(WelcomeActivity.this,false);
+                        }
                     }
                     finish();
                 } catch (InterruptedException e) {

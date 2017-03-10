@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/common_layout_title"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40">
+
+        <TextView
+            android:textColor="@color/color_gray_1"
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="昵称"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_1"
+            android:layout_marginRight="@dimen/size_15"
+            android:src="@drawable/common_icon_arrow_right_blue"
+            android:layout_alignParentRight="true"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20" />
+
+        <TextView
+            android:layout_toLeftOf="@id/iv_1"
+            android:id="@+id/user_info_et_user_nickname"
+            android:text="时光"
+            android:layout_centerVertical="true"
+            android:textColor="@color/color_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40">
+        <TextView
+            android:textColor="@color/color_gray_1"
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="帅哥\\美女"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_2"
+            android:layout_marginRight="@dimen/size_15"
+            android:src="@drawable/common_icon_arrow_right_blue"
+            android:layout_alignParentRight="true"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20" />
+
+        <TextView
+            android:id="@+id/user_info_et_user_sex"
+            android:text="男"
+            android:layout_centerVertical="true"
+            android:textColor="@color/color_blue"
+            android:layout_toLeftOf="@id/iv_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40">
+        <TextView
+            android:textColor="@color/color_gray_1"
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="生日"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_3"
+            android:layout_marginRight="@dimen/size_15"
+            android:src="@drawable/common_icon_arrow_right_blue"
+            android:layout_alignParentRight="true"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20" />
+        <TextView
+            android:id="@+id/user_info_et_user_birthday"
+            android:text="1992-04-12"
+            android:layout_centerVertical="true"
+            android:textColor="@color/color_blue"
+            android:layout_toLeftOf="@id/iv_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40">
+        <TextView
+            android:textColor="@color/color_gray_1"
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="来点存在感"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_4"
+            android:layout_marginRight="@dimen/size_15"
+            android:src="@drawable/common_icon_arrow_right_blue"
+            android:layout_alignParentRight="true"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20" />
+        <TextView
+            android:id="@+id/user_info_et_user_live_status"
+            android:text="我今天在家写代码..."
+            android:textColor="@color/color_blue"
+            android:layout_toLeftOf="@id/iv_4"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+
+
+    <Button
+        android:id="@+id/user_info_submit_alter"
+        android:layout_marginTop="@dimen/size_20"
+        android:background="@drawable/common_shape_background_reseda"
+        android:layout_marginRight="@dimen/size_15"
+        android:layout_marginLeft="@dimen/size_15"
+        android:textSize="@dimen/text_size_18sp"
+        android:text="提交资料修改"
+        android:layout_centerInParent="true"
+        android:textColor="@color/color_white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_60" />
+
+
+
+</LinearLayout>

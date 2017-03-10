@@ -98,7 +98,7 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPasswo
 
     @Override
     public void resetPasswordSuccess() {
-        LoginActivity.actionStart(ForgetPasswordActivity.this);
+        LoginActivity.actionStart(ForgetPasswordActivity.this,false);
         overridePendingTransition(R.anim.activity_start_join,R.anim.activity_close_exit);
         finish();
     }

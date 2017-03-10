@@ -1,6 +1,7 @@
 package com.vincent.hss.base;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,9 +10,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.jaeger.library.StatusBarUtil;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.view.CropImageView;
 import com.umeng.analytics.MobclickAgent;
 import com.vincent.hss.R;
+import com.vincent.hss.utils.PicassoImageLoader;
+import com.vincent.hss.view.GlideImageLoader;
 import com.vincent.hss.view.MyLoadingView;
+import com.vise.log.ViseLog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
@@ -27,15 +36,32 @@ import es.dmoral.toasty.Toasty;
 public abstract class BaseActivity extends AppCompatActivity{
 
     private MyLoadingView dialog;
+    private static List<Activity> activityList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtil.setColor(BaseActivity.this, ContextCompat.getColor(BaseActivity.this, R.color.color_blue));
+        activityList.add(this);
         dialog = new MyLoadingView(this);
 //        dialog.setTitle("提示");
         dialog.setMessage("操作中..");
         dialog.setCancelable(false);
+        initImageSelect(true);
+    }
+
+    public void initImageSelect(boolean isCrop) {
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new GlideImageLoader());   //设置图片加载器
+        imagePicker.setShowCamera(true);  //显示拍照按钮
+        imagePicker.setCrop(isCrop);        //允许裁剪（单选才有效）
+        imagePicker.setSaveRectangle(true); //是否按矩形区域保存
+        imagePicker.setSelectLimit(9);    //选中数量限制
+        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
+        imagePicker.setFocusWidth(800);   //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setFocusHeight(800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setOutPutX(1000);//保存文件的宽度。单位像素
+        imagePicker.setOutPutY(1000);//保存文件的高度。单位像素
     }
 
     public void showDialog(){
@@ -97,5 +123,29 @@ public abstract class BaseActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        activityList.remove(this);
+    }
+
+    /**
+     * 杀死其它的Activity，
+     * @param activity
+     */
+    public void finshOther(Activity activity){
+        for (int i=0;i<activityList.size();i++){
+            if(!activityList.get(i).equals(activity)){
+                activityList.get(i).finish();
+            }
+        }
+    }
+
+    /**
+     * 结束APP
+     */
+    public void finishAllActivity(){
+        for (Activity activity:activityList){
+            if (!activity.isFinishing()){
+                activity.finish();
+            }
+        }
     }
 }

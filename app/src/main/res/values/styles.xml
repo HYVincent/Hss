@@ -12,4 +12,9 @@
         <item name="android:windowBackground">@drawable/icon_speed_start</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
+    <style name="anim_menu_bottombar">
+        <item name="android:windowEnterAnimation">@anim/menu_bottombar_in</item>
+        <item name="android:windowExitAnimation">@anim/menu_bottombar_out</item>
+    </style>
 </resources>

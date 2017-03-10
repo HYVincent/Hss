@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'android-apt'
+apply plugin: 'org.greenrobot.greendao'
 
 
 android {
@@ -15,11 +16,28 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            zipAlignEnabled true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    greendao{
+        schemaVersion 1
+        //设置DaoMaster、DaoSession、Dao包名
+        daoPackage'com.vincent.hss.bean.dao'
+        //设置DaoMaster、DaoSession、Dao目录
+        targetGenDir'src/main/java'
+    }
 }
+
+/*
+greedao{
+    schemaVersion 1
+    daoPackage 'com.vincent.hss'
+    targetGenDir 'src/main/java'
+}
+*/
+
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -50,8 +68,12 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.github.hotchemi:permissionsdispatcher:2.3.1'
     provided 'com.github.hotchemi:permissionsdispatcher-processor:2.3.1'
-    compile 'com.youth.banner:banner:1.4.9'
     //图片轮播最新版本
+    compile 'com.youth.banner:banner:1.4.9'
     compile files('libs/AMap3DMap_4.1.3_AMapNavi_1.9.4_AMapSearch_4.0.0_AMapLocation_3.3.0_20170118.jar')
-
+    compile 'org.greenrobot:greendao:3.2.0'
+    compile 'org.greenrobot:greendao-generator:3.2.0'
+    compile project(':imagepicker')
+    compile project(':guideuser')
+    compile project(':dialogUtils')
 }

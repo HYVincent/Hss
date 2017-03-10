@@ -7,6 +7,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.umeng.analytics.MobclickAgent;
 import com.vincent.hss.bean.User;
+import com.vincent.hss.bean.dao.DaoUtils;
 import com.vincent.hss.config.Config;
 import com.vincent.hss.utils.SharePreferencesUtils;
 import com.vise.log.ViseLog;
@@ -34,10 +35,12 @@ public class BaseApplication extends Application {
     private static SharePreferencesUtils shared;
     public static User user;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         application = this;
+        DaoUtils.init(this,"Hss");
         initUser();
         initViseLog();
         initUmeng();
