@@ -8,11 +8,15 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.vincent.hss"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //使用renderscript 兼容包
+        renderscriptTargetApi 25
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
@@ -30,13 +34,6 @@ android {
     }
 }
 
-/*
-greedao{
-    schemaVersion 1
-    daoPackage 'com.vincent.hss'
-    targetGenDir 'src/main/java'
-}
-*/
 
 
 dependencies {
@@ -76,4 +73,8 @@ dependencies {
     compile project(':imagepicker')
     compile project(':guideuser')
     compile project(':dialogUtils')
+    compile files('libs/netty-all-5.0.0.Alpha2.jar')
+    compile 'com.android.support:multidex:1.+'
+//    compile 'com.google.dagger:dagger:2.0'
+//    annotationProcessor 'com.google.dagger:dagger-compiler:2.0'
 }

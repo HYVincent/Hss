@@ -66,7 +66,6 @@ public class RegisterActivity extends BaseActivity implements RegisterController
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
         presenter = new RegisterPresenter(this);
         commonTvTitle.setText("注册");
     }

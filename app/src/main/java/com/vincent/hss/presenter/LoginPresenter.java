@@ -1,5 +1,6 @@
 package com.vincent.hss.presenter;
 
+import android.content.Intent;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -7,9 +8,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.vincent.hss.base.BaseApplication;
 import com.vincent.hss.bean.User;
 import com.vincent.hss.config.Config;
-import com.vincent.hss.config.Result;
+import com.vincent.hss.bean.Result;
 import com.vincent.hss.network.RetrofitUtils;
 import com.vincent.hss.presenter.controller.LoginController;
+import com.vincent.hss.servoce.NettyPushService;
 import com.vise.log.ViseLog;
 
 import retrofit2.Call;

@@ -18,6 +18,8 @@ public class Config {
 
     public static final String SERVICE_API_WEATHER = "https://api.thinkpage.cn/v3/weather/";
 
+
+
     /**
      * 聚合天气api
      */
@@ -28,6 +30,11 @@ public class Config {
      * 这是SharedPreferences配置名称
      */
     public static final String CONFIG_NAME = "config_name";
+
+    /**
+     * 头像后面的那一块背景
+     */
+    public static final String HEAD_BACKGROUND = "head_background";
 
     /**
      * 反馈失败的时候保存title

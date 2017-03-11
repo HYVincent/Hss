@@ -1,4 +1,4 @@
-package com.vincent.hss.config;
+package com.vincent.hss.bean;
 
 import java.io.Serializable;
 

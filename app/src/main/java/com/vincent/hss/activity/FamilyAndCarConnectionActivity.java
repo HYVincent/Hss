@@ -1,13 +1,13 @@
 package com.vincent.hss.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import android.support.design.widget.FloatingActionButton;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,27 +16,34 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeAddress;
+import com.amap.api.services.geocoder.GeocodeQuery;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.route.BusRouteResult;
 import com.amap.api.services.route.DrivePath;
 import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
-import com.jaeger.library.StatusBarUtil;
 import com.sinping.iosdialog.animation.BaseAnimatorSet;
 import com.sinping.iosdialog.animation.BounceEnter.BounceTopEnter;
 import com.sinping.iosdialog.animation.SlideExit.SlideBottomExit;
 import com.sinping.iosdialog.dialog.listener.OnBtnClickL;
+import com.sinping.iosdialog.dialog.widget.MaterialDialog;
 import com.sinping.iosdialog.dialog.widget.NormalDialog;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
-import com.vincent.hss.bean.dao.DaoUtils;
 import com.vincent.hss.overlay.DrivingRouteOverlay;
 import com.vincent.hss.utils.AMapUtil;
 import com.vise.log.ViseLog;
@@ -54,43 +61,55 @@ import butterknife.OnClick;
  * @version 1.0
  */
 
-public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap.OnMapClickListener,
-        AMap.OnMarkerClickListener, AMap.OnInfoWindowClickListener, AMap.InfoWindowAdapter, RouteSearch.OnRouteSearchListener,LocationSource, AMapLocationListener {
+public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap.OnMapClickListener, GeocodeSearch.OnGeocodeSearchListener,
+        AMap.OnMarkerClickListener, AMap.OnInfoWindowClickListener, AMap.InfoWindowAdapter, RouteSearch.OnRouteSearchListener, LocationSource, AMapLocationListener {
 
-    @BindView(R.id.common_rl_return_2)
-    RelativeLayout commonRlReturn2;
-    @BindView(R.id.common_tv_title_2)
-    TextView commonTvTitle2;
     @BindView(R.id.mapView)
     MapView mapView;
-    @BindView(R.id.common_title_right)
-    TextView commonTitleRight;
+    @BindView(R.id.connection_input_location)
+    EditText connectionInputLocation;
+    @BindView(R.id.rl_common_return)
+    RelativeLayout rlReturn;
+    @BindView(R.id.tv_setting_home_location)
+    TextView tvSettingHomeLocation;
+    @BindView(R.id.rl_setting_home_location)
+    RelativeLayout rlSettingHomeLocation;
+    @BindView(R.id.fab_start)
+    FloatingActionButton fabStart;
 
     private AMap aMap;
-    private LocationSource.OnLocationChangedListener onLocationChangedListener;
+    private OnLocationChangedListener onLocationChangedListener;
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
     private final int ROUTE_TYPE_DRIVE = 2;
     private DriveRouteResult mDriveRouteResult;
     private RouteSearch mRouteSearch;
-    private LatLonPoint mStartPoint =null;
-    private LatLonPoint mEndPoint = new LatLonPoint(39.995576,116.481288);//终点，39.995576,116.481288
+    private LatLonPoint mStartPoint = null;
+    //    private LatLonPoint mEndPoint = new LatLonPoint(39.995576, 116.481288);//终点，39.995576,116.481288
+    private LatLonPoint mEndPoint = null;
 
     private BaseAnimatorSet bas_in;
     private BaseAnimatorSet bas_out;
+    private GeocodeSearch geocoderSearch;
+    private Marker geoMarker;
+
+    private  MaterialDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connection);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
-        commonTvTitle2.setText("家车互连");
-        commonTitleRight.setVisibility(View.VISIBLE);
-        mapView.onCreate(savedInstanceState);// 此方法必须重写
         initMap();
+        mapView.onCreate(savedInstanceState);// 此方法必须重写
         bas_in = new BounceTopEnter();
         bas_out = new SlideBottomExit();
+
+        geocoderSearch = new GeocodeSearch(this);
+        geocoderSearch.setOnGeocodeSearchListener(this);
+        geoMarker = aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
+                .icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
     }
 
     private void initMap() {
@@ -118,6 +137,12 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
         super.onPause();
         //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
         mapView.onPause();
+        if(dialog!=null){
+            if(dialog.isShowing()){
+                dialog.dismiss();
+            }
+            dialog = null;
+        }
     }
 
     public static void actionStart(Context context) {
@@ -179,7 +204,7 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
                 onLocationChangedListener.onLocationChanged(aMapLocation);
 //                aMapLocation.getLongitude();//经度
 //                aMapLocation.getLatitude();//纬度
-                mStartPoint=new LatLonPoint(aMapLocation.getLatitude(),aMapLocation.getLongitude());//起点，39.942295,116.335891
+                mStartPoint = new LatLonPoint(aMapLocation.getLatitude(), aMapLocation.getLongitude());//起点，39.942295,116.335891
             } else {
                 //定位失败
                 String errText = "定位失败，" + aMapLocation.getErrorCode() + ":" + aMapLocation.getErrorInfo();
@@ -187,6 +212,24 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
             }
         }
     }
+
+
+    @OnClick({R.id.rl_common_return, R.id.tv_setting_home_location, R.id.fab_start})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rl_common_return:
+                finish();
+                break;
+            case R.id.tv_setting_home_location:
+                String location = connectionInputLocation.getText().toString().trim();
+                GeocodeQuery query = new GeocodeQuery(location, "010");
+                geocoderSearch.getFromLocationNameAsyn(query);// 设置同步地理编码请求
+                break;
+            case R.id.fab_start:
+                break;
+        }
+    }
+
     /**
      * 方法必须重写
      */
@@ -201,11 +244,11 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
      */
     public void searchRouteResult(int routeType, int mode) {
         if (mStartPoint == null) {
-            showMsg(0,"定位中，稍后再试");
+            showMsg(0, "定位中，稍后再试");
             return;
         }
         if (mEndPoint == null) {
-            showMsg(0,"终点未设置");
+            showMsg(0, "终点未设置");
         }
         showDialog();
         final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(
@@ -217,27 +260,51 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
         }
     }
 
+
+
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mapView.onDestroy();
         if (null != mlocationClient) {
             mlocationClient.onDestroy();
         }
         mapView.onDestroy();
+        if(dialog!=null){
+            dialog.cancel();
+            dialog = null;
+        }
+        super.onDestroy();
     }
 
-    @OnClick({R.id.common_rl_return_2,R.id.common_title_right})
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.common_rl_return_2:
-                finish();
-                break;
-            case R.id.common_title_right:
-                //开始搜索规划路线
-                searchRouteResult(ROUTE_TYPE_DRIVE, RouteSearch.DrivingDefault);
-                break;
-        }
+
+    /**
+     * 开始搜索规划路线
+     */
+    private void setLocation() {
+        dialog = new MaterialDialog(FamilyAndCarConnectionActivity.this);
+        View view = LayoutInflater.from(FamilyAndCarConnectionActivity.this).inflate(R.layout.dlg_input_location, null);
+        EditText editText = (EditText) view.findViewById(R.id.dlg_input_location);
+        String input = editText.getText().toString().trim();
+        dialog.setContentView(view);
+        dialog.btnText("取消", "确定")//
+                .showAnim(bas_in)//
+                .dismissAnim(bas_out)//
+                .show();
+
+        dialog.setOnBtnClickL(
+                new OnBtnClickL() {//left btn click listener
+                    @Override
+                    public void onBtnClick() {
+                        dialog.dismiss();
+                    }
+                },
+                new OnBtnClickL() {//right btn click listener
+                    @Override
+                    public void onBtnClick() {
+                        dialog.dismiss();
+                    }
+                }
+        );
     }
 
     @Override
@@ -291,17 +358,17 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
                     drivingRouteOverlay.zoomToSpan();
                     int dis = (int) drivePath.getDistance();
                     int dur = (int) drivePath.getDuration();
-                    String des = AMapUtil.getFriendlyTime(dur)+"("+AMapUtil.getFriendlyLength(dis)+")";
+                    String des = AMapUtil.getFriendlyTime(dur) + "(" + AMapUtil.getFriendlyLength(dis) + ")";
 
                 } else if (result != null && result.getPaths() == null) {
-                    showMsg(0,"没有结果");
+                    showMsg(0, "没有结果");
                 }
 
             } else {
-                showMsg(0,"没有结果");
+                showMsg(0, "没有结果");
             }
         } else {
-            showMsg(0,String.valueOf(errorCode));
+            showMsg(0, String.valueOf(errorCode));
         }
     }
 
@@ -331,7 +398,7 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
                     public void onBtnClick() {
                         dialog.dismiss();
                     }
-                },new OnBtnClickL() {
+                }, new OnBtnClickL() {
                     @Override
                     public void onBtnClick() {
                         //删除
@@ -339,5 +406,43 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
                         finish();
                     }
                 });
+
     }
+
+
+
+    /**
+     * 逆地理编码回调
+     */
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+
+    }
+
+    /**
+     * 地理编码查询回调
+     */
+    @Override
+    public void onGeocodeSearched(GeocodeResult result, int rCode) {
+        if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+            if (result != null && result.getGeocodeAddressList() != null
+                    && result.getGeocodeAddressList().size() > 0) {
+                GeocodeAddress address = result.getGeocodeAddressList().get(0);
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                        AMapUtil.convertToLatLng(address.getLatLonPoint()), 15));
+                geoMarker.setPosition(AMapUtil.convertToLatLng(address
+                        .getLatLonPoint()));
+                //搜索到地址了
+                /*addressName = "经纬度值:" + address.getLatLonPoint() + "\n位置描述:"
+                        + address.getFormatAddress();
+                ToastUtil.show(GeocoderActivity.this, addressName);*/
+            } else {
+                showMsg(0,"没有数据");
+            }
+        } else {
+            ViseLog.e("code-->"+rCode);
+        }
+    }
+
+
 }

@@ -71,7 +71,6 @@ public class FamilyActivity extends BaseActivity implements FamilyController.IVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_family);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
         commonTvTitle2.setText("房间");
         commonTitleRight.setText("添加");
         commonTitleRight.setVisibility(View.VISIBLE);
@@ -159,13 +158,14 @@ public class FamilyActivity extends BaseActivity implements FamilyController.IVi
     }
 
     @Override
-    public void refreshRoom(List<Room> listDatadata) {
-        if (listDatadata != null && listDatadata.size() > 0) {
-            data = listDatadata;
-            rlvRoomList.setAdapter(adapter);
+    public void refreshRoom(List<Room> listData) {
+        ViseLog.d("listData:"+listData.size());
+        if (listData != null && listData.size() > 0) {
+            data = listData;
             adapter.setData(data);
-            adapter.notifyDataSetChanged();
+            rlvRoomList.setAdapter(adapter);
             rlNoContent.setVisibility(View.GONE);
+            rlvRoomList.setVisibility(View.VISIBLE);
         }else {
             rlNoContent.setVisibility(View.VISIBLE);
             commonTvNoContent.setText("没有房间，赶快去添加吧");

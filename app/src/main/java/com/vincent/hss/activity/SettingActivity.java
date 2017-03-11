@@ -3,6 +3,9 @@ package com.vincent.hss.activity;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,14 +21,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.jaeger.library.StatusBarUtil;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.sinping.iosdialog.dialogsamples.utils.L;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
 import com.vincent.hss.base.BaseApplication;
 import com.vincent.hss.config.Config;
+import com.vincent.hss.utils.EasyBlur;
 
 import java.util.ArrayList;
 
@@ -44,12 +48,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class SettingActivity extends BaseActivity {
 
-    @BindView(R.id.common_rl_return_2)
-    RelativeLayout commonRlReturn2;
-    @BindView(R.id.common_tv_title_2)
-    TextView commonTvTitle2;
-    @BindView(R.id.common_title_right)
-    TextView commonTitleRight;
     @BindView(R.id.setting_clv_head)
     CircleImageView settingClvHead;
     @BindView(R.id.setting_tv_nickname)
@@ -66,6 +64,8 @@ public class SettingActivity extends BaseActivity {
     LinearLayout settingLlCommon;
     @BindView(R.id.setting_ll_feedback)
     LinearLayout settingLlFeedback;
+    @BindView(R.id.ll_head_background)
+    LinearLayout llHeadBackground;
 
     private static final int IMAGE_PICKER = 1111;
     @BindView(R.id.setting_ll_user_info)
@@ -78,14 +78,18 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         setupWindowAnimations();
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
-        commonTvTitle2.setText("设置");
         settingTvNickname.setText(BaseApplication.user.getNickname());
         settingTvPhone.setText(BaseApplication.user.getPhone());
         String user_head_img = BaseApplication.getShared().getString(Config.USER_HEAD_IMG,"");
         if(!TextUtils.isEmpty(user_head_img)){
             Glide.with(this).load(user_head_img).into(settingClvHead);
         }
+        Bitmap bitmap =  EasyBlur.with(SettingActivity.this)
+                .bitmap(BitmapFactory.decodeResource(getResources(), R.drawable.main_icon_car_and_house)) //要模糊的图片
+                .radius(20)//模糊半径
+                .scale(4)//指定模糊前缩小的倍数
+                .blur();
+        llHeadBackground.setBackground(new BitmapDrawable(getResources(),bitmap));
 
     }
 
@@ -102,16 +106,13 @@ public class SettingActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.setting_clv_head, R.id.common_rl_return_2, R.id.setting_ll_msg, R.id.setting_ll_device_manager,
+    @OnClick({R.id.setting_clv_head, R.id.setting_ll_msg, R.id.setting_ll_device_manager,
             R.id.setting_ll_change_password, R.id.setting_ll_common, R.id.setting_ll_feedback,R.id.setting_ll_user_info})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.setting_clv_head:
                 Intent intent = new Intent(this, ImageGridActivity.class);
                 startActivityForResult(intent, IMAGE_PICKER);
-                break;
-            case R.id.common_rl_return_2:
-                finish();
                 break;
             case R.id.setting_ll_msg:
                 SystemMsgActivity.actionStart(SettingActivity.this);
@@ -132,11 +133,18 @@ public class SettingActivity extends BaseActivity {
             case R.id.setting_ll_user_info:
                 UserInfoActivity.actionStart(SettingActivity.this);
                 break;
+            case R.id.ll_head_background:
+
+                break;
             default:
                 break;
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

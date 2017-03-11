@@ -48,7 +48,6 @@ public class AboutUsActivity extends BaseActivity {
         setContentView(R.layout.activity_about_us);
         ButterKnife.bind(this);
         commonTvTitle.setText("关于我们");
-        commonRlTitle.setBackgroundColor(ContextCompat.getColor(this, R.color.color_blue));
         initBanner();
     }
 

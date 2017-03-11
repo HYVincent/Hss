@@ -77,13 +77,13 @@ public class RoomDetailActivity extends BaseActivity {
 
     private BaseAnimatorSet bas_in;
     private BaseAnimatorSet bas_out;
+    private  NormalDialog dialog = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_detail);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
         final Intent intent = getIntent();
         roomId = intent.getLongExtra("roomId",0);
         commonTvTitle2.setText(intent.getStringExtra("roomname"));
@@ -201,7 +201,7 @@ public class RoomDetailActivity extends BaseActivity {
     }
 
     public void showDialog(){
-        final NormalDialog dialog = new NormalDialog(RoomDetailActivity.this);
+        dialog = new NormalDialog(RoomDetailActivity.this);
         dialog.content("删除不可恢复，这个房间被拆了吗？")//
                 .style(NormalDialog.STYLE_TWO)//
                 .titleTextSize(23)//
@@ -228,5 +228,12 @@ public class RoomDetailActivity extends BaseActivity {
                 });
     }
 
-
+    @Override
+    protected void onDestroy() {
+        if(dialog!=null){
+            dialog.dismiss();
+            dialog = null;
+        }
+        super.onDestroy();
+    }
 }

@@ -55,7 +55,6 @@ public class ForgetPasswordActivity extends BaseActivity implements ForgetPasswo
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
         ButterKnife.bind(this);
         commonTvTitle.setText("重置密码");
         commonIvShowPassword.setVisibility(View.GONE);

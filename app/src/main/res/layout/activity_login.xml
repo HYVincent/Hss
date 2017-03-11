@@ -74,7 +74,7 @@
             android:layout_centerInParent="true"
             android:layout_marginRight="@dimen/size_15"
             android:layout_marginLeft="@dimen/size_15"
-            android:background="@drawable/login_shape_background_reseda" />
+            android:background="@drawable/common_shape_background_blue" />
 
 
 

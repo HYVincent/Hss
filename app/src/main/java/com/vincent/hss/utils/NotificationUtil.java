@@ -52,22 +52,23 @@ public class NotificationUtil {
 //        mNotification.icon = R.mipmap.et_app_icon;//设置通知  消息  图标
             mNotification.iconLevel=imgId;
             //在通知栏上点击此通知后自动清除此通知
-//            mNotification.flags = Notification.FLAG_ONGOING_EVENT;//FLAG_ONGOING_EVENT 在顶部常驻，可以调用下面的清除方法去除  FLAG_AUTO_CANCEL  点击和清理可以去调
-            mNotification.flags = Notification.FLAG_AUTO_CANCEL;//设置点击之后消失
+            mNotification.flags = Notification.FLAG_ONGOING_EVENT;//FLAG_ONGOING_EVENT 在顶部常驻，可以调用下面的清除方法去除  FLAG_AUTO_CANCEL  点击和清理可以去调
+//            mNotification.flags = Notification.FLAG_AUTO_CANCEL;//设置点击之后消失
+            mNotification.flags = Notification.COLOR_DEFAULT;
 //        mNotification.defaults = Notification.DEFAULT_VIBRATE; //设置显示通知时的默认的发声、震动、Light效果
             mNotification.defaults = Notification.DEFAULT_SOUND;//声音效果，不震动
+            mNotification.flags = Notification.FLAG_ONGOING_EVENT;
+            mNotification.flags |= Notification.FLAG_NO_CLEAR;
+            mNotification.flags |= Notification.FLAG_FOREGROUND_SERVICE;
             //设置发出消息的内容
             mNotification.tickerText = "您有新的消息";//通知产生的时候发出的内容
             //设置发出通知的时间
             mNotification.when = System.currentTimeMillis();
 //        startForeground(notifyId, mNotification);//把该service创建为前台service
             mNotificationManager.notify(notifyId,mNotification);
-            ViseLog.d(NotificationUtil.class.getSimpleName(),"create notification success");
         }catch (Exception e){
             e.printStackTrace();
-            ViseLog.d(NotificationUtil.class.getSimpleName(),"create notification error");
         }
     }
-
 
 }

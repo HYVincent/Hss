@@ -14,7 +14,8 @@
         android:text="厨房"
         android:gravity="center"
         android:textSize="@dimen/text_size_15sp"
-        android:textColor="@color/color_gray_1"
+        android:background="@color/color_white"
+        android:textColor="@color/color_blue"
         android:id="@+id/item_popupwindow_content"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_40" />

@@ -3,4 +3,5 @@
 
     <string name="register_diqu">国家\\地区</string>
     <string name="register_agreement">&#060;&#060;用户协议&#062;&#062;</string>
+    <string name="exit_hint">退出</string>
 </resources>

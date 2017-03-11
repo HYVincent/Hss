@@ -61,7 +61,6 @@ public class ChangeLoginPasswordActivity extends BaseActivity implements ChangeL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this,ContextCompat.getColor(this,R.color.color_reseda));
         commonTvTitle2.setText("修改登录密码");
         commonTitleRight.setText("提交");
         commonTitleRight.setVisibility(View.VISIBLE);

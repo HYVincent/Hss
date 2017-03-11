@@ -2,7 +2,7 @@ package com.vincent.hss.presenter;
 
 import android.text.TextUtils;
 
-import com.vincent.hss.config.Result;
+import com.vincent.hss.bean.Result;
 import com.vincent.hss.network.RetrofitUtils;
 import com.vincent.hss.presenter.controller.ChangeLoginPasswordController;
 import com.vise.log.ViseLog;

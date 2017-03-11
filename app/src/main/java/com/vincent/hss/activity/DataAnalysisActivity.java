@@ -37,7 +37,6 @@ public class DataAnalysisActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_analysis);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this,R.color.color_reseda));
         commonTvTitle2.setText("数据分析");
     }
 

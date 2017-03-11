@@ -74,7 +74,6 @@ public class CarActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
         commonTvTitle2.setText("汽车服务平台");
         carouselImg();
     }

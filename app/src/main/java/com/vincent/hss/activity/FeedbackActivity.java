@@ -54,7 +54,6 @@ public class FeedbackActivity extends BaseActivity implements FeedbackController
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
         commonTvTitle.setText("意见反馈");
         commonTitleRight.setText("反馈记录");
         commonTitleRight.setVisibility(View.VISIBLE);

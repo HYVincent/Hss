@@ -40,7 +40,6 @@ public class AgreementActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agreement);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
         commonTvTitle.setText("用户协议");
         initData();
     }

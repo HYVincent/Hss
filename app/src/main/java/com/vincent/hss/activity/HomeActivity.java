@@ -10,14 +10,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocationClient;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
+import com.vincent.hss.base.BaseApplication;
 import com.vincent.hss.presenter.HomePresenter;
 import com.vincent.hss.presenter.controller.HomeController;
-import com.vincent.hss.utils.NotificationUtil;
+import com.vincent.hss.servoce.HssService;
+import com.vincent.hss.servoce.NettyPushService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +66,7 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
     TextView mainTvSetting;
     @BindView(R.id.main_tv_add)
     ImageView mainTvAdd;
+
     private long mExitTime = 0;
     //声明AMapLocation对象
     private AMapLocationClient mLoactionClient = null;
@@ -77,13 +81,9 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
         presenter = new HomePresenter(this);
         mLoactionClient = new AMapLocationClient(this);
         HomeActivityPermissionsDispatcher.getLocationWithCheck(this);
-        sendNotification();
+        startService(new Intent(HomeActivity.this, HssService.class));
+        startService(new Intent(this, NettyPushService.class));
     }
-
-    private void sendNotification() {
-        NotificationUtil.sendNotification(this,"com.vincent.hss.activity.HomeActivity",R.drawable.app_logo,"智能家车系统","已连接-智能家车系统");
-    }
-
 
     @NeedsPermission({Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS, Manifest.permission.ACCESS_FINE_LOCATION})
     void getLocation() {

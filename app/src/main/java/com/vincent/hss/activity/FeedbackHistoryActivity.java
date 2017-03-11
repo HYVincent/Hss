@@ -65,7 +65,6 @@ public class FeedbackHistoryActivity extends BaseActivity implements FeedbackHis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback_history);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
         srfRefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         srfRefresh.setOnRefreshListener(this);
         commonTvTitle.setText("反馈记录");

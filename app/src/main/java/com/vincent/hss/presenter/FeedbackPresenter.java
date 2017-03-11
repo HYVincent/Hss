@@ -1,12 +1,10 @@
 package com.vincent.hss.presenter;
 
-import android.speech.tts.Voice;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.vincent.hss.base.BaseApplication;
 import com.vincent.hss.config.Config;
-import com.vincent.hss.config.Result;
+import com.vincent.hss.bean.Result;
 import com.vincent.hss.network.RetrofitUtils;
 import com.vincent.hss.presenter.controller.FeedbackController;
 import com.vise.log.ViseLog;

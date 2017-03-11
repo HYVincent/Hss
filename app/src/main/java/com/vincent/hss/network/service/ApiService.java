@@ -2,7 +2,7 @@ package com.vincent.hss.network.service;
 
 
 import com.vincent.hss.bean.Weather;
-import com.vincent.hss.config.Result;
+import com.vincent.hss.bean.Result;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

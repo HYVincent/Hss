@@ -2,6 +2,7 @@ package com.vincent.hss.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -11,11 +12,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
+import com.sinping.iosdialog.animation.BaseAnimatorSet;
+import com.sinping.iosdialog.animation.BounceEnter.BounceTopEnter;
+import com.sinping.iosdialog.animation.SlideExit.SlideBottomExit;
+import com.sinping.iosdialog.dialog.listener.OnBtnClickL;
+import com.sinping.iosdialog.dialog.widget.NormalDialog;
 import com.vincent.hss.BuildConfig;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
 import com.vincent.hss.base.BaseApplication;
 import com.vincent.hss.config.Config;
+import com.vincent.hss.servoce.HssService;
+import com.vincent.hss.servoce.NettyPushService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,14 +57,19 @@ public class CommonActivity extends BaseActivity {
     @BindView(R.id.common_ll_about_us)
     RelativeLayout commonLlAboutUs;
 
+    private BaseAnimatorSet bas_in;
+    private BaseAnimatorSet bas_out;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
         commonTvTitle.setText("通用");
         commonTvCurrent.setText(BuildConfig.VERSION_NAME);
+
+        bas_in = new BounceTopEnter();
+        bas_out = new SlideBottomExit();
     }
 
     public static void actionStart(Context context) {
@@ -78,9 +91,7 @@ public class CommonActivity extends BaseActivity {
 
                 break;
             case R.id.common_ll_logout:
-                BaseApplication.getShared().putBoolean(Config.IS_LOGIN, false);
-                LoginActivity.actionStart(CommonActivity.this, true);
-                finish();
+                logout();
                 break;
             case R.id.common_ll_check_update:
                 showMsg(1, "当前已是最新本");
@@ -89,5 +100,37 @@ public class CommonActivity extends BaseActivity {
                 AboutUsActivity.actionStart(CommonActivity.this);
                 break;
         }
+    }
+
+    private void logout() {
+        final NormalDialog dialog = new NormalDialog(CommonActivity.this);
+        dialog.content("你要注销账号吗？")//
+                .style(NormalDialog.STYLE_TWO)//
+                .titleTextSize(23)//
+                .btnText("我还要看看", "确定")//
+                .btnTextColor(Color.parseColor("#383838"), Color.parseColor("#383838"))//
+                .btnTextSize(16f, 16f)//
+                .showAnim(bas_in)//
+                .dismissAnim(bas_out)//
+                .show();
+
+        dialog.setOnBtnClickL(
+                new OnBtnClickL() {
+                    @Override
+                    public void onBtnClick() {
+                        dialog.dismiss();
+                    }
+                },
+                new OnBtnClickL() {
+                    @Override
+                    public void onBtnClick() {
+                        stopService(new Intent(CommonActivity.this, HssService.class));
+                        stopService(new Intent(CommonActivity.this,NettyPushService.class));
+                        BaseApplication.getShared().putBoolean(Config.IS_LOGIN, false);
+                        LoginActivity.actionStart(CommonActivity.this, true);
+                        dialog.superDismiss();
+                        finish();
+                    }
+                });
     }
 }

@@ -4,14 +4,11 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.vincent.hss.base.BaseApplication;
 import com.vincent.hss.bean.Feedback;
-import com.vincent.hss.config.Result;
+import com.vincent.hss.bean.Result;
 import com.vincent.hss.network.RetrofitUtils;
 import com.vincent.hss.presenter.controller.FeedbackHistoryController;
 import com.vise.log.ViseLog;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

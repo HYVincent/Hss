@@ -57,7 +57,6 @@ public class UserInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
         ButterKnife.bind(this);
-        rlCommonTitle1.setBackgroundColor(ContextCompat.getColor(this, R.color.color_blue));
         commonTvTitle2.setText(BaseApplication.user.getNickname());
         commonTitleRight.setText("编辑");
         commonTitleRight.setVisibility(View.VISIBLE);

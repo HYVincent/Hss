@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5.5">
+
+        <ImageView
+            android:scaleType="fitXY"
+            android:src="@drawable/guide_img_4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4.5">
+
+
+        <TextView
+            android:id="@+id/tv_1"
+            android:textSize="18sp"
+            android:textColor="#1C86EE"
+            android:layout_marginLeft="20dp"
+            android:text="特色家车功能\n大数据分析结果\n来吧！\n一起开启您的智能化生活"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_below="@id/tv_1"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:text="进入主页"
+            android:textColor="#1C86EE"
+            android:background="@drawable/guide_join_main_btn_background"
+            android:id="@+id/start_btn"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

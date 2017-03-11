@@ -1,6 +1,7 @@
 package com.vincent.hss.base;
 
 import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -9,6 +10,8 @@ import com.umeng.analytics.MobclickAgent;
 import com.vincent.hss.bean.User;
 import com.vincent.hss.bean.dao.DaoUtils;
 import com.vincent.hss.config.Config;
+import com.vincent.hss.netty.PushClient;
+import com.vincent.hss.servoce.NettyPushService;
 import com.vincent.hss.utils.SharePreferencesUtils;
 import com.vise.log.ViseLog;
 import com.vise.log.inner.DefaultTree;
@@ -29,7 +32,7 @@ import okhttp3.OkHttpClient;
  * @version 1.0
  */
 
-public class BaseApplication extends Application {
+public class BaseApplication extends MultiDexApplication {
 
     private static  BaseApplication application;
     private static SharePreferencesUtils shared;
@@ -41,10 +44,19 @@ public class BaseApplication extends Application {
         super.onCreate();
         application = this;
         DaoUtils.init(this,"Hss");
+        initNetty();
         initUser();
         initViseLog();
         initUmeng();
         initOkhttpUtils();
+    }
+
+    private void initNetty() {
+        try {
+            PushClient.create();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initUser() {

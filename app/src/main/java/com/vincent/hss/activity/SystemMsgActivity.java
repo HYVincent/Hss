@@ -64,7 +64,6 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgControll
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_msg);
         ButterKnife.bind(this);
-        commonRlTitle.setBackgroundColor(ContextCompat.getColor(this,R.color.color_blue));
         commonTvTitle.setText("系统消息");
         commonTvNoContent.setText("没有系统消息");
         presenter = new SystemMsgPresenter(this);

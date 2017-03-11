@@ -88,7 +88,6 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_room);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
         commonTvTitle2.setText("添加房间");
         commonTitleRight.setText("提交");
         commonTitleRight.setVisibility(View.VISIBLE);
@@ -174,6 +173,9 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
                             case "院子":
                                 roomIcon = R.drawable.common_icon_room_type_backyard;
                                 break;
+                            case "车库":
+                                roomIcon = R.drawable.common_icon_room_type_garage;
+                                break;
                         }
                         Room room = new Room();
                         room.setId(System.currentTimeMillis());
@@ -234,6 +236,4 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
             }
         }
     }
-
-
 }

@@ -58,7 +58,6 @@ public class DeviceManagerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_manager);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.color_reseda));
         commonTvTitle.setText("设备管理器");
         adapter = new ClassTitleAdapter(this);
         initRecycleView();

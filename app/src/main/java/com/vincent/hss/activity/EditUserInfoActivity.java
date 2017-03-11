@@ -50,7 +50,6 @@ public class EditUserInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_et_user_info);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this,R.color.color_reseda));
         commonTvTitle.setText("编辑个人资料");
         userInfoEtUserBirthday.setText(BaseApplication.user.getBirthday());
         userInfoEtUserLiveStatus.setText(BaseApplication.user.getLive_status());
