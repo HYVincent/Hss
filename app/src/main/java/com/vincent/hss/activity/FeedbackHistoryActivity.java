@@ -22,6 +22,7 @@ import com.vincent.hss.bean.Feedback;
 import com.vincent.hss.presenter.FeedbackHistoryPresenter;
 import com.vincent.hss.presenter.controller.FeedbackHistoryController;
 import com.vincent.hss.view.FeedbackHistoryItemListener;
+import com.vincent.hss.view.PopupwindowUtils;
 import com.vincent.hss.view.SpaceItemDecoration;
 
 import java.util.ArrayList;
@@ -77,12 +78,26 @@ public class FeedbackHistoryActivity extends BaseActivity implements FeedbackHis
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rlvFeedHistoryList.setLayoutManager(layoutManager);
+        rlvFeedHistoryList.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int topRowVerticalPosition =
+                        (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
+                srfRefresh.setEnabled(topRowVerticalPosition >= 0);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
         rlvFeedHistoryList.addItemDecoration(new SpaceItemDecoration(10));
         adapter.setOnClick(new FeedbackHistoryItemListener() {
             @Override
             public void onClick(View view, int postion) {
                 Feedback feedback = listData.get(postion);
-                showMsg(0,"what are you doging now ?");
+                PopupwindowUtils.showAlertDialog(FeedbackHistoryActivity.this,feedback.getTitle(),feedback.getContent(),"取消","关闭");
             }
         });
         fromServiceGetData();
@@ -125,6 +140,11 @@ public class FeedbackHistoryActivity extends BaseActivity implements FeedbackHis
             showMsg(0,"没有提交过反馈");
             commonTvNoContent.setText("没有反馈记录");
         }
+    }
+
+    @Override
+    public void requestError() {
+        commonTvNoContent.setText("请求错误，服务器可能正在维护中...");
     }
 
     public static void actionStart(Context context) {

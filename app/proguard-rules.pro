@@ -193,4 +193,29 @@ public static java.lang.String TABLENAME;
 -keepnames class io.netty.** {
     *;
 }
+#EventBus
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+
+#netty消息推送
+-keep class com.vincent.lwx.netty.**{*;}
+#LitePal混淆
+-dontwarn org.litepal.*
+-keep class org.litepal.** { *; }
+-keep enum org.litepal.**
+-keep interface org.litepal.** { *; }
+-keep public class * extends org.litepal.**
+-keepattributes *Annotation*
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+-keepclassmembers class * extends org.litepal.crud.DataSupport{*;}

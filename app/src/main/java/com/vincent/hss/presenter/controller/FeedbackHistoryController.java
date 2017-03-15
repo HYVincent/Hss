@@ -23,6 +23,11 @@ public interface FeedbackHistoryController {
          */
         void showFeedbackHistory(List<Feedback> data);
 
+        /**
+         * 请求错误
+         */
+        void requestError();
+
     }
 
     interface IPresenter{

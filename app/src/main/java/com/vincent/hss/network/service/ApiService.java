@@ -148,4 +148,46 @@ public interface ApiService {
      */
     @GET("getAllFeedback")
     Call<Result> getFeedHistory(@Query("phone")String phone);
+
+    /**
+     * 消息推送调试接口
+     * @param phone
+     * @return
+     */
+    @POST("push")
+    Call<Result> testPush(@Query("phone")String phone);
+
+    /**
+     * 把房间信息发送到服务器
+     * @param phone
+     * @param roomType
+     * @param roomName
+     * @param roomImg
+     * @param roomBigImg
+     * @return
+     */
+    @POST("addRoom")
+    Call<Result> addRoom(@Query("phone")String phone,
+                         @Query("roomType")String roomType,
+                         @Query("roomName")String roomName,
+                         @Query("roomImg")String roomImg,
+                         @Query("roomBigImg")String roomBigImg);
+
+    /**
+     * 删除某个房间
+     * @param phone
+     * @param roomName
+     * @return
+     */
+    @POST("deleteRoomItem")
+    Call<Result> deleteRoomItem(@Query("phone")String phone,
+                                @Query("roomName")String roomName);
+
+    /**
+     * 获取房间列表
+     * @param phone
+     * @return
+     */
+    @GET("getAllRoom")
+    Call<Result> getAllRoom(@Query("phone")String phone);
 }

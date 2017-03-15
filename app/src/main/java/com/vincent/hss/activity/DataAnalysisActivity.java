@@ -4,20 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import lecho.lib.hellocharts.view.LineChartView;
 
 /**
- * description ：
+ * description ：数据分析
  * project name：Hss
  * author : Vincent
  * creation date: 2017/3/7 10:24
@@ -31,6 +30,9 @@ public class DataAnalysisActivity extends BaseActivity {
     RelativeLayout commonRlReturn2;
     @BindView(R.id.common_tv_title_2)
     TextView commonTvTitle2;
+    @BindView(R.id.data_chart)
+    LineChartView dataChart;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

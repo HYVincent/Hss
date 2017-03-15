@@ -6,53 +6,73 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_50"
         android:background="@color/color_blue">
 
         <RelativeLayout
-            android:id="@+id/rl_common_return"
-            android:layout_width="@dimen/size_50"
+            android:id="@+id/connection_rl_finish"
+            android:layout_width="@dimen/size_40"
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="@dimen/size_30"
-                android:layout_height="@dimen/size_30"
+                android:layout_width="@dimen/size_20"
+                android:layout_height="@dimen/size_20"
                 android:layout_centerInParent="true"
                 android:src="@drawable/common_arrow_left" />
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_setting_home_location"
-            android:layout_width="@dimen/size_50"
+            android:id="@+id/rl_map_type_menu"
+            android:layout_width="@dimen/size_30"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true">
 
-            <TextView
+            <ImageView
+                android:src="@drawable/connection_icon_three_dots"
                 android:textColor="@color/color_white"
-                android:text="设置"
                 android:layout_centerInParent="true"
-                android:textSize="@dimen/text_size_15sp"
-                android:id="@+id/tv_setting_home_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/connection_iv_menu"
+                android:rotation="90"
+                android:layout_width="@dimen/size_20"
+                android:layout_height="@dimen/size_30" />
 
         </RelativeLayout>
 
 
-
-        <EditText
-            android:paddingLeft="@dimen/size_10"
-            android:textSize="@dimen/text_size_15sp"
-            android:hint="输入地名搜索.."
-            android:id="@+id/connection_input_location"
-            android:layout_centerVertical="true"
-            android:background="@drawable/shape_icon_background_search"
-            android:layout_toRightOf="@id/rl_common_return"
-            android:layout_toLeftOf="@id/rl_setting_home_location"
+        <RelativeLayout
+            android:id="@+id/rl_title_center"
+            android:layout_toRightOf="@id/connection_rl_finish"
+            android:layout_toLeftOf="@id/rl_map_type_menu"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_30" />
+            android:layout_height="match_parent">
+
+
+            <EditText
+                android:paddingLeft="@dimen/size_10"
+                android:textSize="@dimen/text_size_12sp"
+                android:hint="输入当前城市(默认北京)地名搜索.."
+                android:id="@+id/connection_input_location"
+                android:background="@drawable/shape_icon_background_search"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_30"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <ImageView
+                android:id="@+id/location_start_search"
+                android:layout_marginRight="@dimen/size_10"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/common_icon_search"
+                android:layout_width="@dimen/size_20"
+                android:layout_height="@dimen/size_20" />
+
+        </RelativeLayout>
 
 
     </RelativeLayout>
@@ -68,15 +88,65 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_margin="@dimen/size_15"
-            android:elevation="@dimen/size_5"
-            android:layout_gravity="right"
-            android:id="@+id/fab_start"
-            android:src="@drawable/common_icon_navigation"
-            app:backgroundTint="@android:color/transparent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
+
+        <RelativeLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:padding="5dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_bottom_bar"
+            android:gravity="center_vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/firstline"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginLeft="12dp"
+                android:singleLine="true"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/secondline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/firstline"
+                android:layout_marginLeft="12dp"
+                android:gravity="right"
+                android:singleLine="true"
+                android:textColor="#999999"
+                android:textSize="13sp"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/detail"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="详情"
+                    android:textColor="@color/color_blue"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:layout_width="7dp"
+                    android:layout_height="13dp"
+                    android:layout_marginLeft="4dp"
+                    android:background="@drawable/common_icon_arrow_right_blue"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+        </RelativeLayout>
     </FrameLayout>
 
 </LinearLayout>

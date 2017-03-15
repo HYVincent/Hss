@@ -1,5 +1,6 @@
 package com.vincent.hss.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +23,7 @@ import com.vincent.hss.bean.SystemMsg;
 import com.vincent.hss.presenter.SystemMsgPresenter;
 import com.vincent.hss.presenter.controller.SystemMsgController;
 import com.vincent.hss.view.CommonOnClickListener;
+import com.vincent.hss.view.PopupwindowUtils;
 import com.vincent.hss.view.SpaceItemDecoration;
 
 import java.util.List;
@@ -55,15 +59,19 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgControll
     RecyclerView rlvMsgContent;
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout srlRefresh;
+    @BindView(R.id.view_root)
+    LinearLayout llRoot;
     private SystemMsgPresenter presenter =null;
     private MsgListAdapter adapter;
     private List<SystemMsg> listData;
+    private Activity activity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_msg);
         ButterKnife.bind(this);
+        activity =this;
         commonTvTitle.setText("系统消息");
         commonTvNoContent.setText("没有系统消息");
         presenter = new SystemMsgPresenter(this);
@@ -73,11 +81,14 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgControll
         adapter.setOnClick(new CommonOnClickListener() {
             @Override
             public void onClick(View view, int position) {
-                showMsg(0,"啥也没有");
+//                showMsg(0,"啥也没有");
+                SystemMsg systemMsg = listData.get(position);
+                PopupwindowUtils.showAlertDialog(activity,systemMsg.getMsgTitle(),systemMsg.getMsgContent(),"取消","确定");
             }
         });
         initData();
     }
+
 
     private void initData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

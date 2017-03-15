@@ -96,4 +96,10 @@ public class Config {
      */
     public static final String APP_MAIN_TAB_TEXT_FOUR = "设置";
 
+    /**
+     * QQ分享appid
+     */
+    public static final String QQ_SHARE_APP_ID = "1105781615";
+
+
 }

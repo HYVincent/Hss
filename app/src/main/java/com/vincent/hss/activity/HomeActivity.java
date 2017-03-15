@@ -145,12 +145,15 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
      * 退出
      */
     private void _exit() {
-        if (System.currentTimeMillis() - mExitTime > 2000) {
+        /*if (System.currentTimeMillis() - mExitTime > 2000) {
             showMsg(0, "再按一次退出APP");
             mExitTime = System.currentTimeMillis();
         } else {
             finish();
-        }
+        }*/
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
     }
 
     @Override
@@ -191,7 +194,8 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
                 CarActivity.actionStart(HomeActivity.this);
                 break;
             case R.id.main_tv_connection:
-                FamilyAndCarConnectionActivity.actionStart(HomeActivity.this);
+//                FamilyAndCarConnectionActivity.actionStart(HomeActivity.this);
+                CarHomeInternetActivity.actionStart(HomeActivity.this);
                 break;
             case R.id.main_tv_data_analysis:
                 DataAnalysisActivity.actionStart(HomeActivity.this);

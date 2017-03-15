@@ -1,10 +1,7 @@
 package com.vincent.hss.bean;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Generated;
 
-import java.util.List;
+import org.litepal.crud.DataSupport;
 
 /**
  * description ：http://www.jianshu.com/p/853401a7d02b
@@ -15,49 +12,60 @@ import java.util.List;
  * @version 1.0
  */
 
-@Entity
-public class Room {
+public class Room extends DataSupport{
 
-    @Id(autoincrement = true)
-    private long id;
+    private int id;
+    private String phone;
+    private String roomType;
     private String roomName;
-    private int romImg;//图标
+    private String roomImg;//图标
     private String roomBigImg;//大图 实际上是一个List<String>类型，到时候拿出来转换吧，我艹
-    @Generated(hash = 899069452)
-    public Room(long id, String roomName, int romImg, String roomBigImg) {
-        this.id = id;
-        this.roomName = roomName;
-        this.romImg = romImg;
-        this.roomBigImg = roomBigImg;
-    }
-    @Generated(hash = 703125385)
-    public Room() {
+
+    public int getId() {
+        return id;
     }
 
-
-    public long getId() {
-        return this.id;
-    }
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
+
     public String getRoomName() {
-        return this.roomName;
+        return roomName;
     }
+
     public void setRoomName(String roomName) {
         this.roomName = roomName;
     }
-    public int getRomImg() {
-        return this.romImg;
+
+    public String getRoomImg() {
+        return roomImg;
     }
-    public void setRomImg(int romImg) {
-        this.romImg = romImg;
+
+    public void setRoomImg(String roomImg) {
+        this.roomImg = roomImg;
     }
+
     public String getRoomBigImg() {
-        return this.roomBigImg;
+        return roomBigImg;
     }
+
     public void setRoomBigImg(String roomBigImg) {
         this.roomBigImg = roomBigImg;
     }
-  
 }

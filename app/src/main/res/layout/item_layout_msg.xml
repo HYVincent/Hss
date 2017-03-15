@@ -16,8 +16,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/clv_9"
             android:src="@drawable/common_icon_system_msg"
-            android:layout_width="@dimen/size_50"
-            android:layout_height="@dimen/size_50" />
+            android:layout_width="@dimen/size_40"
+            android:layout_height="@dimen/size_40" />
 
         <LinearLayout
             android:layout_centerVertical="true"

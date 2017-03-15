@@ -1,10 +1,12 @@
 package com.vincent.lwx.netty.msg;
 
 /**
- * 消息类型枚举
- *
- * @author 徐飞
- * @version 2016/02/24 19:40
+ * @Project: schoolmallapi
+ * @ClassName: MsgType
+ * @Description: 消息类型枚举
+ * @author:	chenpy
+ * @date:	2016年11月1日
+ * @version 1.0.0
  */
 public enum  MsgType {
     PING,LOGIN,PUSH

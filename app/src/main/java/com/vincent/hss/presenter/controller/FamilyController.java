@@ -2,9 +2,9 @@ package com.vincent.hss.presenter.controller;
 
 import com.vincent.hss.base.BaseController;
 import com.vincent.hss.bean.Room;
-import com.vincent.hss.bean.dao.RoomDao;
 
 import java.util.List;
+
 
 /**
  * description ：
@@ -30,9 +30,14 @@ public interface FamilyController {
 
         /**
          * 查询房间 从数据库去查
-         * @param dao
          */
-        void queryRoom(RoomDao dao);
+        void queryRoom();
+
+        /**
+         * 从服务器获取数据
+         * @param phone
+         */
+        void queryServiceRoom(String phone);
     }
 
 }

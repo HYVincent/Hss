@@ -1,7 +1,6 @@
 package com.vincent.hss.netty;
 
-
-import com.vise.log.ViseLog;
+import com.vincent.lwx.netty.msg.PushMsg;
 
 /**
  * netty推送客户端
@@ -21,13 +20,9 @@ public class PushClient {
         PushClient.bootstrap = bootstrap;
     }
 
-    public static void create() throws Exception{
+    public static void create(){
         NettyClientBootstrap bootstrap=new NettyClientBootstrap();
-        if(bootstrap!=null){
-            PushClient.setBootstrap(bootstrap);
-        }else {
-            ViseLog.e(PushClient.class.getSimpleName(),"PushClicnt初始化异常");
-        }
+        PushClient.setBootstrap(bootstrap);
     }
 
     public static void start(){
@@ -46,27 +41,24 @@ public class PushClient {
      * @see NettyClientHandler
      */
     public static void close(){
-        try {
-            NettyClientBootstrap bootstrap = PushClient.getBootstrap();
-            if(bootstrap!=null){
-                bootstrap.closeChannel();
-                PushClient.setBootstrap(bootstrap);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        NettyClientBootstrap bootstrap = PushClient.getBootstrap();
+        bootstrap.closeChannel();
+        PushClient.setBootstrap(bootstrap);
     }
-
 
     /**
      * @return 返回通道连接状态
      */
     public static boolean isOpen(){
         NettyClientBootstrap bootstrap = PushClient.getBootstrap();
-        if(bootstrap!=null){
-            return bootstrap.isOpen();
-        }else {
-            return false;
-        }
+        return bootstrap.isOpen();
+    }
+
+    /**
+     * 发送消息给服务器
+     * @param msg
+     */
+    public static void sendMsg(PushMsg msg){
+        bootstrap.sendMsg(msg);
     }
 }

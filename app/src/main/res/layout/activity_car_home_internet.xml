@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_gray">
+
+    <include layout="@layout/common_layout_title"/>
+
+    <LinearLayout
+        android:id="@+id/car_home_detail"
+        android:background="@color/color_white"
+        android:layout_marginTop="@dimen/size_15"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/size_15"
+            android:src="@drawable/common_icon_family_detail"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="家中情况"
+            android:textSize="@dimen/text_size_15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <LinearLayout
+        android:id="@+id/car_home_road"
+        android:background="@color/color_white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/size_15"
+            android:src="@drawable/common_icon_road"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="路途信息"
+            android:textSize="@dimen/text_size_15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <LinearLayout
+        android:id="@+id/car_home_contact"
+        android:background="@color/color_white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/size_15"
+            android:src="@drawable/common_icon_new_msg"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="家人互通"
+            android:textSize="@dimen/text_size_15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

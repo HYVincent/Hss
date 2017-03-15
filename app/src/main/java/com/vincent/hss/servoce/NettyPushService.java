@@ -2,12 +2,22 @@ package com.vincent.hss.servoce;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 
+import com.vincent.hss.R;
+import com.vincent.hss.activity.NettyMsgDetailActivity;
 import com.vincent.hss.netty.Config;
 import com.vincent.hss.netty.PushClient;
+import com.vincent.hss.utils.EventUtil;
+import com.vincent.hss.utils.NotificationUtil;
+import com.vincent.lwx.netty.msg.PushMsg;
 import com.vise.log.ViseLog;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 
 /**
@@ -33,7 +43,6 @@ public class NettyPushService extends Service {
         if(Config.openNetty){
             ViseLog.e(NettyPushService.class.getSimpleName(),"开始连接服务器");
             try {
-//            PushClient.create();//初始化、在MyApplication中
                 PushClient.start();//开始连接服务器
             }catch (Exception e){
                 e.printStackTrace();
@@ -44,11 +53,24 @@ public class NettyPushService extends Service {
             }else {
                 ViseLog.d("Netty Push --连接失败");
             }
-//        PushClient.close();//关闭通道
-//        PushClient.isOpen();//判断是否连接成功
+            EventUtil.register(this);
         }else {
             ViseLog.e(NettyPushService.class.getSimpleName(),"PushClient is close");
         }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void fromNettyServiceMsg(final PushMsg pushMsg){
+        //处理消息 测试通过
+        ViseLog.d("收到服务器消息:"+pushMsg.getPhoneNum()+" "+pushMsg.getContent());
+       Handler handler=new Handler(Looper.getMainLooper());
+        handler.post(new Runnable(){
+            public void run(){
+//                NotificationUtil.sendNotification2(NettyPushService.this,"com.vincent.hss.activity.NettyMsgDetailActivity", R.drawable.common_icon_new_msg,"智能家车系统提示","您有新的消息",pushMsg.getContent());
+                NotificationUtil.sendNotification(NettyPushService.this, NettyMsgDetailActivity.class,pushMsg.getContent());
+            }
+        });
 
     }
 
@@ -57,13 +79,12 @@ public class NettyPushService extends Service {
         super.onDestroy();
         if(Config.openNetty&& PushClient.getBootstrap()!=null){
             PushClient.close();
+            EventUtil.unregister(this);
         }
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-
         return START_STICKY;
     }
 }

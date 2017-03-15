@@ -3,54 +3,35 @@ package com.vincent.lwx.netty.msg;
 import java.io.Serializable;
 
 /**
+ * @Project: schoolmallapi
+ * @ClassName: BaseMsg
+ * @Description: 
  * 消息基类
  * 必须实现序列，serialVersionUID 一定要有
- *
- * @author 徐飞
- * @version 2016/02/24 19:40
+ * @author:	chenpy
+ * @date:	2016年11月1日
+ * @version 1.0.0
  */
 public abstract class BaseMsg implements Serializable {
     private static final long serialVersionUID = 1L;
     private MsgType type;
     //必须唯一，否者会出现channel调用混乱
-    private String account;
-    private Integer status;
-    private String key;
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+    private String phoneNum;
 
     //初始化客户端id
     public BaseMsg() {
-        this.account = Constants.getAccount();
+        this.phoneNum = Constants.getPhoneNum();
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+    public String getPhoneNum() {
+		return phoneNum;
+	}
 
-    public String getAccount() {
-        return account;
-    }
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
+	}
 
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-    public MsgType getType() {
+	public MsgType getType() {
         return type;
     }
 

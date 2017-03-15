@@ -1,15 +1,12 @@
 package com.vincent.hss.activity;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,26 +14,32 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.jaeger.library.StatusBarUtil;
 import com.sinping.iosdialog.animation.BaseAnimatorSet;
 import com.sinping.iosdialog.animation.BounceEnter.BounceTopEnter;
 import com.sinping.iosdialog.animation.SlideExit.SlideBottomExit;
 import com.sinping.iosdialog.dialog.listener.OnBtnClickL;
 import com.sinping.iosdialog.dialog.widget.NormalDialog;
-import com.sinping.iosdialog.dialogsamples.utils.T;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
+import com.vincent.hss.base.BaseApplication;
+import com.vincent.hss.bean.EventMsg;
 import com.vincent.hss.bean.Room;
-import com.vincent.hss.bean.dao.DaoUtils;
+import com.vincent.hss.presenter.RoomDetailPresenter;
+import com.vincent.hss.presenter.controller.RoomDetailController;
+import com.vincent.hss.utils.EventUtil;
 import com.vincent.hss.utils.GlideImageLoader;
 import com.vise.log.ViseLog;
 import com.youth.banner.Banner;
+
+
+import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+//import io.realm.Realm;
 
 /**
  * description ：
@@ -47,7 +50,7 @@ import butterknife.OnClick;
  * @version 1.0
  */
 
-public class RoomDetailActivity extends BaseActivity {
+public class RoomDetailActivity extends BaseActivity implements RoomDetailController.IView{
 
     @BindView(R.id.common_rl_return_2)
     RelativeLayout commonRlReturn2;
@@ -73,11 +76,13 @@ public class RoomDetailActivity extends BaseActivity {
     private boolean lightStatus = false;//默认灯是关闭的
     private boolean exhaustFanStatus = false;//默认排风扇也是关闭的
     private int airStatus = 1;
-    private long roomId;
 
     private BaseAnimatorSet bas_in;
     private BaseAnimatorSet bas_out;
-    private  NormalDialog dialog = null;
+    private  NormalDialog normalDialog = null;
+
+    private RoomDetailPresenter presenter;
+    private Room room;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,15 +90,18 @@ public class RoomDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_room_detail);
         ButterKnife.bind(this);
         final Intent intent = getIntent();
-        roomId = intent.getLongExtra("roomId",0);
-        commonTvTitle2.setText(intent.getStringExtra("roomname"));
+        room = JSON.parseObject(intent.getStringExtra("room"),Room.class);
+        commonTvTitle2.setText(room.getRoomName());
         commonTitleRight.setText("删除");
         commonTitleRight.setVisibility(View.VISIBLE);
-        List<String> listImgPath = JSON.parseArray(intent.getStringExtra("roomBigImg"), String.class);
+        List<String> listImgPath = JSON.parseArray(room.getRoomBigImg(), String.class);
         initBannerData(listImgPath);
 
         bas_in = new BounceTopEnter();
         bas_out = new SlideBottomExit();
+
+        presenter = new RoomDetailPresenter(this);
+
     }
 
     /**
@@ -126,14 +134,16 @@ public class RoomDetailActivity extends BaseActivity {
 
     public static void actionStart(Context context, Room room) {
         Intent intent = new Intent(context, RoomDetailActivity.class);
-        intent.putExtra("roomname", room.getRoomName());
-        intent.putExtra("roomBigImg", room.getRoomBigImg());
-        intent.putExtra("roomId",room.getId());
+//        intent.putExtra("roomname", room.getRoomName());
+//        intent.putExtra("roomBigImg", room.getRoomBigImg());
+//        intent.putExtra("roomId",room.getId());
+        intent.putExtra("room",JSON.toJSONString(room));
         context.startActivity(intent);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @OnClick({R.id.common_title_right,R.id.common_rl_return_2, R.id.room_lamplight_status, R.id.room_exhaust_fan_status, R.id.room_air_status})
+    @OnClick({R.id.common_title_right,R.id.common_rl_return_2, R.id.room_lamplight_status,
+            R.id.room_exhaust_fan_status, R.id.room_air_status})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.common_rl_return_2:
@@ -193,47 +203,72 @@ public class RoomDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.common_title_right:
-              showDialog();
+                showDialog();
                 break;
             default:
                 break;
         }
     }
 
+    @Override
+    public void msg(int code, String msg) {
+        showMsg(code,msg);
+    }
+
     public void showDialog(){
-        dialog = new NormalDialog(RoomDetailActivity.this);
-        dialog.content("删除不可恢复，这个房间被拆了吗？")//
+        normalDialog = new NormalDialog(RoomDetailActivity.this);
+        normalDialog.content("删除不可恢复，这个房间被拆了吗？")//
                 .style(NormalDialog.STYLE_TWO)//
                 .titleTextSize(23)//
                 .showAnim(bas_in)//
                 .dismissAnim(bas_out)//
                 .show();
 
-        dialog.setOnBtnClickL(
+        normalDialog.setOnBtnClickL(
                 new OnBtnClickL() {
                     @Override
                     public void onBtnClick() {
-                        dialog.dismiss();
+                        normalDialog.dismiss();
                     }
                 },new OnBtnClickL() {
                     @Override
                     public void onBtnClick() {
                         //删除
-                        if(roomId!=0){
-                            DaoUtils.getmDaoSession().getRoomDao().deleteByKey(roomId);
-                        }
-                        dialog.dismiss();
-                        finish();
+                        presenter.deleteRoom(BaseApplication.user.getPhone(),room.getRoomName());
+                        normalDialog.dismiss();
                     }
                 });
     }
 
     @Override
     protected void onDestroy() {
-        if(dialog!=null){
-            dialog.dismiss();
-            dialog = null;
+        if(normalDialog!=null&&normalDialog.isShowing()){
+            normalDialog.cancel();
+            normalDialog = null;
         }
         super.onDestroy();
     }
+
+
+    @Override
+    public void deleteRoomSuccess() {
+        //TODO 删除本地数据库数据
+        Room ro = DataSupport.find(Room.class,room.getId());
+        if(ro != null){
+            ro.delete();
+        }
+        EventUtil.post(new EventMsg("refresh","1"));
+        try {
+            Thread.sleep(200);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            });
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

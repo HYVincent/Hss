@@ -1,9 +1,14 @@
 package com.vincent.hss.view;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -19,6 +24,7 @@ import android.widget.TextView;
 
 import com.vincent.hss.R;
 import com.vincent.hss.adapter.RoomClassListAdapter;
+import com.vincent.hss.utils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -155,4 +161,42 @@ public class PopupwindowUtils {
             }
         });
     }
+
+    /**
+     * 弹出window
+     * @param activity 上下文对象
+     * @param title title
+     * @param content 内容
+     * @param cancelText 取消
+     * @param okText 确定
+     */
+    public static void showAlertDialog(Activity activity, String title, String content, String cancelText, String okText){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        View view = LayoutInflater.from(activity).inflate(R.layout.item_msg_detail,null);
+        builder.setView(view);
+        TextView tvTitle = (TextView)view.findViewById(R.id.item_pop_title);
+        TextView tvContent = (TextView)view.findViewById(R.id.item_pop_content);
+        TextView tvCancel = (TextView)view.findViewById(R.id.item_pop_cancel);
+        TextView tvOk = (TextView)view.findViewById(R.id.item_pop_ok);
+        tvTitle.setText(title);
+        tvContent.setText(content);
+        tvOk.setText(okText);
+        tvCancel.setText(cancelText);
+        final Dialog dialog = builder.create();
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+
 }

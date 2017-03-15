@@ -1,6 +1,5 @@
 package com.vincent.hss.base;
 
-import android.app.Application;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
@@ -8,19 +7,13 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.umeng.analytics.MobclickAgent;
 import com.vincent.hss.bean.User;
-import com.vincent.hss.bean.dao.DaoUtils;
 import com.vincent.hss.config.Config;
 import com.vincent.hss.netty.PushClient;
-import com.vincent.hss.servoce.NettyPushService;
 import com.vincent.hss.utils.SharePreferencesUtils;
 import com.vise.log.ViseLog;
 import com.vise.log.inner.DefaultTree;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.https.HttpsUtils;
 
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
+import org.litepal.LitePal;
 
 
 /**
@@ -43,12 +36,14 @@ public class BaseApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         application = this;
-        DaoUtils.init(this,"Hss");
+//        DaoUtils.init(this,"Hss");
         initNetty();
         initUser();
         initViseLog();
         initUmeng();
         initOkhttpUtils();
+        LitePal.initialize(this);
+        LitePal.getDatabase();//创建数据库
     }
 
     private void initNetty() {
@@ -69,7 +64,7 @@ public class BaseApplication extends MultiDexApplication {
     }
 
     private void initOkhttpUtils() {
-        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
+        /*HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new LoggerInterceptor("TAG"))
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
@@ -78,7 +73,7 @@ public class BaseApplication extends MultiDexApplication {
                 //其他配置
                 .build();
 
-        OkHttpUtils.initClient(okHttpClient);
+        OkHttpUtils.initClient(okHttpClient);*/
     }
 
     private void initUmeng() {

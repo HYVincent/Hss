@@ -24,12 +24,14 @@ import com.bumptech.glide.Glide;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.lzy.imagepicker.view.CropImageView;
 import com.sinping.iosdialog.dialogsamples.utils.L;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
 import com.vincent.hss.base.BaseApplication;
 import com.vincent.hss.config.Config;
 import com.vincent.hss.utils.EasyBlur;
+import com.vincent.hss.view.GlideImageLoader;
 
 import java.util.ArrayList;
 
@@ -91,6 +93,7 @@ public class SettingActivity extends BaseActivity {
                 .blur();
         llHeadBackground.setBackground(new BitmapDrawable(getResources(),bitmap));
 
+        initImageSelect(true,false,1);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -107,7 +110,7 @@ public class SettingActivity extends BaseActivity {
 
 
     @OnClick({R.id.setting_clv_head, R.id.setting_ll_msg, R.id.setting_ll_device_manager,
-            R.id.setting_ll_change_password, R.id.setting_ll_common, R.id.setting_ll_feedback,R.id.setting_ll_user_info})
+            R.id.setting_ll_change_password, R.id.setting_ll_common, R.id.setting_ll_feedback,R.id.ll_head_background})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.setting_clv_head:
@@ -130,11 +133,8 @@ public class SettingActivity extends BaseActivity {
             case R.id.setting_ll_feedback:
                 FeedbackActivity.actionStart(SettingActivity.this);
                 break;
-            case R.id.setting_ll_user_info:
-                UserInfoActivity.actionStart(SettingActivity.this);
-                break;
             case R.id.ll_head_background:
-
+                UserInfoActivity.actionStart(SettingActivity.this);
                 break;
             default:
                 break;
@@ -162,7 +162,4 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.setting_ll_user_info)
-    public void onClick() {
-    }
 }

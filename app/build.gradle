@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'android-apt'
-apply plugin: 'org.greenrobot.greendao'
+//apply plugin: 'realm-android'
 
 
 android {
@@ -17,21 +16,53 @@ android {
         //使用renderscript 兼容包
         renderscriptTargetApi 25
         renderscriptSupportModeEnabled true
+
+        //多渠道打包
+        manifestPlaceholders = [ CHANGEL_VALUE:"wandoujia"]
     }
+
+    //多渠道打包
+    productFlavors {
+        wandoujia{}
+        xiaomi{}
+        baidu{}
+        huawei{}
+    }
+
+    //多渠道打包
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [ CHANGEL_VALUE: name]
+    }
+
+    signingConfigs{
+
+        myConfig{
+            storeFile file("E:\\develop_utils\\AndroidStudioProject\\HssKey\\hss.jks")
+            storePassword "444444"
+            keyAlias "Hss"
+            keyPassword "444444"
+        }
+
+    }
+
     buildTypes {
+
         release {
             zipAlignEnabled true
+            //移除无用的resource文件
+            shrinkResources false
+            //设置为true 会报错，提示 Error:A problem was found with the configuration of task ':app:packageBaiduDebug'. > File 'E:\develop_utils\AndroidStudioProject\Hss\app\build\intermediates\res\resources-baidu-debug-stripped.ap_' specified for property 'resourceFile' does not exist.
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.myConfig
         }
     }
-    greendao{
-        schemaVersion 1
-        //设置DaoMaster、DaoSession、Dao包名
-        daoPackage'com.vincent.hss.bean.dao'
-        //设置DaoMaster、DaoSession、Dao目录
-        targetGenDir'src/main/java'
-    }
+
+   /* packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }*/
+
 }
 
 
@@ -48,12 +79,11 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    compile 'com.zhy:okhttputils:2.6.2'
+    //    compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     /*暂时不获取这一个了，卡在里了*/
-
     //    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
     compile 'com.android.support:design:25.1.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -68,13 +98,18 @@ dependencies {
     //图片轮播最新版本
     compile 'com.youth.banner:banner:1.4.9'
     compile files('libs/AMap3DMap_4.1.3_AMapNavi_1.9.4_AMapSearch_4.0.0_AMapLocation_3.3.0_20170118.jar')
-    compile 'org.greenrobot:greendao:3.2.0'
-    compile 'org.greenrobot:greendao-generator:3.2.0'
     compile project(':imagepicker')
     compile project(':guideuser')
     compile project(':dialogUtils')
     compile files('libs/netty-all-5.0.0.Alpha2.jar')
     compile 'com.android.support:multidex:1.+'
-//    compile 'com.google.dagger:dagger:2.0'
-//    annotationProcessor 'com.google.dagger:dagger-compiler:2.0'
+
+    compile files('libs/hellocharts-library-1.5.8.jar')
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.ybq:Android-SpinKit:1.1.0'
+    compile files('libs/mta-sdk-1.6.2.jar')
+    compile files('libs/open_sdk_r5781.jar')
+
+    compile 'org.litepal.android:core:1.5.0'
+
 }

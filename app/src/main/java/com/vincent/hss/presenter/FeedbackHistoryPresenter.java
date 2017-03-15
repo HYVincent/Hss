@@ -60,6 +60,7 @@ public class FeedbackHistoryPresenter implements FeedbackHistoryController.IPres
             public void onFailure(Call<Result> call, Throwable t) {
                 ViseLog.e(t);
                 view.msg(0,"Request is error ...");
+                view.requestError();
                 view.closeDialog();
             }
         });

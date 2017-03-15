@@ -56,7 +56,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.RoomLi
     public void onBindViewHolder(RoomListViewHolder holder, int position) {
         Room room = data.get(position);
         holder.tvRoomName.setText(room.getRoomName());
-        Glide.with(mContext).load(room.getRomImg()).into(holder.lvRoomImg);
+        Glide.with(mContext).load(Integer.valueOf(room.getRoomImg())).into(holder.lvRoomImg);
     }
 
     @Override

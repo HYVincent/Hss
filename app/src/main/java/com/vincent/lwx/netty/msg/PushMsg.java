@@ -1,30 +1,29 @@
 package com.vincent.lwx.netty.msg;
 
 /**
- * 服务器消息类
- *
- * @author
- * @version 2016/02/24 19:40
+ * @Project: schoolmallapi
+ * @ClassName: PushMsg
+ * @Description: 推送消息类型
+ * @author:	chenpy
+ * @date:	2016年11月1日
+ * @version 1.0.0
  */
 public class PushMsg extends BaseMsg {
-    private String account;
-    private String content;
-    private Integer status;
+    
+    /**
+	 * 序列化ID
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private String content;
 
     public PushMsg() {
         super();
         setType(MsgType.PUSH);
     }
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-
-    public String getContent() {
+    
+	
+	public String getContent() {
         return content;
     }
 
@@ -32,11 +31,4 @@ public class PushMsg extends BaseMsg {
         this.content = content;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 }

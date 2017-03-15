@@ -1,10 +1,12 @@
 package com.vincent.lwx.netty.msg;
 
 /**
- * 心跳检测消息类型
- *
- * @author 徐飞
- * @version 2016/02/24 19:40
+ * @Project: schoolmallapi
+ * @ClassName: PingMsg
+ * @Description: 心跳检测消息类型
+ * @author:	chenpy
+ * @date:	2016年11月1日
+ * @version 1.0.0
  */
 public class PingMsg extends BaseMsg {
     public PingMsg() {

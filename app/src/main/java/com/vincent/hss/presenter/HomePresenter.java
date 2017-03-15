@@ -9,17 +9,13 @@ import com.amap.api.location.AMapLocationListener;
 import com.vincent.hss.bean.Weather;
 import com.vincent.hss.config.Config;
 import com.vincent.hss.network.RetrofitUtils;
-import com.vincent.hss.network.service.ApiService;
 import com.vincent.hss.presenter.controller.HomeController;
 import com.vise.log.ViseLog;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * description ：

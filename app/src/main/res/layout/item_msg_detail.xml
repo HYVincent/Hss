@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_blue"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/size_30"
+            android:layout_height="@dimen/size_30"
+            android:src="@drawable/system_msg_detail"/>
+
+        <TextView
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_15sp"
+            android:id="@+id/item_pop_title"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/color_white">
+
+        <TextView
+            android:id="@+id/item_pop_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_5" />
+
+
+    </ScrollView>
+
+
+    <RelativeLayout
+        android:background="@color/color_blue"
+        android:layout_marginBottom="@dimen/size_5"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50">
+
+        <TextView
+            android:id="@+id/view"
+            android:background="@color/color_white"
+            android:layout_width="@dimen/size_1"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/size_15"
+            android:layout_marginBottom="@dimen/size_15"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:textColor="@color/color_white"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textSize="@dimen/text_size_15sp"
+            android:id="@+id/item_pop_cancel"
+            android:layout_toLeftOf="@id/view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:textColor="@color/color_white"
+            android:gravity="center"
+            android:text="OK"
+            android:id="@+id/item_pop_ok"
+            android:textSize="@dimen/text_size_15sp"
+            android:layout_toRightOf="@id/view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -41,7 +41,7 @@ public class WelcomeActivity extends BaseActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(200);
                     if(!isFistStart){
                         //第一次启动
                         GuideActivity.actionStart(WelcomeActivity.this);

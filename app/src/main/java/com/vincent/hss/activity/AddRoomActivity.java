@@ -6,8 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
@@ -19,17 +17,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.jaeger.library.StatusBarUtil;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.vincent.hss.R;
 import com.vincent.hss.adapter.ImagePickerAdapter;
 import com.vincent.hss.base.BaseActivity;
+import com.vincent.hss.base.BaseApplication;
+import com.vincent.hss.bean.EventMsg;
 import com.vincent.hss.bean.Room;
-import com.vincent.hss.bean.dao.DaoUtils;
-import com.vincent.hss.bean.dao.RoomDao;
+import com.vincent.hss.presenter.AddRoomPresenter;
+import com.vincent.hss.presenter.controller.AddRoomController;
+import com.vincent.hss.utils.EventUtil;
 import com.vincent.hss.view.PopupwindowUtils;
+import com.vise.log.ViseLog;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ import butterknife.OnClick;
  * @version 1.0
  */
 
-public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.OnRecyclerViewItemClickListener {
+public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.OnRecyclerViewItemClickListener,AddRoomController.IView {
 
     @BindView(R.id.lv_1)
     ImageView addImg;
@@ -70,7 +72,6 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    private RoomDao roomDao;
     public static final int IMAGE_ITEM_ADD = -1;
     public static final int REQUEST_CODE_SELECT = 100;
     public static final int REQUEST_CODE_PREVIEW = 101;
@@ -81,7 +82,9 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
     private List<String> selectImagePath = new ArrayList<>();
 
     private boolean hasSelClass = false;//是否选择了房间类型
+    private AddRoomPresenter presenter;
 
+    private String roomType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,9 +94,9 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
         commonTvTitle2.setText("添加房间");
         commonTitleRight.setText("提交");
         commonTitleRight.setVisibility(View.VISIBLE);
-        roomDao = DaoUtils.getmDaoSession().getRoomDao();
         initAddImg();
-
+        initImageSelect(false,true,9);
+        presenter = new AddRoomPresenter(this);
     }
 
     private void initAddImg() {
@@ -139,6 +142,7 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
                 try {
                     if(!hasSelClass){
                         showMsg(0,"没有选择房间，默认为厨房");
+                        roomType = "厨房";
                     }
                     String roomName = addRoomEtName.getText().toString().trim();
                     String roomClass = addRoomClass.getText().toString().trim();
@@ -157,33 +161,44 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
                         switch (roomClass){
                             case "厨房":
                                 roomIcon = R.drawable.common_icon_room_type_kitchen;
+                                roomType = "厨房";
                                 break;
                             case "客厅":
                                 roomIcon = R.drawable.common_icon_room_type_drawing_room;
+                                roomType = "客厅";
                                 break;
                             case "卧室":
                                 roomIcon = R.drawable.common_icon_room_type_bedroom;
+                                roomType = "卧室";
                                 break;
                             case "阳台":
                                 roomIcon = R.drawable.common_icon_room_type_balcony;
+                                roomType = "阳台";
                                 break;
                             case "花园":
+                                roomType = "花园";
                                 roomIcon = R.drawable.common_icon_room_type_garden;
                                 break;
                             case "院子":
+                                roomType = "院子";
                                 roomIcon = R.drawable.common_icon_room_type_backyard;
                                 break;
                             case "车库":
+                                roomType= "车库";
                                 roomIcon = R.drawable.common_icon_room_type_garage;
                                 break;
                         }
                         Room room = new Room();
-                        room.setId(System.currentTimeMillis());
                         room.setRoomName(roomName);
-                        room.setRomImg(roomIcon);
-                        room.setRoomBigImg(JSON.toJSONString(selectImagePath));
-                        roomDao.insert(room);
-                        finish();
+                        room.setRoomType(roomType);
+                        room.setRoomImg(String.valueOf(roomIcon));
+                        String json = JSON.toJSONString(selectImagePath);
+                        System.out.println("json-->"+json);
+                        room.setRoomBigImg(json);
+                        room.setPhone(BaseApplication.user.getPhone());
+                       ViseLog.d("--->"+room.toString());
+                        //TODO 请求服务器添加
+                        presenter.addRoom(room);
                     }else {
                         showMsg(0,"拍个房间照片吧");
                     }
@@ -223,6 +238,7 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
             //添加图片返回
             if (data != null && requestCode == REQUEST_CODE_SELECT) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                ViseLog.d("path-->"+images.get(0).path);
                 selImageList.addAll(images);
                 adapter.setImages(selImageList);
             }
@@ -235,5 +251,18 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
                 adapter.setImages(selImageList);
             }
         }
+    }
+
+    @Override
+    public void msg(int code, String msg) {
+        showMsg(code,msg);
+    }
+
+    @Override
+    public void addSuccess(final Room room) {
+        //TODO 把room保存在本地数据库
+        room.save();
+        EventUtil.post(new EventMsg("refresh","1"));
+        finish();
     }
 }

@@ -4,27 +4,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.vincent.hss.R;
 import com.vincent.hss.adapter.RoomListAdapter;
 import com.vincent.hss.base.BaseActivity;
+import com.vincent.hss.bean.EventMsg;
 import com.vincent.hss.bean.Room;
-import com.vincent.hss.bean.dao.DaoUtils;
-import com.vincent.hss.bean.dao.RoomDao;
+import com.vincent.hss.bean.RoomMsg;
 import com.vincent.hss.presenter.FamilyPresenter;
 import com.vincent.hss.presenter.controller.FamilyController;
+import com.vincent.hss.utils.EventUtil;
 import com.vincent.hss.utils.GlideImageLoader;
 import com.vincent.hss.view.RoomListItemOnClickListener;
 import com.vincent.hss.view.SpaceItemDecoration;
 import com.vise.log.ViseLog;
 import com.youth.banner.Banner;
+
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +66,6 @@ public class FamilyActivity extends BaseActivity implements FamilyController.IVi
     private RoomListAdapter adapter;
 
     private List<Room> data = new ArrayList<>();
-    private RoomDao roomDao;
 
     private FamilyPresenter presenter;
 
@@ -71,6 +74,8 @@ public class FamilyActivity extends BaseActivity implements FamilyController.IVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_family);
         ButterKnife.bind(this);
+        //注册EventBus
+        EventUtil.register(this);
         commonTvTitle2.setText("房间");
         commonTitleRight.setText("添加");
         commonTitleRight.setVisibility(View.VISIBLE);
@@ -89,16 +94,9 @@ public class FamilyActivity extends BaseActivity implements FamilyController.IVi
 //        banner.start();
         initRecycleView();
         /////////////////////////////////////////////
-        roomDao = DaoUtils.getmDaoSession().getRoomDao();
-        presenter.queryRoom(roomDao);
+        presenter.queryRoom();
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        ViseLog.d("onRestart");
-        presenter.queryRoom(roomDao);
-    }
 
     private void initRecycleView() {
         adapter = new RoomListAdapter(FamilyActivity.this);
@@ -112,11 +110,14 @@ public class FamilyActivity extends BaseActivity implements FamilyController.IVi
             public void onClick(View view, int postion) {
                 ViseLog.d("position-->"+postion +"  data.size-->"+data.size());
                 Room room = data.get(postion);
+                EventUtil.post(new RoomMsg(room));
                 RoomDetailActivity.actionStart(FamilyActivity.this, room);
             }
         });
-
     }
+
+
+
 
     //如果你需要考虑更好的体验，可以这么操作
     @Override
@@ -124,6 +125,20 @@ public class FamilyActivity extends BaseActivity implements FamilyController.IVi
         super.onStart();
         //开始轮播
         banner.startAutoPlay();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void action(EventMsg eventMsg){
+        if(eventMsg.getMsg().equals("refresh")){//验证通过
+            presenter.queryRoom();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventUtil.unregister(this);
     }
 
     @Override
@@ -159,17 +174,20 @@ public class FamilyActivity extends BaseActivity implements FamilyController.IVi
 
     @Override
     public void refreshRoom(List<Room> listData) {
-        ViseLog.d("listData:"+listData.size());
         if (listData != null && listData.size() > 0) {
+            ViseLog.d("listData:"+listData.size());
             data = listData;
             adapter.setData(data);
             rlvRoomList.setAdapter(adapter);
             rlNoContent.setVisibility(View.GONE);
             rlvRoomList.setVisibility(View.VISIBLE);
         }else {
+            //没有数据
             rlNoContent.setVisibility(View.VISIBLE);
             commonTvNoContent.setText("没有房间，赶快去添加吧");
             rlvRoomList.setVisibility(View.GONE);
+            rlvRoomList.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     }
 }
