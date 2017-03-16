@@ -38,4 +38,29 @@
         <!--是否模糊-->
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
+
+    <style name="EditContentDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:background">@color/color_white</item>
+    </style>
+
+    <style name="dialog_style" parent="android:style/Theme.Translucent">
+        <!-- Dialog的windowFrame框为无 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否半透明 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 是否显示title -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 设置dialog的背景 -->
+        <item name="android:windowBackground">@color/color_white</item>
+        <!-- 背景是否模糊显示 -->
+        <item name="android:backgroundDimEnabled">false</item>
+
+    </style>
 </resources>

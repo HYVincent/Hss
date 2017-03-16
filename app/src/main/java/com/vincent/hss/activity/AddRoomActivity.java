@@ -29,7 +29,7 @@ import com.vincent.hss.bean.Room;
 import com.vincent.hss.presenter.AddRoomPresenter;
 import com.vincent.hss.presenter.controller.AddRoomController;
 import com.vincent.hss.utils.EventUtil;
-import com.vincent.hss.view.PopupwindowUtils;
+import com.vincent.hss.view.WindowUtils;
 import com.vise.log.ViseLog;
 
 
@@ -132,7 +132,7 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
                 data.add("花园");
                 data.add("院子");
                 data.add("车库");
-                PopupwindowUtils.showPopupwindow2(this, llContent, addRoomClass, data, "取消", addImg);
+                WindowUtils.showPopupwindow2(this, llContent, addRoomClass, data, "取消", addImg);
                 break;
 
             case R.id.common_rl_return_2:

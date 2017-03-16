@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.vincent.hss.R;
 import com.vincent.hss.adapter.FeedbackHostotyListAdapter;
 import com.vincent.hss.base.BaseActivity;
@@ -22,7 +20,7 @@ import com.vincent.hss.bean.Feedback;
 import com.vincent.hss.presenter.FeedbackHistoryPresenter;
 import com.vincent.hss.presenter.controller.FeedbackHistoryController;
 import com.vincent.hss.view.FeedbackHistoryItemListener;
-import com.vincent.hss.view.PopupwindowUtils;
+import com.vincent.hss.view.WindowUtils;
 import com.vincent.hss.view.SpaceItemDecoration;
 
 import java.util.ArrayList;
@@ -97,7 +95,7 @@ public class FeedbackHistoryActivity extends BaseActivity implements FeedbackHis
             @Override
             public void onClick(View view, int postion) {
                 Feedback feedback = listData.get(postion);
-                PopupwindowUtils.showAlertDialog(FeedbackHistoryActivity.this,feedback.getTitle(),feedback.getContent(),"取消","关闭");
+                WindowUtils.showAlertDialog(FeedbackHistoryActivity.this,feedback.getTitle(),feedback.getContent(),"取消","关闭");
             }
         });
         fromServiceGetData();

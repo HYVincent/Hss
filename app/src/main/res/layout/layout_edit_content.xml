@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<include layout="@layout/common_layout_title"/>-->
+
+    <RelativeLayout
+        android:background="@color/color_blue"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50">
+
+        <RelativeLayout
+            android:id="@+id/common_rl_return"
+            android:layout_width="@dimen/size_50"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_centerInParent="true"
+                android:src="@drawable/common_arrow_left"
+                android:layout_width="@dimen/size_25"
+                android:layout_height="@dimen/size_25" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/common_tv_title"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_18sp"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/rl_content_save"
+            android:layout_alignParentRight="true"
+            android:layout_width="@dimen/size_50"
+            android:layout_height="@dimen/size_50">
+
+            <TextView
+                android:text="保存"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/text_size_15sp"
+                android:textColor="@color/color_white"
+                android:id="@+id/dlg_content_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <View
+            android:background="@color/color_white"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_1px"/>
+
+
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/et_edit_content"
+        android:background="@null"
+        android:layout_marginTop="@dimen/size_15"
+        android:layout_marginLeft="@dimen/size_15"
+        android:layout_marginRight="@dimen/size_15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include layout="@layout/common_layout_line"/>
+
+</LinearLayout>

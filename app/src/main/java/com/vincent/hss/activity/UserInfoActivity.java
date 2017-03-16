@@ -12,6 +12,11 @@ import android.widget.TextView;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
 import com.vincent.hss.base.BaseApplication;
+import com.vincent.hss.bean.EventMsg;
+import com.vincent.hss.utils.EventUtil;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +65,11 @@ public class UserInfoActivity extends BaseActivity {
         commonTvTitle2.setText(BaseApplication.user.getNickname());
         commonTitleRight.setText("编辑");
         commonTitleRight.setVisibility(View.VISIBLE);
+        initData();
+        EventUtil.register(this);
+    }
+
+    private void initData(){
         userInfoEtUserId.setText(BaseApplication.user.getUser_id());
         userInfoEtUserNickname.setText(BaseApplication.user.getNickname());
         userInfoEtUserPhone.setText(BaseApplication.user.getPhone());
@@ -68,6 +78,18 @@ public class UserInfoActivity extends BaseActivity {
         userInfoEtUserCreateTime.setText(BaseApplication.user.getCreateTime());
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void actionRe(EventMsg eventMsg){
+        if(eventMsg.getMsg().equals("refresh")){
+            initData();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventUtil.unregister(this);
+    }
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, UserInfoActivity.class);

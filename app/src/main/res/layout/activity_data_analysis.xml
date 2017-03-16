@@ -5,9 +5,110 @@
 
     <include layout="@layout/common_layout_title_1"/>
 
-    <lecho.lib.hellocharts.view.LineChartView
-        android:id="@+id/data_chart"
+    <LinearLayout
+        android:id="@+id/data_power_statistics"
+        android:background="@color/color_white"
+        android:layout_marginTop="@dimen/size_15"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="@dimen/size_50"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/size_15"
+            android:src="@drawable/family_power_statistics"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="家庭用电统计"
+            android:textSize="@dimen/text_size_15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+
+    <LinearLayout
+        android:id="@+id/data_steal_statistics"
+        android:background="@color/color_white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/size_15"
+            android:src="@drawable/data_steal_statistics"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="片区盗窃率通统计"
+            android:textSize="@dimen/text_size_15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <LinearLayout
+        android:id="@+id/data_car_bad_statistics"
+        android:background="@color/color_white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/size_15"
+            android:src="@drawable/data_car_bad_statistics"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="汽车故障率统计"
+            android:textSize="@dimen/text_size_15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <LinearLayout
+        android:id="@+id/data_fuel_consumption_statistics"
+        android:background="@color/color_white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_50"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/size_15"
+            android:src="@drawable/data_fuel_consumption_statistics"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20" />
+
+        <TextView
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="汽车油耗统计"
+            android:textSize="@dimen/text_size_15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
 
 </LinearLayout>
