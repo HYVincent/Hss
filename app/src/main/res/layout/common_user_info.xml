@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40"
+        android:gravity="center_vertical">
+        <TextView
+            android:textColor="@color/color_gray_1"
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="绑定手机号码"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/user_info_et_user_phone"
+            android:text="10000"
+            android:textColor="@color/color_blue"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40"
+        android:gravity="center_vertical">
+        <TextView
+            android:textColor="@color/color_gray_1"
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="昵称"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/user_info_et_user_nickname"
+            android:text="10000"
+            android:textColor="@color/color_blue"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40"
+        android:gravity="center_vertical">
+        <TextView
+            android:textColor="@color/color_gray_1"
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="帅哥\\美女"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/user_info_et_user_sex"
+            android:text="男"
+            android:textColor="@color/color_blue"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40"
+        android:gravity="center_vertical">
+        <TextView
+            android:textColor="@color/color_gray_1"
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="生日"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/user_info_et_user_birthday"
+            android:text="1992-04-12"
+            android:textColor="@color/color_blue"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/common_layout_line"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40"
+        android:gravity="center_vertical">
+        <TextView
+            android:textColor="@color/color_gray_1"
+            android:layout_marginLeft="@dimen/size_15"
+            android:text="来点存在感"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/user_info_et_user_live_status"
+            android:text="我今天在家写代码..."
+            android:textColor="@color/color_blue"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</LinearLayout>

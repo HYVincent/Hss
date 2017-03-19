@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+       <RelativeLayout
+           app:layout_scrollFlags="scroll|enterAlways|snap"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <include layout="@layout/common_layout_title"/>
+
+
+       </RelativeLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/size_15"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_marginLeft="@dimen/size_15"
+            android:background="@drawable/shape_background_ringlike_white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_40">
+
+            <EditText
+                android:textSize="@dimen/text_size_15sp"
+                android:hint="输入对方手机号码"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:maxLength="11"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/size_15"
+                android:id="@+id/search_family_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/searchO_family_start"
+                android:layout_marginRight="@dimen/size_15"
+                android:layout_centerVertical="true"
+                android:src="@drawable/common_icon_search"
+                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/size_25"
+                android:layout_height="@dimen/size_25" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="@dimen/size_15"
+            android:id="@+id/search_user_result_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

@@ -34,7 +34,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:replace="android:icon,android:theme"
+        tools:replace="icon,theme,name"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.SpeedResponseActivity"
@@ -73,7 +73,13 @@
         <activity
             android:name=".activity.HomeActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <!--activity的饮食启动配置-->
+            <intent-filter>
+                <action android:name="com.vincent.hss.activity.HomeActivity"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.CarActivity"
             android:screenOrientation="portrait" />
@@ -144,6 +150,32 @@
         <activity android:name=".activity.PowerStatisticsActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.AskMsgActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.AskMsgDetailActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.SearchFamilyActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.SearchResultDetailActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.ChatActivity"
+            android:screenOrientation="portrait"/>
+
+        <!--app安装适配-->
+       <!-- <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>-->
+
 
         <!-- 图片预览 -->
 
@@ -186,15 +218,17 @@
 
         <!--服务-->
         <service
-            android:name=".servoce.NettyPushService"
+            android:name=".service.NettyPushService"
             android:persistent="true"
             android:priority="1000" />
 
         <service
-            android:name=".servoce.HssService"
+            android:name=".service.HssService"
             android:enabled="true"
             android:priority="1000"
             android:exported="true"/>
+
+        <service android:name=".service.MsgService"/>
 
 
         <!--广播-->

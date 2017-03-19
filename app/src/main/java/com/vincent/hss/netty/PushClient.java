@@ -61,4 +61,5 @@ public class PushClient {
     public static void sendMsg(PushMsg msg){
         bootstrap.sendMsg(msg);
     }
+
 }

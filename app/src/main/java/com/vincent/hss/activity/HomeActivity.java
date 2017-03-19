@@ -1,26 +1,34 @@
 package com.vincent.hss.activity;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocationClient;
+import com.vincent.common.DownloadService;
+import com.vincent.hss.BuildConfig;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
-import com.vincent.hss.base.BaseApplication;
+import com.vincent.hss.bean.App;
 import com.vincent.hss.presenter.HomePresenter;
 import com.vincent.hss.presenter.controller.HomeController;
-import com.vincent.hss.servoce.HssService;
-import com.vincent.hss.servoce.NettyPushService;
+import com.vincent.hss.service.HssService;
+import com.vincent.hss.service.MsgService;
+import com.vincent.hss.service.NettyPushService;
+import com.vincent.hss.view.CommonOnClickListener;
+import com.vincent.hss.view.WindowUtils;
+import com.vise.log.ViseLog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,6 +80,20 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
     private AMapLocationClient mLoactionClient = null;
     private HomePresenter presenter;
 
+    private DownloadService.DownloadBinder downloadBinder;
+
+    private ServiceConnection connection = new ServiceConnection() {
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            downloadBinder = (DownloadService.DownloadBinder) service;
+        }
+
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +105,12 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
         HomeActivityPermissionsDispatcher.getLocationWithCheck(this);
         startService(new Intent(HomeActivity.this, HssService.class));
         startService(new Intent(this, NettyPushService.class));
+
+        Intent intent = new Intent(this, DownloadService.class);
+        startService(intent); // 启动服务
+        bindService(intent, connection, BIND_AUTO_CREATE); // 绑定服务
+
+        presenter.checkUpdate(BuildConfig.VERSION_NAME);
     }
 
     @NeedsPermission({Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS, Manifest.permission.ACCESS_FINE_LOCATION})
@@ -135,6 +163,11 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
         context.startActivity(intent);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startService(new Intent(this, MsgService.class));
+    }
 
     @Override
     public void onBackPressed() {
@@ -173,14 +206,45 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
     }
 
     @Override
-    public void setWeather(String weather, String temperature, String humidity, String updateTime) {
-        tvCurrentWeather.setText(weather);
-        tvCurrentTemperature.setText(temperature + "℃");
-        tvCurrentHumidity.setText(humidity);
-        tvUpdateTime.setText("发布时间:" + updateTime);
+    public void setWeather(final String weather, final String temperature, final String humidity, final String updateTime) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ViseLog.d("wather:"+weather+" "+temperature+" "+humidity+ " "+ updateTime);
+                tvCurrentWeather.setText(weather);
+                tvCurrentTemperature.setText(temperature + "℃");
+                tvCurrentHumidity.setText(humidity);
+                tvUpdateTime.setText("发布时间:" + updateTime);
+            }
+        });
+
     }
 
+    @Override
+    public void hasNewVersion(final App app) {
+        WindowUtils.checkNewestVersion(this, app.getUpdateDesc(), new CommonOnClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                try {
+                    downNewVersion(app.getDownUrl());
+                }catch (Exception e){
+                    e.printStackTrace();
+                    showMsg(0,"请检查是否授权SD卡权限");
+                }
+            }
+        });
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(connection);
+    }
+
+    private void downNewVersion(String downUrl) {
+        ViseLog.d("下载地址："+downUrl);
+        downloadBinder.startDownload(downUrl,"智能家车系统升级提示");
+    }
     @OnClick({R.id.main_tv_add,R.id.main_tv_family, R.id.main_tv_car, R.id.main_tv_connection, R.id.main_tv_data_analysis, R.id.main_tv_setting})
     public void onClick(View view) {
         switch (view.getId()) {

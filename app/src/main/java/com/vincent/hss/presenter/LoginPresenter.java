@@ -1,6 +1,5 @@
 package com.vincent.hss.presenter;
 
-import android.content.Intent;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -11,7 +10,6 @@ import com.vincent.hss.config.Config;
 import com.vincent.hss.bean.Result;
 import com.vincent.hss.network.RetrofitUtils;
 import com.vincent.hss.presenter.controller.LoginController;
-import com.vincent.hss.servoce.NettyPushService;
 import com.vise.log.ViseLog;
 
 import retrofit2.Call;
@@ -49,18 +47,23 @@ public class LoginPresenter implements LoginController.IPresenter {
         call.enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
-                Result result = response.body();
-                if(result.getStatus().equals("1")){
-                    BaseApplication.user = JSONObject.parseObject(JSON.toJSONString(result.getData()),User.class);
-                    ViseLog.d("user:"+BaseApplication.user);
-                    BaseApplication.getShared().putString(Config.USER,JSON.toJSONString(BaseApplication.user));
-                    view.msg(1,"登录成功");
-                    BaseApplication.getShared().putBoolean(Config.IS_LOGIN,true);
-                    view.loginSuccess();
-                }else {
-                    view.msg(0,result.getMsg());
+                try {
+                    Result result = response.body();
+                    if(result.getStatus().equals("1")){
+                        BaseApplication.user = JSONObject.parseObject(JSON.toJSONString(result.getData()),User.class);
+                        ViseLog.d("user:"+BaseApplication.user);
+                        BaseApplication.getShared().putString(Config.USER,JSON.toJSONString(BaseApplication.user));
+                        view.msg(1,"登录成功");
+                        BaseApplication.getShared().putBoolean(Config.IS_LOGIN,true);
+                        view.loginSuccess();
+                    }else {
+                        view.msg(0,result.getMsg());
+                    }
+                    view.closeDialog();
+                }catch (Exception e){
+                    e.printStackTrace();
+                    view.msg(0,"服务器无返回，空指针了");
                 }
-                view.closeDialog();
             }
 
             @Override

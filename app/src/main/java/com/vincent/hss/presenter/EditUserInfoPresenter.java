@@ -8,7 +8,7 @@ import com.vincent.hss.bean.Result;
 import com.vincent.hss.bean.User;
 import com.vincent.hss.config.Config;
 import com.vincent.hss.network.RetrofitUtils;
-import com.vincent.hss.utils.EventUtil;
+import com.vincent.hss.presenter.controller.EditUserInfoController;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,15 +46,20 @@ public class EditUserInfoPresenter implements EditUserInfoController.IPresenter 
         call.enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
-                view.closeDialog();
-                Result result = response.body();
-                if(result.getStatus().equals("1")){
-                    String userJson = JSON.toJSONString(result.getData());
-                    BaseApplication.user = JSON.parseObject(userJson, User.class);
-                    BaseApplication.getShared().putString(Config.USER,userJson);
-                    view.alterUserInfoSuccess();
-                }else {
-                    view.msg(0,result.getMsg());
+                try {
+                    view.closeDialog();
+                    Result result = response.body();
+                    if(result.getStatus().equals("1")){
+                        String userJson = JSON.toJSONString(result.getData());
+                        BaseApplication.user = JSON.parseObject(userJson, User.class);
+                        BaseApplication.getShared().putString(Config.USER,userJson);
+                        view.alterUserInfoSuccess();
+                    }else {
+                        view.msg(0,result.getMsg());
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    view.msg(0,"服务器无返回，空指针了");
                 }
             }
 

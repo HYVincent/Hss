@@ -3,9 +3,12 @@ package com.vincent.hss.presenter;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationListener;
+import com.vincent.hss.bean.App;
+import com.vincent.hss.bean.Result;
 import com.vincent.hss.bean.Weather;
 import com.vincent.hss.config.Config;
 import com.vincent.hss.network.RetrofitUtils;
@@ -66,6 +69,35 @@ public class HomePresenter implements HomeController.IPresenter {
         aMapLocationClient.startLocation();
     }
 
+    @Override
+    public void checkUpdate(String current_version) {
+        view.showDialog();
+        Call<Result> call = RetrofitUtils.getApiService().checkUpdate(current_version);
+        call.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                view.closeDialog();
+                Result result = response.body();
+                if(result.getStatus().equals("1")){
+                    if(result.getMsg().equals("当前已是最新版本")){
+//                        view.msg(1,"当前已是最新版本");
+                    }else {
+                        App app = JSON.parseObject(JSON.toJSONString(result.getData()),App.class);
+                        view.hasNewVersion(app);
+                    }
+                }else {
+                    view.msg(0,result.getMsg());
+                }
+            }
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                view.msg(0,"请求错误");
+                ViseLog.e(t.getMessage());
+                view.closeDialog();
+            }
+        });
+    }
+
     /**
      * 获取当前城市天气
      * ?key=cxb4vnpbr2autg9z&language=zh-Hans&unit=c&location=重庆
@@ -77,15 +109,18 @@ public class HomePresenter implements HomeController.IPresenter {
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {
                 try {
-                    ViseLog.d("weather-->"+response.body());
                     Weather weather = response.body();
-                    if(weather.getReason().equals("successed!")){
+                    ViseLog.d("weather-->"+response.body().getReason());
+                    if(weather.getReason().equals("查询成功")){
                         String weatherStr = weather.getResult().getData().getRealtime().getWeather().getInfo();
                         String temperature = weather.getResult().getData().getRealtime().getWeather().getTemperature();
                         String humidity = weather.getResult().getData().getRealtime().getWeather().getHumidity();
                         String updateTime = weather.getResult().getData().getRealtime().getTime();
                         view.setWeather(weatherStr,temperature,humidity,updateTime);
+                        ViseLog.d("刷新天气。。");
                         isWeather = false;
+                    }else {
+                        ViseLog.d("获取失败");
                     }
                 }catch (NullPointerException e){
                     e.printStackTrace();

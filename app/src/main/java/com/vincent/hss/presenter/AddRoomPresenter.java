@@ -38,14 +38,19 @@ public class AddRoomPresenter implements AddRoomController.IPresenter {
         call.enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
-                view.closeDialog();
-                Result result = response.body();
-                if(result.getStatus().equals("1")){
-                    view.msg(1,"已添加");
-                    Room r = JSON.parseObject(JSON.toJSONString(result.getData()),Room.class);
-                    view.addSuccess(r);
-                }else {
-                    view.msg(0,result.getMsg());
+                try {
+                    view.closeDialog();
+                    Result result = response.body();
+                    if(result.getStatus().equals("1")){
+                        view.msg(1,"已添加");
+                        Room r = JSON.parseObject(JSON.toJSONString(result.getData()),Room.class);
+                        view.addSuccess(r);
+                    }else {
+                        view.msg(0,result.getMsg());
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    view.msg(0,"服务器无返回，空指针了");
                 }
             }
             @Override

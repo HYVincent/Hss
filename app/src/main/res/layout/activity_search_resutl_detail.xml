@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/common_layout_title"/>
+
+    <include layout="@layout/common_user_info"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/search_result_add_family_tv"
+            android:textColor="@color/color_white"
+            android:gravity="center"
+            android:text="添加为家人"
+            android:textSize="@dimen/text_size_15sp"
+            android:background="@drawable/common_shape_background_blue"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_40" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

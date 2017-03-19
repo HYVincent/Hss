@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Hss.iml" filepath="$PROJECT_DIR$/Hss.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apkutils/apkutils.iml" filepath="$PROJECT_DIR$/apkutils/apkutils.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/dialogUtils/dialogUtils.iml" filepath="$PROJECT_DIR$/dialogUtils/dialogUtils.iml" />
       <module fileurl="file://$PROJECT_DIR$/guideuser/guideuser.iml" filepath="$PROJECT_DIR$/guideuser/guideuser.iml" />

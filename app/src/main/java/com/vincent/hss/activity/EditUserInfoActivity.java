@@ -1,37 +1,25 @@
 package com.vincent.hss.activity;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bruce.pickerview.popwindow.DatePickerPopWin;
-import com.sinping.iosdialog.dialog.listener.OnOperItemClickL;
-import com.sinping.iosdialog.dialog.widget.ActionSheetDialog;
-import com.sinping.iosdialog.dialogsamples.utils.T;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
 import com.vincent.hss.base.BaseApplication;
 import com.vincent.hss.bean.EventMsg;
-import com.vincent.hss.presenter.EditUserInfoController;
+import com.vincent.hss.presenter.controller.EditUserInfoController;
 import com.vincent.hss.presenter.EditUserInfoPresenter;
 import com.vincent.hss.utils.EventUtil;
-import com.vincent.hss.utils.ScreenUtils;
-import com.vincent.hss.view.EditContentDialog;
 import com.vincent.hss.view.WindowUtils;
 
 import java.util.ArrayList;
@@ -144,7 +132,7 @@ public class EditUserInfoActivity extends BaseActivity implements EditUserInfoCo
                 alterBirthday();
                 break;
             case R.id.et_userinfo_status:
-                WindowUtils.editContentDialog(this, new WindowUtils.GetContentListener() {
+                WindowUtils.editContentDialog(this,"编辑", new WindowUtils.GetContentListener() {
                     @Override
                     public void content(String inputStr) {
                         if(!TextUtils.isEmpty(inputStr)){
@@ -184,7 +172,7 @@ public class EditUserInfoActivity extends BaseActivity implements EditUserInfoCo
     }
 
     private void alterNickname() {
-        WindowUtils.editContentDialog(this, new WindowUtils.GetContentListener() {
+        WindowUtils.editContentDialog(this,"修改昵称", new WindowUtils.GetContentListener() {
             @Override
             public void content(String inputStr) {
                 if(!TextUtils.isEmpty(inputStr)){

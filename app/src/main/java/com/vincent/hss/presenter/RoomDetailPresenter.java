@@ -33,12 +33,17 @@ public class RoomDetailPresenter implements RoomDetailController.IPresenter {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
 //                view.closeDialog();
-                Result result = response.body();
-                if(result.getStatus().equals("1")){
-                    view.msg(1,"已删除");
-                    view.deleteRoomSuccess();
-                }else {
-                    view.msg(0,result.getMsg());
+                try {
+                    Result result = response.body();
+                    if(result.getStatus().equals("1")){
+                        view.msg(1,"已删除");
+                        view.deleteRoomSuccess();
+                    }else {
+                        view.msg(0,result.getMsg());
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    view.msg(0,"服务器无返回，空指针了");
                 }
             }
 

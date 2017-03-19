@@ -190,4 +190,68 @@ public interface ApiService {
      */
     @GET("getAllRoom")
     Call<Result> getAllRoom(@Query("phone")String phone);
+
+    /**
+     * 检查更新
+     * @param current_version
+     * @return
+     */
+    @POST("checkAppUpdate")
+    Call<Result> checkUpdate(@Query("current_version")String current_version);
+
+
+    /**
+     * 搜索对方信息
+     */
+    @POST("searchFamily")
+    Call<Result> searchFamily(@Query("ask_phone")String ask_phone);
+
+    /**
+     * 获取家人列表
+     * @param phone
+     * @return
+     */
+    @POST("getAllFamilyList")
+    Call<Result> getFamilyList(@Query("phone")String phone);
+
+    /**
+     * searchUserLike 模糊搜索 从用户输入的第五个数字开始搜索吧
+     * @param phone
+     * @return
+     */
+    @POST("searchUserLike")
+    Call<Result> searchLikeFamily(@Query("phone")String phone);
+
+    /**
+     * 向对方发起添加好友的请求
+     * @param phone
+     * @param ask_phone
+     * @param msgContent
+     * @return
+     */
+    @POST("sendAddFamilyQuest")
+    Call<Result> sendAddFamilyRequest(@Query("phone")String phone,
+                                      @Query("ask_phone")String ask_phone,
+                                      @Query("msgContent")String msgContent);
+
+    /**
+     * 同意被添加
+     * @return
+     */
+    @POST("addFamilyToList")
+    Call<Result> sendMsgAgreeAddToFamilyList(@Query("phone")String phone,
+                                             @Query("familyPhone")String familyPhone,
+                                             @Query("msgContent")String msgContent);
+
+    /**
+     * 发送聊天消息
+     * @param phone
+     * @param ask_phone
+     * @param chatContent
+     * @return
+     */
+    @POST("sendChatMsg")
+    Call<Result> sendChatMsg(@Query("phone")String phone,
+                             @Query("ask_phone")String ask_phone,
+                             @Query("chatContent")String chatContent);
 }

@@ -43,14 +43,19 @@ public class ForgetPasswordPresenter implements ForgetPassworcController.IPresen
         call.enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
-                Result result = response.body();
-                if(result.getStatus().equals("1")){
-                    view.msg(1,"密码已重置");
-                    view.resetPasswordSuccess();
-                }else {
-                    view.msg(0,result.getMsg());
+                try {
+                    Result result = response.body();
+                    if(result.getStatus().equals("1")){
+                        view.msg(1,"密码已重置");
+                        view.resetPasswordSuccess();
+                    }else {
+                        view.msg(0,result.getMsg());
+                    }
+                    view.closeDialog();
+                }catch (Exception e){
+                    e.printStackTrace();
+                    view.msg(0,"服务器无返回，空指针了");
                 }
-                view.closeDialog();
             }
 
             @Override

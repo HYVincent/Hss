@@ -156,6 +156,7 @@ public class SettingActivity extends BaseActivity {
                 gridView.setAdapter(adapter);*/
                 BaseApplication.getShared().putString(Config.USER_HEAD_IMG,images.get(0).path);
                 Glide.with(this).load(images.get(0).path).into(settingClvHead);
+                BaseApplication.user.setHead(images.get(0).path);
             } else {
                 Toast.makeText(this, "没有数据", Toast.LENGTH_SHORT).show();
             }

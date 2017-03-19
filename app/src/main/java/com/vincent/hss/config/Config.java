@@ -18,8 +18,25 @@ public class Config {
 
     public static final String SERVICE_API_WEATHER = "https://api.thinkpage.cn/v3/weather/";
 
+    /**
+     * QQ分享的标题
+     */
+    public static final String QQ_SHARE_TITLE = "智能家车系统";
 
+    /**
+     * QQ分享的内容
+     */
+    public static final String QQ_SHARE_CONTENT = "分享的内容";
 
+    /**
+     * logo地址
+     */
+    public static final String QQ_SHARE_LOGO = "http://182.254.232.121:8080/Image/app_logo.png";
+
+    /**
+     * 点击跳转的URL地址
+     */
+    public static final String QQ_SHARE_CLICK_GO_URL = "http://182.254.232.121:8080/apk/1.0.1/app-huawei-release-101.apk";
     /**
      * 聚合天气api
      */

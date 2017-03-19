@@ -1,7 +1,13 @@
 package com.vincent.hss.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.support.v4.content.FileProvider;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -62,4 +68,5 @@ public class FileUtils {
         }
         return "";
     }
+
 }

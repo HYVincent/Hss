@@ -106,6 +106,10 @@ public class NettyClientBootstrap {
      * @param pushMsg
      */
     public static void sendMsg(PushMsg pushMsg){
-        socketChannel.writeAndFlush(pushMsg);
+        if(socketChannel!=null){
+            socketChannel.writeAndFlush(pushMsg);
+        }else {
+            throw new NullPointerException("socketChannel is null ,can't send msg");
+        }
     }
 }

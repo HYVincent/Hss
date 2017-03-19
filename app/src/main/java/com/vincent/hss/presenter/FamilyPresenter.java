@@ -53,16 +53,24 @@ public class FamilyPresenter implements FamilyController.IPresenter{
         call.enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
-                view.closeDialog();
-                Result result = response.body();
-                if(result.getStatus().equals("1")){
-                    String json = JSON.toJSONString(result.getData());
-                    ViseLog.e("服务器有数据："+json);
-                    List<Room> listData = JSONArray.parseArray(json,Room.class);
-                    view.refreshRoom(listData);
-                }else {
-                    view.msg(0,result.getMsg());
-                    view.refreshRoom(null);
+                try {
+                    view.closeDialog();
+                    Result result = response.body();
+                    if(result.getStatus().equals("1")){
+                        String json = JSON.toJSONString(result.getData());
+                        ViseLog.e("服务器有数据："+json);
+                        List<Room> listData = JSONArray.parseArray(json,Room.class);
+                        for(int i=0;i<listData.size();i++){
+                            listData.get(i).save();
+                        }
+                        view.refreshRoom(listData);
+                    }else {
+                        view.msg(0,result.getMsg());
+                        view.refreshRoom(null);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    view.msg(0,"服务器无返回，空指针了");
                 }
             }
 

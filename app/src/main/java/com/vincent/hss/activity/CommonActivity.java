@@ -1,9 +1,12 @@
 package com.vincent.hss.activity;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,19 +23,25 @@ import com.tencent.connect.share.QzoneShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+import com.vincent.common.DownloadService;
 import com.vincent.hss.BuildConfig;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
 import com.vincent.hss.base.BaseApplication;
+import com.vincent.hss.bean.App;
 import com.vincent.hss.bean.Result;
 import com.vincent.hss.config.Config;
 import com.vincent.hss.network.RetrofitUtils;
-import com.vincent.hss.servoce.HssService;
-import com.vincent.hss.servoce.NettyPushService;
+import com.vincent.hss.presenter.CommonPresenter;
+import com.vincent.hss.presenter.controller.CommonController;
+import com.vincent.hss.service.HssService;
+import com.vincent.hss.service.NettyPushService;
+import com.vincent.hss.view.CommonOnClickListener;
+import com.vincent.hss.view.WindowUtils;
 import com.vise.log.ViseLog;
 
 
-import org.json.JSONObject;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +59,7 @@ import retrofit2.Response;
  * @version 1.0
  */
 
-public class CommonActivity extends BaseActivity {
+public class CommonActivity extends BaseActivity implements CommonController.IView{
 
     @BindView(R.id.common_rl_return)
     RelativeLayout commonRlReturn;
@@ -71,10 +80,30 @@ public class CommonActivity extends BaseActivity {
     @BindView(R.id.common_ll_test_push)
     LinearLayout commonLlTestPush;
 
+    @BindView(R.id.ll_root)
+    LinearLayout llRoot;
+
     private BaseAnimatorSet bas_in;
     private BaseAnimatorSet bas_out;
     private Tencent mTencent;
 
+    private CommonPresenter presenter;
+
+
+    private DownloadService.DownloadBinder downloadBinder;
+
+    private ServiceConnection connection = new ServiceConnection() {
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            downloadBinder = (DownloadService.DownloadBinder) service;
+        }
+
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,6 +117,18 @@ public class CommonActivity extends BaseActivity {
 
         bas_in = new BounceTopEnter();
         bas_out = new SlideBottomExit();
+
+        presenter = new CommonPresenter(this);
+
+        Intent intent = new Intent(this, DownloadService.class);
+        startService(intent); // 启动服务
+        bindService(intent, connection, BIND_AUTO_CREATE); // 绑定服务
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(connection);
     }
 
     public static void actionStart(Context context) {
@@ -106,13 +147,25 @@ public class CommonActivity extends BaseActivity {
                 showMsg(1,BuildConfig.VERSION_NAME);
                 break;
             case R.id.common_ll_shared:
-                shareToQQ();
+                WindowUtils.showAppShared(this, llRoot, new CommonOnClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        //QQ friends
+                        shareToQQ();
+                    }
+                }, new CommonOnClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        //Qzone
+                        shareToQzone();
+                    }
+                });
                 break;
             case R.id.common_ll_logout:
                 logout();
                 break;
             case R.id.common_ll_check_update:
-                showMsg(1, "当前已是最新本");
+                presenter.checkNewestVersion(BuildConfig.VERSION_NAME);
                 break;
             case R.id.common_ll_about_us:
                 AboutUsActivity.actionStart(CommonActivity.this);
@@ -121,13 +174,16 @@ public class CommonActivity extends BaseActivity {
     }
 
     private void shareToQzone () {
+        ArrayList<String> data = new ArrayList<>();
+        data.add(Config.QQ_SHARE_LOGO);
         //分享类型
         final Bundle params = new Bundle();
 //        params.putString(QzoneShare.SHARE_TO_QQ_KEY_TYPE,SHARE_TO_QZONE_TYPE_IMAGE_TEXT );
-        params.putString(QzoneShare.SHARE_TO_QQ_TITLE, "标题");//必填
-        params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, "摘要");//选填
-        params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, "跳转URL");//必填
-//        params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL,"ArrayList<ImsgUrl>");
+        params.putString(QzoneShare.SHARE_TO_QQ_TITLE, Config.QQ_SHARE_TITLE);//必填
+        params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, Config.QQ_SHARE_CONTENT);//选填
+        params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, Config.QQ_SHARE_CLICK_GO_URL);//必填
+        //这个不加调用不起来
+        params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL,data);
         mTencent.shareToQzone(CommonActivity.this, params, listener);
     }
 
@@ -138,11 +194,11 @@ public class CommonActivity extends BaseActivity {
     private void shareToQQ() {
             final Bundle params = new Bundle();
             params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-            params.putString(QQShare.SHARE_TO_QQ_TITLE, "要分享的标题");
-            params.putString(QQShare.SHARE_TO_QQ_SUMMARY,  "要分享的摘要");
-            params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,  "http://www.qq.com/news/1.html");
-            params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,"http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif");
-            params.putString(QQShare.SHARE_TO_QQ_APP_NAME,  "测试应用222222");
+            params.putString(QQShare.SHARE_TO_QQ_TITLE, Config.QQ_SHARE_TITLE);
+            params.putString(QQShare.SHARE_TO_QQ_SUMMARY,  Config.QQ_SHARE_CONTENT);
+            params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,  Config.QQ_SHARE_CLICK_GO_URL);
+            params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,Config.QQ_SHARE_LOGO);
+            params.putString(QQShare.SHARE_TO_QQ_APP_NAME,  "智能家车系统");
 //            params.putInt(QQShare.SHARE_TO_QQ_EXT_INT,  "其他附加功能");
             mTencent.shareToQQ(CommonActivity.this, params, listener);
     }
@@ -155,6 +211,34 @@ public class CommonActivity extends BaseActivity {
     private BaseUiListener listener = new BaseUiListener();
 
 
+    @Override
+    public void hasNewVersion(final App app) {
+        WindowUtils.checkNewestVersion(this, app.getUpdateDesc(), new CommonOnClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                try {
+                    downNewVersion(app.getDownUrl());
+                }catch (Exception e){
+                    e.printStackTrace();
+                    showMsg(0,"请检查是否授权SD卡权限");
+                }
+            }
+        });
+    }
+
+   private void downNewVersion(String downUrl) {
+       ViseLog.d("下载地址："+downUrl);
+        downloadBinder.startDownload(downUrl,"智能家车系统升级提示");
+    }
+
+
+
+    @Override
+    public void msg(int code, String msg) {
+        showMsg(code,msg);
+    }
+
+
     private class BaseUiListener implements IUiListener {
 
         @Override
@@ -163,7 +247,7 @@ public class CommonActivity extends BaseActivity {
         }
         @Override
         public void onError(UiError e) {
-            ViseLog.d("onError:", "code:" + e.errorCode + ", msg:"
+            ViseLog.d("onError:code:" + e.errorCode + ", msg:"
                     + e.errorMessage + ", detail:" + e.errorDetail);
         }
         @Override

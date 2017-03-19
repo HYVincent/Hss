@@ -3,6 +3,7 @@ package com.vincent.hss.presenter.controller;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.vincent.hss.base.BaseController;
+import com.vincent.hss.bean.App;
 
 /**
  * description ：
@@ -32,10 +33,27 @@ public interface HomeController {
          */
         void setWeather(String weather,String temperature,String humidity,String updateTime);
 
+        /**
+         * 有新版本
+         * @param app
+         */
+        void hasNewVersion(App app);
+
     }
 
     interface IPresenter{
+        /**
+         * 定位
+         * @param aMapLocationClient
+         */
         void getCurrentLocation(AMapLocationClient aMapLocationClient);
+
+        /**
+         * 检查升级
+         * @param current_version
+         */
+        void checkUpdate(String current_version);
+
     }
 
 }

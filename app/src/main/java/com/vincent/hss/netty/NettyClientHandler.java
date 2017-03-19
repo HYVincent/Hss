@@ -5,8 +5,11 @@ import android.content.Intent;
 
 
 import com.vincent.hss.base.BaseApplication;
+import com.vincent.hss.service.NettyPushService;
 import com.vincent.hss.utils.EventUtil;
+import com.vincent.lwx.netty.msg.AskMessage;
 import com.vincent.lwx.netty.msg.BaseMsg;
+import com.vincent.lwx.netty.msg.ChatMsg;
 import com.vincent.lwx.netty.msg.LoginMsg;
 import com.vincent.lwx.netty.msg.MsgType;
 import com.vincent.lwx.netty.msg.PingMsg;
@@ -61,9 +64,15 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
     //这里是出现异常的话要进行的操作
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        super.exceptionCaught(ctx, cause);
-        System.out.println("出现异常了。。。。。。。。。。。。。");
-        cause.printStackTrace();
+        try {
+            super.exceptionCaught(ctx, cause);
+            System.out.println("出现异常了。。。。。。。。。。。。。");
+            cause.printStackTrace();
+            BaseApplication.getApplication().stopService(new Intent(BaseApplication.getApplication(), NettyPushService.class));
+        }catch (Exception e){
+            e.printStackTrace();
+            ViseLog.e("Netty异常了，停止NettyService");
+        }
     }
 
     //这里是接受服务端发送过来的消息
@@ -89,6 +98,17 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 }else {
                     ViseLog.d("推送消息是空的");
                 }
+                break;
+            case CHAT://表示为聊天
+                ChatMsg chatMsg = (ChatMsg)baseMsg;
+                if(chatMsg!=null){
+                    EventUtil.post(chatMsg);
+                }
+                break;
+            case ASK:
+                AskMessage askMessage = (AskMessage)baseMsg;
+                ViseLog.d("收到ask类型消息：fromPhone "+askMessage.getFromPhone()+" content-->"+askMessage.getMsgContent());
+                EventUtil.post(askMessage);//把这个消息发送出去
                 break;
             default:
                 System.out.println("default..");

@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.vincent.hss.servoce.HssService;
+import com.vincent.hss.service.HssService;
 import com.vise.log.ViseLog;
 
 /**
