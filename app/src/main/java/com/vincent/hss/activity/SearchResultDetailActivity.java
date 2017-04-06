@@ -63,6 +63,7 @@ public class SearchResultDetailActivity extends BaseActivity implements SearchRe
         user = JSON.parseObject(getIntent().getStringExtra("userInfo"),User.class);
         initView(user);
         presenter  = new SearchResultDetailPresenter(this);
+        presenter.hasFamily(BaseApplication.user.getPhone(),user.getPhone());
     }
 
     private void initView(User user) {
@@ -113,5 +114,14 @@ public class SearchResultDetailActivity extends BaseActivity implements SearchRe
         searchResultAddFamilyTv.setText("已发送");
         searchResultAddFamilyTv.setBackgroundResource(R.drawable.shape_pop_background_gray);
         isSend = true;
+    }
+
+    @Override
+    public void hasFamily(boolean hasFamily) {
+        if(hasFamily){
+            searchResultAddFamilyTv.setBackgroundResource(R.drawable.shape_pop_background_gray);
+            searchResultAddFamilyTv.setClickable(false);
+            searchResultAddFamilyTv.setText("已添加");
+        }
     }
 }

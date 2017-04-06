@@ -6,5 +6,7 @@
 
     <list>
         <mapping class="com.vincent.hss.bean.Room"></mapping>
+        <mapping class="com.vincent.lwx.netty.msg.SystemMsg"></mapping>
+        <mapping class="com.vincent.lwx.netty.msg.ChatMsg"/>
     </list>
 </litepal>

@@ -20,6 +20,12 @@ public interface SearchResultDetailController {
          */
         void sendSuccess();
 
+        /**
+         * 当前是否已添加过了
+         * @param hasFamily
+         */
+        void hasFamily(boolean hasFamily);
+
     }
 
     interface IPresenter{
@@ -29,6 +35,13 @@ public interface SearchResultDetailController {
          * @param msgConent 给对方带话
          */
         void sendAddFamilyRequest(String phone,String ask_phone,String msgConent);
+
+        /**
+         * 查询双方是否已经添加过
+         * @param phone
+         * @param familyPhone
+         */
+        void hasFamily(String phone,String familyPhone);
     }
 
 }

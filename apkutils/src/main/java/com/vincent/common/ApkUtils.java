@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 
 import java.io.File;
 
@@ -29,6 +30,7 @@ public class ApkUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             Uri contentUri = FileProvider.getUriForFile(context, "com.lzy.imagepicker.fileprovider", apkFile);
+            Log.d("ApkUtils", "installApk: "+apkFile.getPath());
             intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
         } else {
             intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");

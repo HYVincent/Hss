@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/size_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rl_1"
+                    android:layout_width="@dimen/size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/clv_1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="@dimen/size_72"
+                        android:layout_height="@dimen/size_72"
+                        android:src="@drawable/car_icon_engine"
+                        app:paddingStart="@dimen/size_5"
+                        app:paddingEnd="@dimen/size_15"
+                        app:civ_border_overlay="true"
+                        app:civ_border_color="@color/color_white"
+                        app:civ_border_width="3dp" />
+
+                    <TextView
+                        android:layout_marginTop="@dimen/size_15"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/color_white"
+                        android:text="故障码查询"
+                        android:layout_below="@id/clv_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_2"
+                    android:layout_width="@dimen/size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/clv_2"
+                        android:layout_width="@dimen/size_72"
+                        android:layout_height="@dimen/size_72"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="@dimen/size_15"
+                        android:src="@drawable/car_icon_diagnose"
+                        app:civ_border_color="@color/color_white"
+                        app:civ_border_width="3dp" />
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/color_white"
+                        android:text="诊断仪演示"
+                        android:layout_marginTop="@dimen/size_15"
+                        android:layout_below="@id/clv_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/size_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rl_3"
+                    android:layout_width="@dimen/size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/clv_3"
+                        android:layout_width="@dimen/size_72"
+                        android:layout_height="@dimen/size_72"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="@dimen/size_15"
+                        android:src="@drawable/car_icon_utils"
+                        app:civ_border_color="@color/color_white"
+                        app:civ_border_width="3dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/clv_3"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/size_15"
+                        android:text="诊断工具库"
+                        android:textColor="@color/color_white" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_4"
+                    android:layout_width="@dimen/size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/clv_4"
+                        android:layout_width="@dimen/size_72"
+                        android:layout_height="@dimen/size_72"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="@dimen/size_15"
+                        android:src="@drawable/car_icon_media"
+                        app:civ_border_color="@color/color_white"
+                        app:civ_border_width="3dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/clv_4"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/size_15"
+                        android:text="维修资料库"
+                        android:textColor="@color/color_white" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/size_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rl_5"
+                    android:layout_width="@dimen/size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/clv_5"
+                        android:layout_width="@dimen/size_72"
+                        android:layout_height="@dimen/size_72"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="@dimen/size_15"
+                        android:src="@drawable/car_icon_demo"
+                        app:civ_border_color="@color/color_white"
+                        app:civ_border_width="3dp" />
+
+                    <TextView
+                        android:layout_marginTop="@dimen/size_15"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/color_white"
+                        android:text="维修案例库"
+                        android:layout_below="@id/clv_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_gravity="center"
+                    android:id="@+id/rl_6"
+                    android:layout_width="@dimen/size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/clv_6"
+                        android:layout_width="@dimen/size_72"
+                        android:layout_height="@dimen/size_72"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="@dimen/size_15"
+                        android:src="@drawable/car_icon_video"
+                        app:civ_border_color="@color/color_white"
+                        app:civ_border_width="3dp" />
+
+                    <TextView
+                        android:layout_marginTop="@dimen/size_15"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/color_white"
+                        android:text="维修视频库"
+                        android:layout_below="@id/clv_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/size_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rl_7"
+                    android:layout_width="@dimen/size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/clv_7"
+                        android:layout_width="@dimen/size_72"
+                        android:layout_height="@dimen/size_72"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="@dimen/size_15"
+                        android:src="@drawable/car_icon_club"
+                        app:civ_border_color="@color/color_white"
+                        app:civ_border_width="3dp" />
+
+                    <TextView
+                        android:layout_marginTop="@dimen/size_15"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/color_white"
+                        android:text="总监俱乐部"
+                        android:layout_below="@id/clv_7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_gravity="center"
+                    android:id="@+id/rl_8"
+                    android:layout_width="@dimen/size_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/clv_8"
+                        android:layout_width="@dimen/size_72"
+                        android:layout_height="@dimen/size_72"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="@dimen/size_15"
+                        android:src="@drawable/car_icon_enterprise_wechat"
+                        app:civ_border_color="@color/color_white"
+                        app:civ_border_width="3dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/clv_8"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/size_15"
+                        android:text="企业微信号"
+                        android:textColor="@color/color_white" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

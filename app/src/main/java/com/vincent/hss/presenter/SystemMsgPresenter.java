@@ -1,10 +1,22 @@
 package com.vincent.hss.presenter;
 
-import com.vincent.hss.bean.SystemMsg;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.vincent.hss.bean.Result;
+import com.vincent.hss.network.RetrofitUtils;
 import com.vincent.hss.presenter.controller.SystemMsgController;
+import com.vincent.lwx.netty.msg.SystemMsg;
+import com.vise.log.ViseLog;
+
+import org.litepal.LitePal;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * description ：
@@ -24,21 +36,33 @@ public class SystemMsgPresenter implements SystemMsgController.IPersenter {
     }
 
     @Override
-    public void getMsg() {
+    public void getMsg(String phone) {
         view.showDialog();
-        //模拟数据...
-        List<SystemMsg> data = new ArrayList<>();
-        SystemMsg msg1 = new SystemMsg("系统通知","有新版本啦，大版本升级有惊喜");
-        SystemMsg msg2 = new SystemMsg("商品打折啦","祝广大妇女节日快乐，上架有大活动，惊喜多多，赶紧去看看吧。。");
-        SystemMsg msg3 = new SystemMsg("系统通知","有新版本啦，大版本升级有惊喜");
-        SystemMsg msg4 = new SystemMsg("系统通知","有新版本啦，大版本升级有惊喜");
-        SystemMsg msg5 = new SystemMsg("系统通知","有新版本啦，大版本升级有惊喜");
-        data.add(msg1);
-        data.add(msg2);
-        data.add(msg3);
-        data.add(msg4);
-        data.add(msg5);
-        view.refreshMsg(data);
+        //TODO 从服务器获取数据
+       /* List<SystemMsg> list = DataSupport.findAll(SystemMsg.class);
+        if(list!=null&list.size()!=0){
+            ViseLog.d("list.size-->"+list.size());
+            view.refreshMsg(list);
+        }else {*/
+            Call<Result> call = RetrofitUtils.getApiService().getAllSystemMsg(phone);
+            call.enqueue(new Callback<Result>() {
+                @Override
+                public void onResponse(Call<Result> call, Response<Result> response) {
+                    Result result = response.body();
+                    if(result.getStatus().equals("1")){
+                        List<SystemMsg> list = JSONArray.parseArray(JSON.toJSONString(result.getData()),SystemMsg.class);
+                        DataSupport.saveAll(list);
+                        view.refreshMsg(list);
+                    }else {
+                        view.msg(0,result.getMsg());
+                    }
+                }
+                @Override
+                public void onFailure(Call<Result> call, Throwable t) {
+                    ViseLog.d(t);
+                }
+            });
+//        }
         view.closeDialog();
     }
 }

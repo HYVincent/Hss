@@ -28,9 +28,9 @@ import io.netty.util.concurrent.EventExecutorGroup;
  * @version 2016/02/25 14:11
  */
 public class NettyClientBootstrap {
-    private int port = Config.SERVICE_PORT;
-    private String host =Config.SERVICE_IP_MY ;
-    public static SocketChannel socketChannel;
+    protected static final int port = Config.SERVICE_PORT;//服务器端口
+    protected static final String host =Config.SERVICE_IP_MY ;//服务器地址
+    public static SocketChannel socketChannel;//客户端通道
     private static final EventExecutorGroup group = new DefaultEventExecutorGroup(20);
 
     public void startNetty() throws InterruptedException {
@@ -53,7 +53,7 @@ public class NettyClientBootstrap {
         }
     }
 
-    private Boolean start() throws InterruptedException {
+    protected Boolean start() throws InterruptedException {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.channel(NioSocketChannel.class);
@@ -71,6 +71,7 @@ public class NettyClientBootstrap {
         });
         ChannelFuture future = null;
         try {
+            //连接Netty服务器
             future = bootstrap.connect(new InetSocketAddress(host, port)).sync();
             if (future.isSuccess()) {
                 socketChannel = (SocketChannel) future.channel();

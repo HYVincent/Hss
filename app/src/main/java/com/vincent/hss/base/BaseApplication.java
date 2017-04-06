@@ -27,16 +27,16 @@ import org.litepal.LitePal;
 
 public class BaseApplication extends MultiDexApplication {
 
-    private static  BaseApplication application;
-    private static SharePreferencesUtils shared;
+    private static  BaseApplication application = null;
+    private static SharePreferencesUtils shared = null;
     public static User user;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
-        application = this;
 //        DaoUtils.init(this,"Hss");
+        application = this;
         initNetty();
         initUser();
         initViseLog();

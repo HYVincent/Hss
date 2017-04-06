@@ -1,9 +1,10 @@
 package com.vincent.hss.presenter.controller;
 
 import com.vincent.hss.base.BaseController;
-import com.vincent.hss.bean.SystemMsg;
+import com.vincent.lwx.netty.msg.SystemMsg;
 
 import java.util.List;
+
 
 /**
  * description ：
@@ -30,7 +31,7 @@ public interface SystemMsgController {
         /**
          * 获取系统消息
          */
-        void getMsg();
+        void getMsg(String phone);
     }
 
 }

@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vincent.hss.R;
-import com.vincent.hss.bean.SystemMsg;
 import com.vincent.hss.bean.User;
 import com.vincent.hss.view.CommonOnClickListener;
 

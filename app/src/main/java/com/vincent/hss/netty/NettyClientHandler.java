@@ -4,9 +4,13 @@ package com.vincent.hss.netty;
 import android.content.Intent;
 
 
+import com.alibaba.fastjson.JSON;
 import com.vincent.hss.base.BaseApplication;
+import com.vincent.hss.config.*;
+import com.vincent.hss.config.Config;
 import com.vincent.hss.service.NettyPushService;
 import com.vincent.hss.utils.EventUtil;
+import com.vincent.hss.utils.NotificationUtil;
 import com.vincent.lwx.netty.msg.AskMessage;
 import com.vincent.lwx.netty.msg.BaseMsg;
 import com.vincent.lwx.netty.msg.ChatMsg;
@@ -14,6 +18,7 @@ import com.vincent.lwx.netty.msg.LoginMsg;
 import com.vincent.lwx.netty.msg.MsgType;
 import com.vincent.lwx.netty.msg.PingMsg;
 import com.vincent.lwx.netty.msg.PushMsg;
+import com.vincent.lwx.netty.msg.SystemMsg;
 import com.vise.log.ViseLog;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -78,6 +83,10 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
     //这里是接受服务端发送过来的消息
     @Override
     protected void messageReceived(ChannelHandlerContext channelHandlerContext, BaseMsg baseMsg) throws Exception {
+        if(baseMsg == null){
+            ViseLog.d("baseMsg is null");
+            return;
+        }
         switch (baseMsg.getType()) {
             case LOGIN:
                 //向服务器发起登录
@@ -101,14 +110,34 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<BaseMsg> {
                 break;
             case CHAT://表示为聊天
                 ChatMsg chatMsg = (ChatMsg)baseMsg;
-                if(chatMsg!=null){
+                System.out.println(System.currentTimeMillis());
+                /*if(chatMsg!=null){
                     EventUtil.post(chatMsg);
-                }
+                    if(BaseApplication.getShared().getString(Config.MSG.CHATING,"").equals(chatMsg.getPhoneNum())){
+                        System.out.println("不发送通知...");
+                    }else {
+                        System.out.println("发送通知...");
+                        NotificationUtil.sendNotificationChatMsg(BaseApplication.getApplication(),chatMsg.getAsk_phone(), JSON.toJSONString(chatMsg));
+                    }
+                }*/
                 break;
             case ASK:
                 AskMessage askMessage = (AskMessage)baseMsg;
+                if(askMessage == null){
+                    return;
+                }
                 ViseLog.d("收到ask类型消息：fromPhone "+askMessage.getFromPhone()+" content-->"+askMessage.getMsgContent());
                 EventUtil.post(askMessage);//把这个消息发送出去
+                break;
+            case SYSTEM_MSG:
+                //系统通知
+                SystemMsg systemMsg = (SystemMsg)baseMsg;
+                if(systemMsg == null){
+                    return;
+                }
+                ViseLog.d("收到SYSTEM_MSG类型消息：title-->"+systemMsg.getMsgTitle()+" msvContent-->"+systemMsg.getMsgContent());
+                EventUtil.post(systemMsg);
+                System.out.println("----------------");
                 break;
             default:
                 System.out.println("default..");

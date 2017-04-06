@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
 import com.vincent.hss.base.BaseApplication;
 import com.vincent.hss.config.Config;
+import com.vincent.hss.presenter.SettingPresenter;
+import com.vincent.hss.presenter.controller.SettingController;
 import com.vincent.hss.utils.EasyBlur;
 import com.vincent.hss.view.GlideImageLoader;
 
@@ -48,14 +51,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
  *
  * @version 1.0
  */
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity implements SettingController.IView{
 
     @BindView(R.id.setting_clv_head)
     CircleImageView settingClvHead;
-    @BindView(R.id.setting_tv_nickname)
-    TextView settingTvNickname;
-    @BindView(R.id.setting_tv_phone)
-    TextView settingTvPhone;
     @BindView(R.id.setting_ll_msg)
     LinearLayout settingLlMsg;
     @BindView(R.id.setting_ll_device_manager)
@@ -67,11 +66,14 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.setting_ll_feedback)
     LinearLayout settingLlFeedback;
     @BindView(R.id.ll_head_background)
-    LinearLayout llHeadBackground;
+    RelativeLayout llHeadBackground;
+    @BindView(R.id.lv_return)
+    ImageView lvReturn;
 
     private static final int IMAGE_PICKER = 1111;
-    @BindView(R.id.setting_ll_user_info)
-    LinearLayout settingLlUserInfo;
+
+
+    private SettingPresenter presenter;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -80,19 +82,20 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         setupWindowAnimations();
-        settingTvNickname.setText(BaseApplication.user.getNickname());
-        settingTvPhone.setText(BaseApplication.user.getPhone());
+        presenter = new SettingPresenter(this);
         String user_head_img = BaseApplication.getShared().getString(Config.USER_HEAD_IMG,"");
-        if(!TextUtils.isEmpty(user_head_img)){
-            Glide.with(this).load(user_head_img).into(settingClvHead);
-        }
         Bitmap bitmap =  EasyBlur.with(SettingActivity.this)
                 .bitmap(BitmapFactory.decodeResource(getResources(), R.drawable.main_icon_car_and_house)) //要模糊的图片
                 .radius(20)//模糊半径
                 .scale(4)//指定模糊前缩小的倍数
                 .blur();
         llHeadBackground.setBackground(new BitmapDrawable(getResources(),bitmap));
-
+        if(!TextUtils.isEmpty(user_head_img)){
+            Glide.with(this).load(user_head_img).into(settingClvHead);
+        }else {
+            Glide.with(this).load(R.drawable.common_icon_img_loading).into(settingClvHead);
+            presenter.getUserHeadUrl(BaseApplication.user.getPhone());
+        }
         initImageSelect(true,false,1);
     }
 
@@ -109,10 +112,13 @@ public class SettingActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.setting_clv_head, R.id.setting_ll_msg, R.id.setting_ll_device_manager,
+    @OnClick({R.id.lv_return,R.id.setting_clv_head, R.id.setting_ll_msg, R.id.setting_ll_device_manager,
             R.id.setting_ll_change_password, R.id.setting_ll_common, R.id.setting_ll_feedback,R.id.ll_head_background})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.lv_return:
+                finish();
+                break;
             case R.id.setting_clv_head:
                 Intent intent = new Intent(this, ImageGridActivity.class);
                 startActivityForResult(intent, IMAGE_PICKER);
@@ -155,12 +161,21 @@ public class SettingActivity extends BaseActivity {
                 /*MyAdapter adapter = new MyAdapter(images);
                 gridView.setAdapter(adapter);*/
                 BaseApplication.getShared().putString(Config.USER_HEAD_IMG,images.get(0).path);
-                Glide.with(this).load(images.get(0).path).into(settingClvHead);
-                BaseApplication.user.setHead(images.get(0).path);
+                //上传到服务器
+                presenter.uploadUserHead(BaseApplication.user.getPhone(),images.get(0).path);
             } else {
                 Toast.makeText(this, "没有数据", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
+    @Override
+    public void msg(int code, String msg) {
+        showMsg(code,msg);
+    }
+
+    @Override
+    public void refreshHean(String headUrl) {
+        Glide.with(this).load(headUrl).into(settingClvHead);
+    }
 }

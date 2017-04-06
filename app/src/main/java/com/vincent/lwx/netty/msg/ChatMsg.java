@@ -25,6 +25,18 @@ public class ChatMsg extends BaseMsg{
 	 */
 	private String msgType;
 
+	/**
+	 * 发送状态，主要是服务器做处理，这里只是为了解析
+	 */
+	private String status;
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getAsk_phone() {
 		return ask_phone;

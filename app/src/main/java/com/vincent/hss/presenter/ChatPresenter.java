@@ -45,7 +45,7 @@ public class ChatPresenter implements ChatController.IPresenter {
                     chatMsg.setType(MsgType.CHAT);
                     chatMsg.setChatContent(chatContent);
                     chatMsg.setMsgType("1");
-                    view.refreshView(chatMsg);
+                    view.refreshView(1,chatMsg);
                     view.msg(1,"已发送");
                 }else{
                     view.msg(0,result.getMsg());

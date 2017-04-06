@@ -170,9 +170,14 @@ public class CommonActivity extends BaseActivity implements CommonController.IVi
             case R.id.common_ll_about_us:
                 AboutUsActivity.actionStart(CommonActivity.this);
                 break;
+            default:
+                break;
         }
     }
 
+    /**
+     * 分享到QQ空间
+     */
     private void shareToQzone () {
         ArrayList<String> data = new ArrayList<>();
         data.add(Config.QQ_SHARE_LOGO);

@@ -20,7 +20,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * description ：
+ * description ：用户登录
  * project name：Hss
  * author : Vincent
  * creation date: 2017/3/5 23:25
@@ -105,7 +105,8 @@ public class LoginActivity extends BaseActivity implements LoginController.IView
 
     @Override
     public void onBackPressed() {
-        _exit();
+//        _exit();
+        super.onBackPressed();
     }
 
     /**

@@ -2,12 +2,156 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <include layout="@layout/common_layout_title"/>
 
-    <lecho.lib.hellocharts.view.LineChartView
-        android:id="@+id/chart"
+    <LinearLayout
+        android:layout_marginTop="@dimen/size_15"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:background="@drawable/common_shape_background_blue"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="40dp">
+
+            <View
+                android:layout_centerInParent="true"
+                android:id="@+id/view"
+                android:layout_width="@dimen/size_0"
+                android:layout_height="@dimen/size_0"/>
+
+            <TextView
+                android:layout_toLeftOf="@id/view"
+                android:id="@+id/tv_1"
+                android:textColor="@color/color_white"
+               android:textSize="@dimen/text_size_18sp"
+                android:text="本日用电量:"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:gravity="center_horizontal"
+                android:text="5°"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_size_18sp"
+                android:layout_toRightOf="@id/view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/size_15"
+            android:background="@drawable/shape_background_yello_circle"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_width="match_parent">
+
+            <View
+                android:layout_centerInParent="true"
+                android:id="@+id/view_v"
+                android:layout_width="@dimen/size_0"
+                android:layout_height="@dimen/size_0"/>
+
+            <TextView
+                android:layout_toLeftOf="@id/view_v"
+                android:textSize="@dimen/text_size_18sp"
+                android:text="本月用电量:"
+                android:textColor="@color/color_white"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:gravity="center_horizontal"
+                android:text="50°"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_size_18sp"
+                android:layout_toRightOf="@id/view_v"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:id="@+id/ll_buttom"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_marginBottom="@dimen/size_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="@dimen/size_5"
+                android:text="日"
+                android:textColor="@color/color_white"
+                android:background="@drawable/common_shape_background_blue"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:padding="@dimen/size_5"
+                android:text="周"
+                android:textColor="@color/color_white"
+                android:background="@drawable/common_shape_background_gray"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:padding="@dimen/size_5"
+                android:text="月"
+                android:textColor="@color/color_white"
+                android:background="@drawable/common_shape_background_gray"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:padding="@dimen/size_5"
+                android:text="年"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textColor="@color/color_white"
+                android:background="@drawable/common_shape_background_gray"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+
+
+
+        </LinearLayout>
+
+        <com.vincent.hss.view.SimpleLineChart
+            android:layout_marginTop="@dimen/size_15"
+            android:id="@+id/slc_data"
+            android:layout_marginRight="@dimen/size_15"
+            android:layout_marginLeft="@dimen/size_15"
+            android:layout_above="@id/ll_buttom"
+            android:layout_width="match_parent"
+            android:padding="@dimen/size_10"
+            android:layout_marginBottom="@dimen/size_15"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
 
 </LinearLayout>

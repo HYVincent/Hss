@@ -52,13 +52,13 @@ public class GlideUtils {
         Glide.with(context).load(imgId).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                int imageWidth = resource.getWidth();
-                int imageHeight = resource.getHeight();
-                int height = ScreenUtils.getScreenWidth(context) /10*3;
-                int width = ScreenUtils.getScreenWidth(context);
+//                int imageWidth = resource.getWidth();
+//                int imageHeight = resource.getHeight();
+//                int height = ScreenUtils.getScreenWidth(context) /10*3;
+//                int width = ScreenUtils.getScreenWidth(context);
                 ViewGroup.LayoutParams para = imageView.getLayoutParams();
-                para.height = height;
-                para.width =width;
+                para.height =  ScreenUtils.getScreenWidth(context) /10*3;;
+                para.width =ScreenUtils.getScreenWidth(context);;
                 imageView.setLayoutParams(para);
                 Glide.with(context).load(imgId).asBitmap().into(imageView);
             }

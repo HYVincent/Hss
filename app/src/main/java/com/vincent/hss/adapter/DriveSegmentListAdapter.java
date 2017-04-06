@@ -101,7 +101,7 @@ public class DriveSegmentListAdapter extends BaseAdapter {
 		
 	}
 
-	private class ViewHolder {
+	private static class ViewHolder {
 		TextView driveLineName;
 		ImageView driveDirIcon;
 		ImageView driveDirUp;

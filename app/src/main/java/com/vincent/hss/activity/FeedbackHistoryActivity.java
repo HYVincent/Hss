@@ -95,7 +95,7 @@ public class FeedbackHistoryActivity extends BaseActivity implements FeedbackHis
             @Override
             public void onClick(View view, int postion) {
                 Feedback feedback = listData.get(postion);
-                WindowUtils.showAlertDialog(FeedbackHistoryActivity.this,feedback.getTitle(),feedback.getContent(),"取消","关闭");
+                WindowUtils.showAlertDialog(FeedbackHistoryActivity.this,feedback.getTitle(),feedback.getContent(),feedback.getCreateTime(),"取消","关闭");
             }
         });
         fromServiceGetData();
@@ -128,7 +128,7 @@ public class FeedbackHistoryActivity extends BaseActivity implements FeedbackHis
 
     @Override
     public void showFeedbackHistory(List<Feedback> data) {
-        if (data.size() > 0 && data != null) {
+        if (data != null) {
             listData = data;
             adapter.setListData(data);
             rlvFeedHistoryList.setAdapter(adapter);
@@ -152,7 +152,7 @@ public class FeedbackHistoryActivity extends BaseActivity implements FeedbackHis
 
     @Override
     public void onRefresh() {
-        if (listData.size() > 0 && listData != null) {
+        if (listData != null) {
             //说明服务器有数据，刷新一下
             listData.clear();
             adapter.notifyDataSetChanged();

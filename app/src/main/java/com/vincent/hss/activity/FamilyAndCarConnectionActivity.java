@@ -1,6 +1,7 @@
 package com.vincent.hss.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -507,13 +508,14 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
      * poi没有搜索到数据，返回一些推荐城市的信息
      */
     private void showSuggestCity(List<SuggestionCity> cities) {
-        String infomation = "推荐城市\n";
+        StringBuilder str = new StringBuilder();
+        str.append("推荐城市\n");
         for (int i = 0; i < cities.size(); i++) {
-            infomation += "城市名称:" + cities.get(i).getCityName() + "城市区号:"
+            str.append("城市名称:" + cities.get(i).getCityName() + "城市区号:"
                     + cities.get(i).getCityCode() + "城市编码:"
-                    + cities.get(i).getAdCode() + "\n";
+                    + cities.get(i).getAdCode() + "\n");
         }
-        showMsg(1,infomation);
+        showMsg(1,str.toString());
     }
 
     @Override
@@ -580,6 +582,8 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
 //                        startAMapNavi(marker);
                         //自己写导航
                         startAmapNavi2(marker);
+                        //调用高德地图导航
+//                        startAMapNavi(marker);
                         dialog.dismiss();
                     }
                 });
@@ -722,6 +726,7 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
 
     }
 
+
     @Override
     public void onBackPressed() {
         if(isNavigation){
@@ -733,6 +738,14 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(dialog!=null) {
+            dialog.cancel();
+            dialog = null;
+        }
+    }
 
     private void exitDialog(){
         dialog = new NormalDialog(FamilyAndCarConnectionActivity.this);
@@ -750,6 +763,7 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
                 .showAnim(bas_in)//
                 .dismissAnim(bas_out)//
                 .show();
+
 
         dialog.setOnBtnClickL(
                 new OnBtnClickL() {
@@ -772,10 +786,15 @@ public class FamilyAndCarConnectionActivity extends BaseActivity implements AMap
      */
     private void finishActivity(){
         try {
+            //注意了，dialog的动画时长是1000ms
             Thread.sleep(200);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if(dialog !=null){
+                        dialog.cancel();
+                        dialog =null;
+                    }
                     finish();
                 }
             });

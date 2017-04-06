@@ -23,6 +23,7 @@ public class Config {
      */
     public static final String QQ_SHARE_TITLE = "智能家车系统";
 
+
     /**
      * QQ分享的内容
      */
@@ -36,7 +37,7 @@ public class Config {
     /**
      * 点击跳转的URL地址
      */
-    public static final String QQ_SHARE_CLICK_GO_URL = "http://182.254.232.121:8080/apk/1.0.1/app-huawei-release-101.apk";
+    public static final String QQ_SHARE_CLICK_GO_URL = "http://182.254.232.121:8080/apk/1.0.9/app-huawei-release-109.apk";
     /**
      * 聚合天气api
      */
@@ -118,5 +119,10 @@ public class Config {
      */
     public static final String QQ_SHARE_APP_ID = "1105781615";
 
+    public static class MSG{
+
+        public static final String CHATING = "chating";//表示正在聊天
+
+    }
 
 }

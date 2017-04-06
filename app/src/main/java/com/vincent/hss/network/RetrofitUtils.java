@@ -1,20 +1,20 @@
 package com.vincent.hss.network;
 
 
-import android.net.Uri;
-import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.vincent.hss.config.Config;
 import com.vincent.hss.network.service.ApiService;
 import com.vise.log.ViseLog;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -30,16 +30,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitUtils {
 
     private static Retrofit retrofit;
+    private static long DEFAULT_TIMEOUT = 10*10000;
 
     /**
      * 获取一个默认配置BaseUrl地址的
      * @return
      */
     private static Retrofit getRetrofit(){
+        //解决请求的错误  Use JsonReader.setLenient(true) to accept malformed JSON at line 1 column 1 path $
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
           return   retrofit = new Retrofit.Builder()
                     .baseUrl(Config.SERVICE_API_ADDRESS)
-                    .addConverterFactory(GsonConverterFactory.create())
+//                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .addConverterFactory(FastJsonConverterFactory.create())
                     .client(new OkHttpClient.Builder()
+                            .connectTimeout(DEFAULT_TIMEOUT,TimeUnit.SECONDS)
+                            .writeTimeout(DEFAULT_TIMEOUT,TimeUnit.SECONDS)
+                            .readTimeout(DEFAULT_TIMEOUT,TimeUnit.SECONDS)
                             .addInterceptor(new Interceptor() {
                                 @Override
                                 public Response intercept(Chain chain) throws IOException {
@@ -59,10 +69,15 @@ public class RetrofitUtils {
      * @return
      */
     private static   Retrofit getRetrofit (String baseUrl){
+        //解决请求的错误  Use JsonReader.setLenient(true) to accept malformed JSON at line 1 column 1 path $
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
             return retrofit = new Retrofit.Builder()
 //                    .baseUrl(Config.SERVICE_API_ADDRESS)
                     .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(new OkHttpClient.Builder()
                             .addInterceptor(new Interceptor() {
                                 @Override

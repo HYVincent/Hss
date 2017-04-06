@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.nio.charset.Charset;
 import java.util.List;
 
 
@@ -62,7 +64,7 @@ public class SystemUtilts {
     public static int getAndroidSDKVersion() {
         int version = 0;
         try {
-            version = Integer.valueOf(android.os.Build.VERSION.SDK);
+            version = Integer.parseInt(Build.VERSION.SDK);
         } catch (NumberFormatException e) {
             ViseLog.e(e.toString(), "");
 
@@ -245,15 +247,17 @@ public class SystemUtilts {
         }
     }
 
-    public static void deleteDir(File dir){
+    public static boolean deleteDir(File dir){
         if(dir == null || !dir.exists()){
-            return ;
+            return false ;
         }
         try {
             deleteAllFile(dir);
             dir.delete();
+            return true;
         } catch (Exception e) {
             ViseLog.e(TAG, " delete dir error! "+ e);
+            return false;
         }
     }
 
@@ -341,7 +345,9 @@ public class SystemUtilts {
 //            //调用finishTask方法
 //            finishTask.invoke(student, "数学");
             return clazz.newInstance();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
+            throw e;
+        }catch (Exception e){
             e.printStackTrace();
         }
         return null;

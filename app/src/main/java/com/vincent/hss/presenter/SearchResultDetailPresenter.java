@@ -57,4 +57,30 @@ public class SearchResultDetailPresenter implements SearchResultDetailController
             }
         });
     }
+
+    @Override
+    public void hasFamily(String phone, String familyPhone) {
+        view.showDialog();
+        Call<Result> call = RetrofitUtils.getApiService().hasFamily(phone,familyPhone);
+        call.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                view.closeDialog();
+                Result result = response.body();
+                if(result.getStatus().equals("1")){
+                    ViseLog.d("已添加");
+                    view.hasFamily(true);
+                }else {
+                    ViseLog.d("还没有添加");
+                    view.hasFamily(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                view.closeDialog();
+                ViseLog.e(t);
+            }
+        });
+    }
 }

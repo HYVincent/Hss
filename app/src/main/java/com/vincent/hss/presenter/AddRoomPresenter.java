@@ -1,11 +1,19 @@
 package com.vincent.hss.presenter;
 
+import android.util.Log;
+
 import com.alibaba.fastjson.JSON;
 import com.vincent.hss.bean.Result;
 import com.vincent.hss.bean.Room;
 import com.vincent.hss.network.RetrofitUtils;
 import com.vincent.hss.presenter.controller.AddRoomController;
 
+import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,5 +67,10 @@ public class AddRoomPresenter implements AddRoomController.IPresenter {
                 view.msg(0,"请求错误");
             }
         });
+    }
+
+    @Override
+    public void addRooms(Room room) {
+
     }
 }

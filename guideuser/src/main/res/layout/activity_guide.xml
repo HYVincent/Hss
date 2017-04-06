@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--相对布局-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <!--框架布局-->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--引导页的图片显示-->
         <android.support.v4.view.ViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/guide_view_pager">
         </android.support.v4.view.ViewPager>
 
+        <!--跳过的按钮-->
         <TextView
             android:text="跳过"
             android:textColor="#ffffff"
@@ -27,7 +31,7 @@
 
     </FrameLayout>
 
-
+    <!--底部的滑动状态-->
     <LinearLayout
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
@@ -37,6 +41,7 @@
         android:orientation="horizontal"
         android:id="@+id/guide_dots">
 
+        <!--第一个点-->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,6 +50,7 @@
             android:padding="15dip"
             android:src="@drawable/guide_dot_style"/>
 
+        <!--第二个点-->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,6 +59,7 @@
             android:padding="15dip"
             android:src="@drawable/guide_dot_style"/>
 
+        <!--第三个点-->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,6 +68,7 @@
             android:padding="15dip"
             android:src="@drawable/guide_dot_style"/>
 
+        <!--第四个点-->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

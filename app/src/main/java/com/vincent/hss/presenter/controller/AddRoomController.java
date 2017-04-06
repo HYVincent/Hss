@@ -31,6 +31,12 @@ public interface AddRoomController {
          */
         void addRoom(Room room);
 
+        /**
+         * 多文件上传
+         * @param room
+         */
+        void addRooms(Room room);
+
     }
 
 }

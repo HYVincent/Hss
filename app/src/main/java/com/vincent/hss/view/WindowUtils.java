@@ -59,8 +59,6 @@ public class WindowUtils {
         View contentView = LayoutInflater.from(activity).inflate(R.layout.item_layout_room_class, null);
         final PopupWindow pop = new PopupWindow(activity);
         pop.setContentView(contentView);
-       /* pop.setHeight(LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
-        pop.setWidth(ScreenUtils.getScreenWidth(activity));*/
         pop.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         pop.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);//显示大小);
         RecyclerView rlvRoomClass = (RecyclerView) contentView.findViewById(R.id.rlv_room_class);
@@ -97,8 +95,8 @@ public class WindowUtils {
         pop.setBackgroundDrawable(new BitmapDrawable());
         pop.setOutsideTouchable(true);
         pop.setAnimationStyle(R.style.anim_menu_bottombar);
-//        pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-        pop.showAsDropDown(view,0,15,Gravity.CENTER);
+        pop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+//        pop.showAsDropDown(view,0,0,Gravity.CENTER);
         pop.update();
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
@@ -124,12 +122,14 @@ public class WindowUtils {
      * @param cancelText 取消
      * @param okText     确定
      */
-    public static void showAlertDialog(Activity activity, String title, String content, String cancelText, String okText) {
+    public static void showAlertDialog(Activity activity, String title, String content, String sendTime,String cancelText, String okText) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         View view = LayoutInflater.from(activity).inflate(R.layout.item_msg_detail, null);
         builder.setView(view);
         TextView tvTitle = (TextView) view.findViewById(R.id.item_pop_title);
         TextView tvContent = (TextView) view.findViewById(R.id.item_pop_content);
+        TextView tvTime = (TextView)view.findViewById(R.id.tv_time);
+        tvTime.setText(sendTime);
         TextView tvCancel = (TextView) view.findViewById(R.id.item_pop_cancel);
         TextView tvOk = (TextView) view.findViewById(R.id.item_pop_ok);
         tvTitle.setText(title);
@@ -322,7 +322,6 @@ public class WindowUtils {
         WindowManager.LayoutParams lp = activity.getWindow()
                 .getAttributes();
         lp.alpha = 0.5f;
-        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         activity.getWindow().setAttributes(lp);
 
         popupWindow.setFocusable(true);//这里必须设置为true才能点击区域外或者消失

@@ -17,12 +17,14 @@ import android.widget.TextView;
 import com.vincent.hss.R;
 import com.vincent.hss.adapter.MsgListAdapter;
 import com.vincent.hss.base.BaseActivity;
-import com.vincent.hss.bean.SystemMsg;
+import com.vincent.hss.base.BaseApplication;
 import com.vincent.hss.presenter.SystemMsgPresenter;
 import com.vincent.hss.presenter.controller.SystemMsgController;
 import com.vincent.hss.view.CommonOnClickListener;
 import com.vincent.hss.view.WindowUtils;
 import com.vincent.hss.view.SpaceItemDecoration;
+import com.vincent.lwx.netty.msg.SystemMsg;
+
 
 import java.util.List;
 
@@ -81,7 +83,7 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgControll
             public void onClick(View view, int position) {
 //                showMsg(0,"啥也没有");
                 SystemMsg systemMsg = listData.get(position);
-                WindowUtils.showAlertDialog(activity,systemMsg.getMsgTitle(),systemMsg.getMsgContent(),"取消","确定");
+                WindowUtils.showAlertDialog(activity,systemMsg.getMsgTitle(),systemMsg.getMsgContent(),systemMsg.getTime(),"取消","确定");
             }
         });
         initData();
@@ -105,7 +107,7 @@ public class SystemMsgActivity extends BaseActivity implements SystemMsgControll
             rlNoContent.setVisibility(View.VISIBLE);
             commonTvNoContent.setText("正在请求数据");
         }
-        presenter.getMsg();
+        presenter.getMsg(BaseApplication.user.getPhone());
     }
 
     public static void actionStart(Context context) {

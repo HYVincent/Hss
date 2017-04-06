@@ -1,5 +1,7 @@
 package com.vincent.lwx.netty.msg;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.Serializable;
 
 /**
@@ -12,7 +14,7 @@ import java.io.Serializable;
  * @date:	2016年11月1日
  * @version 1.0.0
  */
-public abstract class BaseMsg implements Serializable {
+public abstract class BaseMsg extends DataSupport implements Serializable {
     private static final long serialVersionUID = 1L;
     private MsgType type;
     //必须唯一，否者会出现channel调用混乱

@@ -60,6 +60,15 @@ public class User implements Serializable {
      */
     private String createTime;
 
+    /**
+     * 退出登录时间
+     */
+    private String logoutTime;
+
+    public String getLogoutTime() {
+        return logoutTime;
+    }
+
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }

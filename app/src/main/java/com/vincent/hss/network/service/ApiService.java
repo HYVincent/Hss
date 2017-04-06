@@ -1,14 +1,25 @@
 package com.vincent.hss.network.service;
 
 
+import android.database.Observable;
+
 import com.vincent.hss.bean.Weather;
 import com.vincent.hss.bean.Result;
 
+import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * description ：
@@ -71,6 +82,46 @@ public interface ApiService {
      */
     @POST("alterUserPassword")
     Call<Result> alterUserPassword(@Query("phone")String phone,@Query("old_password")String oldPassword,@Query("new_password")String newPassword);
+
+    /**
+     * 获取用户信息
+     * @param phone
+     * @return
+     */
+    @GET("getUserInfo")
+    Call<Result> getUserInfo(@Query("phone")String phone);
+
+    /**
+     * 上传用户头像
+     * @param phone
+     * @param file
+     * @return
+     */
+    @Multipart
+    @POST("upload.do.userHead")
+    Call<Result> uploadUserHead(@Query("phone")String phone,
+//                                @Part("description") MultipartBody body,
+                                @Part MultipartBody.Part file);
+
+    /**
+     * 上传APP异常文件
+     * @param phone
+     * @param file
+     * @return
+     */
+    @Multipart
+    @POST("uploadExecption")
+    Call<Result> upLoadExceptionFile(@Query("phone")String phone,
+                                     @Part MultipartBody.Part file);
+
+    /**
+     * 查询是否已添加
+     * @param phone
+     * @param familyPhone
+     * @return
+     */
+    @POST("hasFamily")
+    Call<Result> hasFamily(@Query("phone")String phone,@Query("familyPhone")String familyPhone);
 
     /*日记模块*/
     /**
@@ -173,6 +224,22 @@ public interface ApiService {
                          @Query("roomImg")String roomImg,
                          @Query("roomBigImg")String roomBigImg);
 
+
+    @POST("upload1.do.userHead")
+    Call<Result> uploadImg();
+
+    /**
+     * 上传版本信息
+     * @param phone
+     * @param version
+     * @return
+     */
+    @POST("insertVersion")
+    Call<Result> commitVersion(@Query("phone")String phone,
+                               @Query("version")String version,
+                               @Query("phoneModel")String phoneModel,
+                               @Query("android_version")String android_version);
+
     /**
      * 删除某个房间
      * @param phone
@@ -254,4 +321,12 @@ public interface ApiService {
     Call<Result> sendChatMsg(@Query("phone")String phone,
                              @Query("ask_phone")String ask_phone,
                              @Query("chatContent")String chatContent);
+
+    /**
+     * 获取所有的系统消息
+     * @param phone
+     * @return
+     */
+    @GET("getUserAllSystemMsg")
+    Call<Result> getAllSystemMsg(@Query("phone")String phone);
 }

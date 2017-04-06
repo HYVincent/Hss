@@ -39,7 +39,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setChatDatas(List<ChatMsg> chatDatas) {
         this.chatDatas = chatDatas;
-        notifyDataSetChanged();
+        notifyDataSetChanged(); //全局更新
+//        notifyItemChanged(); 局部更新
     }
 
     public ChatAdapter(Context mContext) {
@@ -71,7 +72,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int type = getItemViewType(position);
         ChatMsg chatMsg = chatDatas.get(position);
-        ViseLog.d("chatMsg->"+chatMsg.getMsgType()+" 内容："+chatMsg.getChatContent());
         switch (type){
             case MSG_TYPE_SEND:
                 setSendData((ChatSendViewHolder)holder,chatMsg,position);
@@ -81,7 +81,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
         }
     }
-
     /**
      * 接收到的数据
      * @param holder
@@ -100,7 +99,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
      * @param position
      */
     private void setSendData(ChatSendViewHolder holder, ChatMsg chatMsg, int position) {
-        ViseLog.d("content------->"+chatDatas.get(position).getChatContent());
         Glide.with(mContext).load(Config.QQ_SHARE_LOGO).into(holder.clvHead);
         holder.tvChatContent.setText(chatMsg.getChatContent());
     }

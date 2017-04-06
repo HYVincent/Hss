@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
 import com.vincent.hss.utils.GlideImageLoader;
@@ -21,7 +19,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * description ：
@@ -38,36 +35,17 @@ public class CarActivity extends BaseActivity {
     RelativeLayout commonRlReturn2;
     @BindView(R.id.common_tv_title_2)
     TextView commonTvTitle2;
-    @BindView(R.id.rl_1)
-    RelativeLayout rl1;
-    @BindView(R.id.rl_2)
-    RelativeLayout rl2;
-    @BindView(R.id.rl_3)
-    RelativeLayout rl3;
-    @BindView(R.id.rl_4)
-    RelativeLayout rl4;
-    @BindView(R.id.rl_5)
-    RelativeLayout rl5;
-    @BindView(R.id.rl_6)
-    RelativeLayout rl6;
-    @BindView(R.id.rl_7)
-    RelativeLayout rl7;
-    @BindView(R.id.rl_8)
-    RelativeLayout rl8;
     @BindView(R.id.car_top_banner)
     Banner carTopBanner;
-    @BindView(R.id.clv_3)
-    CircleImageView clv3;
-    @BindView(R.id.clv_4)
-    CircleImageView clv4;
-    @BindView(R.id.clv_5)
-    CircleImageView clv5;
-    @BindView(R.id.clv_6)
-    CircleImageView clv6;
-    @BindView(R.id.clv_7)
-    CircleImageView clv7;
-    @BindView(R.id.clv_8)
-    CircleImageView clv8;
+    @BindView(R.id.car_info)
+    TextView carInfo;
+    @BindView(R.id.car_error_code)
+    TextView carErrorCode;
+    @BindView(R.id.car_service_example)
+    TextView carServiceExample;
+    @BindView(R.id.car_weixin)
+    TextView carWeixin;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,35 +72,21 @@ public class CarActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.common_rl_return_2, R.id.rl_1, R.id.rl_2, R.id.rl_3, R.id.rl_4, R.id.rl_5, R.id.rl_6, R.id.rl_7, R.id.rl_8})
-    public void onClick(View view) {
+
+    @OnClick({R.id.car_info, R.id.car_error_code, R.id.car_service_example, R.id.car_weixin})
+    public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.common_rl_return_2:
-                finish();
+            case R.id.car_info:
+                CarInfoActivity.actionStart(CarActivity.this);
                 break;
-            case R.id.rl_1:
-                showMsg(0, "我也不知道写啥");
+            case R.id.car_error_code:
+                showMsg(0,"正在开发中");
                 break;
-            case R.id.rl_2:
-                showMsg(0, "我也不知道写啥");
+            case R.id.car_service_example:
+                showMsg(0,"正在开发中");
                 break;
-            case R.id.rl_3:
-                showMsg(0, "我也不知道写啥");
-                break;
-            case R.id.rl_4:
-                showMsg(0, "我也不知道写啥");
-                break;
-            case R.id.rl_5:
-                showMsg(0, "我也不知道写啥");
-                break;
-            case R.id.rl_6:
-                showMsg(0, "我也不知道写啥");
-                break;
-            case R.id.rl_7:
-                showMsg(0, "我也不知道写啥");
-                break;
-            case R.id.rl_8:
-                showMsg(0, "我也不知道写啥");
+            case R.id.car_weixin:
+                showMsg(0,"正在开发中");
                 break;
         }
     }

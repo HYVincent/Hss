@@ -1,5 +1,6 @@
 package com.vincent.hss.presenter;
 
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -94,6 +95,32 @@ public class HomePresenter implements HomeController.IPresenter {
                 view.msg(0,"请求错误");
                 ViseLog.e(t.getMessage());
                 view.closeDialog();
+            }
+        });
+    }
+
+    @Override
+    public void uploadVersionInfo(String phone, String version, String phoneModel, String android_version) {
+        Call<Result> call = RetrofitUtils.getApiService().commitVersion(phone,version,phoneModel,android_version);
+        call.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                try {
+                    Result result = response.body();
+                    if(result.getStatus().equals("1")){
+                        ViseLog.d("已上传");
+                    }else{
+                        ViseLog.d("上传失败");
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                ViseLog.d("请求失败");
+                ViseLog.e(t);
             }
         });
     }

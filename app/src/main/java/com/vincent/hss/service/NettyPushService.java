@@ -43,7 +43,8 @@ public class NettyPushService extends Service {
         if(Config.openNetty){
             ViseLog.e(NettyPushService.class.getSimpleName(),"开始连接服务器");
             try {
-                PushClient.start();//开始连接服务器
+                //开始连接服务器
+                PushClient.start();
             }catch (Exception e){
                 e.printStackTrace();
                 ViseLog.d(NettyPushService.class.getSimpleName()+"NettyClient Start Error");

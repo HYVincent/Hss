@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vincent.hss.R;
-import com.vincent.hss.bean.Feedback;
-import com.vincent.hss.bean.SystemMsg;
 import com.vincent.hss.view.CommonOnClickListener;
-import com.vincent.hss.view.FeedbackHistoryItemListener;
+import com.vincent.lwx.netty.msg.SystemMsg;
 
 import java.util.List;
 

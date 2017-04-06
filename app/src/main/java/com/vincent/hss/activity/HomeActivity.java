@@ -1,25 +1,34 @@
 package com.vincent.hss.activity;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocationClient;
+import com.autonavi.wtbt.GPSDataInfo;
+import com.sinping.iosdialog.dialogsamples.utils.T;
 import com.vincent.common.DownloadService;
 import com.vincent.hss.BuildConfig;
 import com.vincent.hss.R;
 import com.vincent.hss.base.BaseActivity;
+import com.vincent.hss.base.BaseApplication;
 import com.vincent.hss.bean.App;
 import com.vincent.hss.presenter.HomePresenter;
 import com.vincent.hss.presenter.controller.HomeController;
@@ -103,6 +112,7 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
         presenter = new HomePresenter(this);
         mLoactionClient = new AMapLocationClient(this);
         HomeActivityPermissionsDispatcher.getLocationWithCheck(this);
+        startService(new Intent(this, MsgService.class));
         startService(new Intent(HomeActivity.this, HssService.class));
         startService(new Intent(this, NettyPushService.class));
 
@@ -111,11 +121,40 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
         bindService(intent, connection, BIND_AUTO_CREATE); // 绑定服务
 
         presenter.checkUpdate(BuildConfig.VERSION_NAME);
+        presenter.uploadVersionInfo(BaseApplication.user.getPhone(),
+                BuildConfig.VERSION_NAME,
+                Build.MANUFACTURER+" "+Build.BRAND+" "+Build.MODEL,
+                Build.VERSION.RELEASE +" "+ Build.DISPLAY);
+//        ViseLog.d("release:"+Build.VERSION.RELEASE+" Display:"+Build.DISPLAY+" brand:"+Build.BRAND+" model:"+Build.MODEL+" bootloader:"+Build.BOOTLOADER+" 设备制造商："+Build.MANUFACTURER);
     }
 
     @NeedsPermission({Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS, Manifest.permission.ACCESS_FINE_LOCATION})
     void getLocation() {
+        //TODO 判断GPS时候打开
+//        checkGpsIsOpen(HomeActivity.this);
         presenter.getCurrentLocation(mLoactionClient);
+    }
+
+    private void checkGpsIsOpen(HomeActivity homeActivity) {
+        LocationManager locationManager = (LocationManager) homeActivity.getSystemService(Context.LOCATION_SERVICE);
+        boolean status = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if(status){
+            /*已开启*/
+        }else{
+           /* 安全异常，会崩溃
+            Intent intent = new Intent("android.location.GPS_ENABLED_CHANGE");
+            intent.putExtra("enabled", true);
+            this.sendBroadcast(intent);
+
+            String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+            if(!provider.contains("gps")){ //if gps is disabled
+                final Intent poke = new Intent();
+                poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+                poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+                poke.setData(Uri.parse("3"));
+                this.sendBroadcast(poke);
+            }*/
+        }
     }
 
     @OnShowRationale({Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS, Manifest.permission.ACCESS_FINE_LOCATION})
@@ -163,11 +202,6 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
         context.startActivity(intent);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        startService(new Intent(this, MsgService.class));
-    }
 
     @Override
     public void onBackPressed() {
@@ -178,12 +212,6 @@ public class HomeActivity extends BaseActivity implements HomeController.IView {
      * 退出
      */
     private void _exit() {
-        /*if (System.currentTimeMillis() - mExitTime > 2000) {
-            showMsg(0, "再按一次退出APP");
-            mExitTime = System.currentTimeMillis();
-        } else {
-            finish();
-        }*/
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
         startActivity(intent);

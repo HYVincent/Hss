@@ -54,6 +54,13 @@ public interface HomeController {
          */
         void checkUpdate(String current_version);
 
+        /**
+         * 上传版本信息
+         * @param phone
+         * @param version
+         */
+        void uploadVersionInfo(String phone,String version,String android_version,String phoneModel);
+
     }
 
 }

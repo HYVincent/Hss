@@ -117,7 +117,7 @@ public class GuideActivity extends AppCompatActivity {
             mViews.add(iv);
         }*/
 
-        // 上面添加了三张图片了，还有一张放在guide_content_view.xml中，我们把这个页面也添加进来。
+        // 添加布局文件到
         View view1 = LayoutInflater.from(GuideActivity.this).inflate(R.layout.layout_guide_1, null);
         View view2 = LayoutInflater.from(GuideActivity.this).inflate(R.layout.layout_guide_2, null);
         View view3 = LayoutInflater.from(GuideActivity.this).inflate(R.layout.layout_guide_3, null);
@@ -151,7 +151,7 @@ public class GuideActivity extends AppCompatActivity {
         });
     }
 
-    // 页面更换时，更新小点状态
+    // 页面切换时，更新状态
     private void setCurrentDot(int position) {
         if (position < 0 || position > mViews.size() - 1 || currentIndex == position) {
             return;
@@ -160,6 +160,7 @@ public class GuideActivity extends AppCompatActivity {
         guideDots[currentIndex].setSelected(false);
 
         currentIndex = position;
+        //当滑动到最后一个视图时就隐藏跳过按钮
         if(position==3){
             if(ivGoMain!=null)
                 ivGoMain.setVisibility(View.GONE);

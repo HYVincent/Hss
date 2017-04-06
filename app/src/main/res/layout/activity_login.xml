@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--线性布局，从上而写的结构，必须指定布局方向orientation为vertical 纵向布局-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="10">
-    
+
+    <!--相对布局，app图标-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_0"
         android:layout_weight="3.5">
 
+        <!--自定义圆形控件，用来显示app logo-->
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/menu_user_head_clv"
             android:layout_width="96dp"
             android:layout_height="96dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/size_15"
             android:layout_centerInParent="true"
-            android:src="@drawable/app_logo"
+            android:src="@drawable/app_logo_1"
+            app:civ_border_overlay="true"
             app:civ_border_color="@color/color_white"
             app:civ_border_width="2dp" />
 
 
     </RelativeLayout>
 
+    <!--账号-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_0"
         android:layout_weight="6.5">
 
+        <!--账号输入框-->
         <android.support.design.widget.TextInputLayout
             android:id="@+id/tll_phone"
             android:layout_marginRight="@dimen/size_15"
@@ -47,6 +51,7 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <!--密码输入框-->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_50"
@@ -65,6 +70,7 @@
         </android.support.design.widget.TextInputLayout>
 
 
+        <!--登录按钮-->
         <Button
             android:id="@+id/login_btn_action"
             android:textColor="@color/color_white"
@@ -77,13 +83,14 @@
             android:background="@drawable/common_shape_background_blue" />
 
 
-
+        <!--忘记密码和注册-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_50"
             android:layout_alignParentBottom="true">
 
 
+            <!--忘记密码-->
             <TextView
                 android:id="@+id/login_text_forget_password"
                 android:padding="@dimen/size_5"
@@ -94,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <!--注册-->
             <TextView
                 android:id="@+id/login_text_register"
                 android:padding="@dimen/size_5"

@@ -16,7 +16,7 @@ public class SensorEventHelper implements SensorEventListener {
 	private SensorManager mSensorManager;
 	private Sensor mSensor;
 	private long lastTime = 0;
-	private final int TIME_SENSOR = 100;
+	private static final int TIME_SENSOR = 100;
 	private float mAngle;
 	private Context mContext;
 	private Marker mMarker;

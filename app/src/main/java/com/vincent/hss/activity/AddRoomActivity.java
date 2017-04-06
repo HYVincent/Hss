@@ -118,10 +118,10 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
     }
 
    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @OnClick({R.id.lv_1,R.id.common_rl_return_2, R.id.common_title_right})
+   @OnClick({R.id.lv_1,R.id.add_room_tv_class,R.id.common_rl_return_2, R.id.common_title_right})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.lv_1:
+            case R.id.add_room_tv_class:
                 hasSelClass = true;
                 addImg.setImageDrawable(getDrawable(R.drawable.common_icon_arrow_buttom_reseda));
                 List<String> data = new ArrayList<>();
@@ -133,6 +133,19 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
                 data.add("院子");
                 data.add("车库");
                 WindowUtils.showPopupwindow2(this, llContent, addRoomClass, data, "取消", addImg);
+                break;
+            case R.id.lv_1:
+                hasSelClass = true;
+                addImg.setImageDrawable(getDrawable(R.drawable.common_icon_arrow_buttom_reseda));
+                List<String> data1 = new ArrayList<>();
+                data1.add("厨房");
+                data1.add("客厅");
+                data1.add("卧室");
+                data1.add("阳台");
+                data1.add("花园");
+                data1.add("院子");
+                data1.add("车库");
+                WindowUtils.showPopupwindow2(this, llContent, addRoomClass, data1, "取消", addImg);
                 break;
 
             case R.id.common_rl_return_2:
@@ -150,7 +163,7 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
                         showMsg(0,"写个有意义的名字吧");
                         return;
                     }
-                    if(selImageList.size()>0&&selImageList != null){
+                    if(selImageList != null){
                         for (int i=0;i<selImageList.size();i++){
                             selectImagePath.add(selImageList.get(i).path);
                         }
@@ -186,6 +199,8 @@ public class AddRoomActivity extends BaseActivity implements ImagePickerAdapter.
                             case "车库":
                                 roomType= "车库";
                                 roomIcon = R.drawable.common_icon_room_type_garage;
+                                break;
+                            default:
                                 break;
                         }
                         Room room = new Room();

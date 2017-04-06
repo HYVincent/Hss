@@ -86,7 +86,7 @@ public class AMapUtil {
 		return dis + ChString.Meter;
 	}
 
-	public static boolean IsEmptyOrNullString(String s) {
+	public static boolean isEmptyOrNullString(String s) {
 		return (s == null) || (s.trim().length() == 0);
 	}
 

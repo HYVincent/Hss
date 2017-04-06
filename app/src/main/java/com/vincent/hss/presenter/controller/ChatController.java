@@ -21,7 +21,7 @@ public interface ChatController {
         /**
          * 消息发送成功
          */
-        void refreshView(ChatMsg data);
+        void refreshView(int type,ChatMsg data);
     }
 
     interface IPresenter{
